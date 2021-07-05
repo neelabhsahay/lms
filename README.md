@@ -1,6 +1,4 @@
-# lms
-
-Leave Management System
+# Leave Management System
 =========================
 Leave Management using REST API. The Database is in lms/api/DATABASE/mylms.sql.
 
