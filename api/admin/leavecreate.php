@@ -16,6 +16,7 @@
 
     // files needed to connect to database
     include_once '../config/db.php';
+
     include_once '../class/leave.php';
 
     // get posted data
@@ -44,21 +45,19 @@
             $leave->leaveMax     = $data->leaveMax;
             $leave->leaveProvMax = $data->leaveProvMax;
             
-            
             // create the user
-            if(
-                !empty($leave->leaveId) &&
+            if( !empty($leave->leaveId) &&
                 !empty($leave->leaveType) &&
                 !empty($leave->leaveMax) &&
                 !empty($leave->leaveProvMax) &&
                 $leave->create()
-            ){
+              ){
                 // set response code
                 http_response_code(200);
              
                 // display message: user was created
                 echo json_encode(array("message" => "Leave record was inserted."));
-            } else{
+            } else {
              
                 // set response code
                 http_response_code(400);
@@ -83,5 +82,4 @@
         // tell the user access denied
         echo json_encode(array("message" => "Access denied."));
     }
-
 ?>

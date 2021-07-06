@@ -46,7 +46,8 @@
             
             
             // create the user
-            if( $leave->update() ){
+            if( !empty($leave->leaveId) &&
+                $leave->update() ){
                 // set response code
                 http_response_code(200);
              

@@ -16,7 +16,7 @@
      
     // files needed to connect to database
     include_once '../config/db.php';
-    include_once '../class/user.php';
+    include_once '../class/leave.php';
 
     // get posted data
     $data = json_decode(file_get_contents("php://input"));
@@ -39,6 +39,7 @@
         try {
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
+
             $stmt = $lvStatus->getAll();
             $itemCount = $stmt->rowCount();
 
@@ -53,19 +54,20 @@
         
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     $e = array(
-                        "leaveId" => $row['leaveId'],
-                        "empId" => $row['empId'],
-                        "year" => $row['year'],
+                        "leaveId"      => $row['leaveId'],
+                        "empId"        => $row['empId'],
+                        "year"         => $row['year'],
                         "leaveCarried" => $row['leaveCarried'],
-                        "leaveInYear" => $row['leaveInYear'],
-                        "leaveUsed" => $row['leaveUsed'],
-                        "modifiedBy" => $row['modifiedBy'],
-                        "modifiedOn" => $row['modifiedOn']
+                        "leaveInYear"  => $row['leaveInYear'],
+                        "leaveUsed"    => $row['leaveUsed'],
+                        "modifiedBy"   => $row['modifiedBy'],
+                        "modifiedOn"   => $row['modifiedOn']
                     );
         
                     array_push($lvStatusArr["body"], $e);
                 }
                 echo json_encode($lvStatusArr);
+
             } else{
                 http_response_code(404);
                 echo json_encode(

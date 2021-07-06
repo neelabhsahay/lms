@@ -49,13 +49,21 @@
             $emp->dateOfJoin = $data->dateOfJoin;
             $emp->empType = $data->empType;
             $emp->empRole = $data->empRole;
+            $emp->manager = $data->manager;
+            $emp->departmentId = $data->departmentId;
             $emp->empStatus = $data->empStatus;
             $emp->empId = $data->empId;
      
 
             // update the user record
-            if($emp->update()){
+            if( !empty($emp->empId) &&
+                $emp->update()){
                 // regenerate jwt will be here
+                // set response code
+                http_response_code(200);
+             
+                // display message: user was created
+                echo json_encode(array("message" => "Employee record was updated."));
             } else {
                 // set response code
                 http_response_code(401);

@@ -49,11 +49,11 @@
                 $leaveArr["itemCount"] = 1;
         
                 $e = array(
-                    "leaveId"      => $row['leaveId'],
-                    "leaveType"    => $row['leaveType'],
-                    "leaveMax"     => $row['leaveMax'],
-                    "leaveProvMax" => $row['leaveProvMax'],
-                    "modifyedOn"   => $row['modifyedOn']
+                    "leaveId"      => $leave->leaveId,
+                    "leaveType"    => $leave->leaveType,
+                    "leaveMax"     => $leave->leaveMax,
+                    "leaveProvMax" => $leave->leaveProvMax,
+                    "modifiedOn"   => $leave->modifiedOn
                 );
         
                 array_push($leaveArr["body"], $e);

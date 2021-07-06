@@ -34,27 +34,27 @@
      
     // if jwt is not empty
     if($jwt){
+
         try {
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
             
             
             // set product property values
-            $lvStatus->leaveId = $data->leaveId;
-            $lvStatus->empId = $data->empId;
-            $lvStatus->year = $data->year;
+            $lvStatus->leaveId      = $data->leaveId;
+            $lvStatus->empId        = $data->empId;
+            $lvStatus->year         = $data->year;
             $lvStatus->leaveCarried = $data->leaveCarried;
-            $lvStatus->leaveInYear = $data->leaveInYear;
-            $lvStatus->leaveUsed = $data->leaveUsed;
-            $lvStatus->modifiedBy = $data->modifiedBy;
+            $lvStatus->leaveInYear  = $data->leaveInYear;
+            $lvStatus->leaveUsed    = $data->leaveUsed;
+            $lvStatus->modifiedBy   = $data->modifiedBy;
             
             // create the user
-            if(
-                !empty($lvStatus->leaveId) &&
+            if( !empty($lvStatus->leaveId) &&
                 !empty($lvStatus->empId) &&
                 !empty($lvStatus->year) &&
                 !empty($lvStatus->modifiedBy) &&
-                $lvStatus>create()
+                $lvStatus->create()
             ){
                 // set response code
                 http_response_code(200);
@@ -62,7 +62,6 @@
                 // display message: user was created
                 echo json_encode(array("message" => "Leave Status record was inserted."));
             } else{
-             
                 // set response code
                 http_response_code(400);
              

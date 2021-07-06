@@ -19,7 +19,8 @@
         public $empType;
         public $empStatus;
         public $manager;
-        public $modifyedOn;
+        public $departmentId;
+        public $modifiedOn;
     
         // constructor
         public function __construct($db){
@@ -43,7 +44,9 @@
                       empRole = :empRole,
                       empType = :empType,
                       empStatus = :empStatus,
-                      manager = :manager";
+                      manager = :manager,
+                      departmentId = :departmentId
+                      ";
      
             // prepare the query
             $stmt = $this->conn->prepare($query);
@@ -62,6 +65,7 @@
             $this->empType=htmlspecialchars(strip_tags($this->empType));
             $this->empStatus=htmlspecialchars(strip_tags($this->empStatus));
             $this->manager=htmlspecialchars(strip_tags($this->manager));
+            $this->departmentId=htmlspecialchars(strip_tags($this->departmentId));
 
             // bind the values
             $stmt->bindParam(':empId', $this->empId);
@@ -78,6 +82,7 @@
             $stmt->bindParam(':empType', $this->empType);
             $stmt->bindParam(':empStatus', $this->empStatus);
             $stmt->bindParam(':manager', $this->manager);
+            $stmt->bindParam(':departmentId', $this->departmentId);
             
             // execute the query, also check if query was successful
             if($stmt->execute()){
@@ -107,6 +112,7 @@
                       empType = :empType,
                       empStatus = :empStatus,
                       manager = :manager,
+                      departmentId = :departmentId
                       WHERE empId = :empId";
      
             // prepare the query
@@ -126,6 +132,7 @@
             $this->empType=htmlspecialchars(strip_tags($this->empType));
             $this->empStatus=htmlspecialchars(strip_tags($this->empStatus));
             $this->manager=htmlspecialchars(strip_tags($this->manager));
+            $this->manager=htmlspecialchars(strip_tags($this->manager));
          
             // bind the values
             $stmt->bindParam(':empId', $this->empId);
@@ -141,7 +148,7 @@
             $stmt->bindParam(':empType', $this->empType);
             $stmt->bindParam(':empStatus', $this->empStatus);
             $stmt->bindParam(':manager', $this->manager);
-         
+            $stmt->bindParam(':departmentId', $this->departmentId);         
          
             // execute the query
             if($stmt->execute()){
@@ -153,13 +160,41 @@
     
         // GET ALL
         public function getAll(){
-            $query = "SELECT * FROM " . $this->db_table . "";
-    
+            $query = "SELECT * FROM " . $this->table_name . " ORDER BY empId DESC";
+     
             // prepare the query
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             return $stmt;
         }
+
+        public function readDataForwards() {
+            $query = "SELECT * FROM " . $this->table_name . " ORDER BY empId DESC";
+            $stmt  = $this->conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+            $stmt->execute();
+            return $stmt;
+            /*
+            while ($row = $stmt->fetch(PDO::FETCH_NUM, PDO::FETCH_ORI_NEXT)) {
+               $data = $row[0] . "\t" . $row[1] . "\t" . $row[2] . "\n";
+               print $data;
+            }
+            */
+        }
+
+        public function readDataBackwards() {
+            $query = "SELECT * FROM " . $this->table_name . " ORDER BY empId DESC";
+            $stmt  = $this->conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+            $stmt->execute();
+            return $stmt;
+            /*
+            $row = $stmt->fetch(PDO::FETCH_NUM, PDO::FETCH_ORI_LAST);
+            do {
+                $data = $row[0] . "\t" . $row[1] . "\t" . $row[2] . "\n";
+                print $data;
+            } while ($row = $stmt->fetch(PDO::FETCH_NUM, PDO::FETCH_ORI_PRIOR));
+            */
+        }
+
     
         // Get a employee record
         public function getSingle(){
@@ -180,32 +215,30 @@
          
          
             // execute the query
-            if($stmt->execute()){
-                // get number of rows
-                $num = $stmt->rowCount();
-         
-                if($num>0){
-                    $result = $stmt->fetch(PDO::FETCH_ASSOC);     
-                    
-                    $this->empId       = $result['empId'];
-                    $this->firstName   = $result['firstName'];
-                    $this->middleName  = $result['middleName'];
-                    $this->lastName    = $result['lastName'];
-                    $this->email       = $result['email'];
-                    $this->contac      = $result['contact'];
-                    $this->dateOfBirth = $result['dateOfBirth'];
-                    $this->dateOfJoin  = $result['dateOfJoin'];
-                    $this->location    = $result['location'];
-                    $this->empRole     = $result['empRole'];
-                    $this->empType     = $result['empType'];
-                    $this->empStatus   = $result['empStatus'];
-                    $this->manager     = $result['manager'];
-                    $this->modifyedOn  = $result['modifyedOn'];
-    
-                    return true;
-                } 
-                return false;
-            }
+            $stmt->execute();
+            // get number of rows
+            $num = $stmt->rowCount();
+
+            if($num > 0 ){
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);     
+                
+                $this->empId        = $result['empId'];
+                $this->firstName    = $result['firstName'];
+                $this->middleName   = $result['middleName'];
+                $this->lastName     = $result['lastName'];
+                $this->email        = $result['email'];
+                $this->contact      = $result['contact'];
+                $this->dateOfBirth  = $result['dateOfBirth'];
+                $this->dateOfJoin   = $result['dateOfJoin'];
+                $this->location     = $result['location'];
+                $this->empRole      = $result['empRole'];
+                $this->empType      = $result['empType'];
+                $this->empStatus    = $result['empStatus'];
+                $this->manager      = $result['manager'];
+                $this->departmentId = $result['departmentId'];
+                $this->modifiedOn   = $result['modifiedOn'];
+                return true;
+            } 
             return false;
         }
 
@@ -240,7 +273,7 @@
         public $password;
         public $passwordType;
         public $accountType;
-        public $modifyedOn;
+        public $modifiedOn;
      
         // constructor
         public function __construct($db){
@@ -385,7 +418,7 @@
         public function getAll(){
      
             // if no posted password, do not update the password
-            $query = "SELECT * FROM " . $this->table_name . "";
+            $query = "SELECT * FROM " . $this->table_name . " ORDER BY username DESC";
      
             // prepare the query
             $stmt = $this->conn->prepare($query);
@@ -393,12 +426,39 @@
             return $stmt;
         }
 
+        public function readDataForwards() {
+            $query = "SELECT * FROM " . $this->table_name . " ORDER BY username DESC";
+            $stmt  = $this->conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+            $stmt->execute();
+            return $stmt;
+            /*
+            while ($row = $stmt->fetch(PDO::FETCH_NUM, PDO::FETCH_ORI_NEXT)) {
+               $data = $row[0] . "\t" . $row[1] . "\t" . $row[2] . "\n";
+               print $data;
+            }
+            */
+        }
+
+        public function readDataBackwards() {
+            $query = "SELECT * FROM " . $this->table_name . " ORDER BY username DESC";
+            $stmt  = $this->conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+            $stmt->execute();
+            return $stmt;
+            /*
+            $row = $stmt->fetch(PDO::FETCH_NUM, PDO::FETCH_ORI_LAST);
+            do {
+                $data = $row[0] . "\t" . $row[1] . "\t" . $row[2] . "\n";
+                print $data;
+            } while ($row = $stmt->fetch(PDO::FETCH_NUM, PDO::FETCH_ORI_PRIOR));
+            */
+        }
+
         // Get a employee record
         public function getSingle(){
      
             // if no posted password, do not update the password
             $query = "SELECT * FROM " . $this->table_name . "
-                      WHERE empId = ?
+                      WHERE username = ?
                       LIMIT 0,1";
      
             // prepare the query
@@ -408,27 +468,24 @@
             $this->username = htmlspecialchars(strip_tags($this->username));
          
             // bind given empId value
-            $stmt->bindParam(1, $this->empId);
+            $stmt->bindParam(1, $this->username);
          
+            $stmt->execute();
          
-            // execute the query
-            if($stmt->execute()){
-                // get number of rows
-                $num = $stmt->rowCount();
-         
-                if($num>0){
-                    $result = $stmt->fetch(PDO::FETCH_ASSOC);     
-                    
-                    $this->empId          = $result['empId'];
-                    $this->passwordType   = $result['passwordType'];
-                    $this->email          = $result['email'];
-                    $this->accountType    = $result['accountType'];
-                    $this->passwordType   = $result['passwordType'];
-                    $this->modifyedOn     = $result['modifyedOn'];
-                    return true;
-                } 
-                return false;
-            }
+            // get number of rows
+            $num = $stmt->rowCount();
+        
+            if($num>0){
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);     
+                
+                $this->empId          = $result['empId'];
+                $this->passwordType   = $result['passwordType'];
+                $this->email          = $result['email'];
+                $this->accountType    = $result['accountType'];
+                $this->passwordType   = $result['passwordType'];
+                $this->modifiedOn     = $result['modifiedOn'];
+                return true;
+            } 
             return false;
         }
     

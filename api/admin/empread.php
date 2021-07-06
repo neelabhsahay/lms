@@ -28,20 +28,20 @@
     // instantiate user object
     $emp = new Employee($db);
 
+
  
     // get jwt
     $jwt=isset($data->jwt) ? $data->jwt : "";
  
     // if jwt is not empty
     if($jwt){
- 
         // if decode succeed, show user details
         try {
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
+
             $stmt = $emp->getAll();
             $itemCount = $stmt->rowCount();
-
 
             echo json_encode($itemCount);
 
@@ -50,25 +50,24 @@
                 $employeeArr = array();
                 $employeeArr["body"] = array();
                 $employeeArr["itemCount"] = $itemCount;
-        
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                    $e = array(
-                        "empId" => $row['empId'],
-                        "firstName" => $row['firstName'],
-                        "middleName" => $row['middleName'],
-                        "lastName" => $row['lastName'],
-                        "email" => $row['email'],
-                        "contact" => $row['contact'],
-                        "dateOfBirth" => $row['dateOfBirth'],
-                        "dateOfJoin" => $row['dateOfJoin'],
-                        "location" => $row['location'],
-                        "empRole" => $row['empRole'],
-                        "empType" => $row['empType'],
-                        "empStatus" = $row['empStatus'],
-                        "manager" => $row['manager'],
-                        "modifyedOn"   => $row['modifyedOn']
+                    $e = array( 
+                         "empId"       => $row['empId'],
+                        "firstName"    => $row['firstName'],
+                        "middleName"   => $row['middleName'],
+                        "lastName"     => $row['lastName'],
+                        "manager"      => $row['manager'],
+                        "departmentId" => $row['departmentId'],
+                        "email"        => $row['email'],
+                        "contact"      => $row['contact'],
+                        "dateOfBirth"  => $row['dateOfBirth'],
+                        "dateOfJoin"   => $row['dateOfJoin'],
+                        "location"     => $row['location'],
+                        "empRole"      => $row['empRole'],
+                        "empType"      => $row['empType'],
+                        "empStatus"    => $row['empStatus'],
+                        "modifiedOn"   => $row['modifiedOn']
                     );
-        
                     array_push($employeeArr["body"], $e);
                 }
                 echo json_encode($employeeArr);

@@ -25,28 +25,28 @@
     // instantiate product object
     $lvRequest = new LeaveRequest($db);
     
-    / get posted data
+    // get posted data
     $data = json_decode(file_get_contents("php://input"));
      
     // get jwt
     $jwt=isset($data->jwt) ? $data->jwt : "";
- 
+
     // if jwt is not empty
     if($jwt){
          try {
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
             // set product property values
-            $lvRequest->leaveId = $data->leaveId;
-            $lvRequest->empId = $data->empId;
-            $lvRequest->appliedBy = $data->appliedBy;
+            $lvRequest->leaveId     = $data->leaveId;
+            $lvRequest->empId       = $data->empId;
+            $lvRequest->appliedBy   = $data->appliedBy;
             $lvRequest->appliedDate = $data->appliedDate;
-            $lvRequest->leaveDays = $data->leaveDays;
-            $lvRequest->startDate = $data->startDate;
-            $lvRequest->endDate = $data->endDate;
-            $lvRequest->reason = $data->reason;
-            $lvRequest->status = $data->status;
-            $lvRequest->approver = $data->approver;
+            $lvRequest->leaveDays   = $data->leaveDays;
+            $lvRequest->startDate   = $data->startDate;
+            $lvRequest->endDate     = $data->endDate;
+            $lvRequest->reason      = $data->reason;
+            $lvRequest->status      = $data->status;
+            $lvRequest->approver    = $data->approver;
             
             // create the leave request
             if( !empty($lvRequest->leaveId) &&

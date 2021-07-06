@@ -16,7 +16,7 @@
      
     // files needed to connect to database
     include_once '../config/db.php';
-    include_once '../class/user.php';
+    include_once '../class/leave.php';
 
     // get posted data
     $data = json_decode(file_get_contents("php://input"));
@@ -42,25 +42,25 @@
 
             $lvRequest->reqId = $data->reqId;
 
-            if( $emp->getSingle() ) {
+            if( $lvRequest->getSingle() ) {
                 
                 $employeeArr = array();
                 $employeeArr["body"] = array();
                 $employeeArr["itemCount"] = 1;
         
                 $e = array(
-                    "reqId" => $row['reqId'],
-                    "leaveId" => $row['leaveId'],
-                    "empId" => $row['empId'],
-                    "appliedBy" => $row['appliedBy'],
-                    "appliedDate" => $row['appliedDate'],
-                    "leaveDays" => $row['leaveDays'],
-                    "startDate" => $row['startDate'],
-                    "endDate" => $row['endDate'],
-                    "reason" => $row['reason'],
-                    "status" => $row['status'],
-                    "approver" => $row['approver'],
-                    "modifyedOn"   => $row['modifyedOn']
+                    "reqId"       => $lvRequest->reqId,
+                    "leaveId"     => $lvRequest->leaveId,
+                    "empId"       => $lvRequest->empId,
+                    "appliedBy"   => $lvRequest->appliedBy,
+                    "appliedDate" => $lvRequest->appliedDate,
+                    "leaveDays"   => $lvRequest->leaveDays,
+                    "startDate"   => $lvRequest->startDate,
+                    "endDate"     => $lvRequest->endDate,
+                    "reason"      => $lvRequest->reason,
+                    "status"      => $lvRequest->status,
+                    "approver"    => $lvRequest->approver,
+                    "modifiedOn"  => $lvRequest->modifiedOn
                 );
         
                 array_push($employeeArr["body"], $e);

@@ -1,5 +1,6 @@
 <?php
     // 'leave' object
+
     class Leave{
         // database connection and table name
         private $conn;
@@ -10,7 +11,7 @@
         public $leaveType;
         public $leaveMax;
         public $leaveProvMax;
-        public $modifyedOn;
+        public $modifiedOn;
      
         // constructor
         public function __construct($db){
@@ -56,7 +57,7 @@
                       SET
                       leaveType = :leaveType,
                       leaveMax = :leaveMax,
-                      leaveProvMax = :leaveProvMax,
+                      leaveProvMax = :leaveProvMax
                       WHERE leaveId = :leaveId";
      
             // prepare the query
@@ -85,12 +86,38 @@
         public function getAll(){
      
             // if no posted password, do not update the password
-            $query = "SELECT * FROM " . $this->table_name . "";
+            $query = "SELECT * FROM " . $this->table_name . " ORDER BY leaveId DESC";
      
             // prepare the query
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             return $stmt;
+        }
+
+        public function readDataForwards() {
+            $query = "SELECT * FROM " . $this->table_name . " ORDER BY leaveId DESC";
+            $stmt  = $this->conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+            $stmt->execute();
+            return $stmt;
+            
+            //while ($row = $stmt->fetch(PDO::FETCH_NUM, PDO::FETCH_ORI_NEXT)) {
+            //   $data = $row[0] . "\t" . $row[1] . "\t" . $row[2] . "\n";
+            //   print $data;
+            //}
+        }
+
+        public function readDataBackwards() {
+            $query = "SELECT * FROM " . $this->table_name . " ORDER BY leaveId DESC";
+            $stmt  = $this->conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+            $stmt->execute();
+            return $stmt;
+            
+            //$row = $stmt->fetch(PDO::FETCH_NUM, PDO::FETCH_ORI_LAST);
+            //do {
+            //    $data = $row[0] . "\t" . $row[1] . "\t" . $row[2] . "\n";
+            //    print $data;
+            //} while ($row = $stmt->fetch(PDO::FETCH_NUM, PDO::FETCH_ORI_PRIOR));
+            
         }
     
         // Get a employee record
@@ -123,7 +150,7 @@
                     $this->leaveType     = $result['leaveType'];
                     $this->leaveMax      = $result['leaveMax'];
                     $this->leaveProvMax  = $result['leaveProvMax'];
-                    $this->modifyedOn    = $result['modifyedOn']; 
+                    $this->modifiedOn    = $result['modifiedOn']; 
                     return true;
                 } 
                 return false;
@@ -147,7 +174,7 @@
             return false;
         }
     }
-    
+   
     class LeaveStatus{
        // database connection and table name
        private $conn;
@@ -256,12 +283,39 @@
         // Read all Leaves status record
         public function getAll(){
      
-            $query = "SELECT * FROM " . $this->table_name . "";
+            $query = "SELECT * FROM " . $this->table_name . " ORDER BY leaveId DESC";
      
             // prepare the query
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             return $stmt;
+        }
+
+        public function readDataForwards() {
+            $query = "SELECT * FROM " . $this->table_name . " ORDER BY leaveId DESC";
+            $stmt  = $this->conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+            $stmt->execute();
+            return $stmt;
+            
+            //while ($row = $stmt->fetch(PDO::FETCH_NUM, PDO::FETCH_ORI_NEXT)) {
+            //   $data = $row[0] . "\t" . $row[1] . "\t" . $row[2] . "\n";
+            //   print $data;
+            //}
+            
+        }
+
+        public function readDataBackwards() {
+            $query = "SELECT * FROM " . $this->table_name . " ORDER BY leaveId DESC";
+            $stmt  = $this->conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+            $stmt->execute();
+            return $stmt;
+            
+            //$row = $stmt->fetch(PDO::FETCH_NUM, PDO::FETCH_ORI_LAST);
+            //do {
+            //    $data = $row[0] . "\t" . $row[1] . "\t" . $row[2] . "\n";
+            //    print $data;
+            //} while ($row = $stmt->fetch(PDO::FETCH_NUM, PDO::FETCH_ORI_PRIOR));
+            
         }
 
         // Get a employee record
@@ -299,7 +353,7 @@
                     $this->leaveInYear  = $result['leaveInYear'];
                     $this->leaveUsed    = $result['leaveUsed'];
                     $this->modifiedBy   = $result['modifiedBy'];
-                    $this->modifyedOn   = $result['modifyedOn'];
+                    $this->modifiedOn   = $result['modifiedOn'];
     
                     return true;
                 } 
@@ -327,6 +381,7 @@
             return false;
         }
     }
+
     
     class LeaveRequest{
        // database connection and table name
@@ -345,7 +400,7 @@
        public $reason;
        public $status;
        public $approver;
-       public $modifyedOn;
+       public $modifiedOn;
     
       
         // constructor
@@ -354,7 +409,8 @@
         }
     
         // create new LeaveStatus record
-        function create(){
+        public function create(){
+            $status_set=!empty($this->status) ? ", status = :status" : "";
             // insert query
             $query = "INSERT INTO " . $this->table_name . "
                       SET
@@ -366,8 +422,8 @@
                       startDate = :startDate,
                       endDate = :endDate,
                       reason = :reason,
-                      approver = :approver,
-                      status = :status";
+                      approver = :approver
+                      {$status_set}";
      
             // prepare the query
             $stmt = $this->conn->prepare($query);
@@ -382,7 +438,7 @@
             $this->endDate=htmlspecialchars(strip_tags($this->endDate));
             $this->reason=htmlspecialchars(strip_tags($this->reason));
             $this->approver=htmlspecialchars(strip_tags($this->approver));
-            $this->status=htmlspecialchars(strip_tags($this->status));
+           
      
             // bind the values
             $stmt->bindParam(':empId', $this->empId);
@@ -394,7 +450,12 @@
             $stmt->bindParam(':endDate', date( "Y-m-d", strtotime($this->endDate)));
             $stmt->bindParam(':reason', $this->reason);
             $stmt->bindParam(':approver', $this->approver);
-            $stmt->bindParam(':status', $this->status);
+            
+
+            if(!empty($this->status)){
+                $this->status=htmlspecialchars(strip_tags($this->status));
+                $stmt->bindParam(':status', $this->status);
+            }
      
             // execute the query, also check if query was successful
             if($stmt->execute()){
@@ -404,22 +465,29 @@
         }
 
         // create new LeaveStatus record
-        function update(){
+        public function update(){
+
+            $leaveDays_set=!empty($this->leaveDays) ? ", leaveDays = :leaveDays " : "";
+            $startDate_set=!empty($this->leaveDays) ? ", startDate = :startDate " : "";
+            $endDate_set=!empty($this->endDate) ?   ", endDate = :endDate " : "";
+            $status_set=!empty($this->status) ? ", status = :status " : "";
+            $reason_set=!empty($this->reason) ? ", reason = :reason " : "";
+            $approver_set=!empty($this->approver) ? ", approver = :approver " : "";
+
             // insert query
-            $query = "INSERT INTO " . $this->table_name . "
+            $query = "UPDATE " . $this->table_name . "
                       SET
                       empId = :empId,
                       leaveId = :leaveId,
                       appliedBy = :appliedBy,
-                      appliedDate = :appliedDate,
-                      leaveDays = :leaveDays,
-                      startDate = :startDate,
-                      endDate = :endDate,
-                      reason = :reason,
-                      approver = :approver,
-                      status = :status
+                      appliedDate = :appliedDate
+                      {$approver_set}
+                      {$leaveDays_set}
+                      {$startDate_set}
+                      {$endDate_set}
+                      {$status_set}
+                      {$reason_set}
                       WHERE reqId = :reqId";
-     
             // prepare the query
             $stmt = $this->conn->prepare($query);
      
@@ -428,26 +496,41 @@
             $this->leaveId=htmlspecialchars(strip_tags($this->leaveId));
             $this->appliedBy=htmlspecialchars(strip_tags($this->appliedBy));
             $this->appliedDate=htmlspecialchars(strip_tags($this->appliedDate));
-            $this->leaveDays=htmlspecialchars(strip_tags($this->leaveDays));
-            $this->startDate=htmlspecialchars(strip_tags($this->startDate));
-            $this->endDate=htmlspecialchars(strip_tags($this->endDate));
-            $this->reason=htmlspecialchars(strip_tags($this->reason));
-            $this->approver=htmlspecialchars(strip_tags($this->approver));
-            $this->status=htmlspecialchars(strip_tags($this->status));
             $this->reqId=htmlspecialchars(strip_tags($this->reqId));
      
             // bind the values
             $stmt->bindParam(':empId', $this->empId);
             $stmt->bindParam(':leaveId', $this->leaveId);
             $stmt->bindParam(':appliedBy', $this->appliedBy);
-            $stmt->bindParam(':appliedDate', date( "Y-m-d", strtotime($this->appliedDate)));
-            $stmt->bindParam(':leaveDays', $this->leaveDays);
-            $stmt->bindParam(':startDate', date( "Y-m-d", strtotime($this->startDate)));
-            $stmt->bindParam(':endDate', date( "Y-m-d", strtotime($this->endDate)));
-            $stmt->bindParam(':reason', $this->reason);
-            $stmt->bindParam(':approver', $this->approver);
-            $stmt->bindParam(':status', $this->status);
+            $stmt->bindParam(':appliedDate', date( "Y-m-d", strtotime($this->appliedDate)));     
             $stmt->bindParam(':reqId', $this->reqId);
+
+            if(!empty($this->status)){
+                $this->status=htmlspecialchars(strip_tags($this->status));
+                $stmt->bindParam(':status', $this->status);
+            }
+
+            if(!empty($this->leaveDays)){
+                $this->leaveDays=htmlspecialchars(strip_tags($this->leaveDays));
+                $stmt->bindParam(':leaveDays', $this->leaveDays);
+            }
+
+            if(!empty($this->startDate)){
+                $this->startDate=htmlspecialchars(strip_tags($this->startDate));
+                $stmt->bindParam(':startDate', date( "Y-m-d", strtotime($this->startDate)));
+            }
+            if(!empty($this->endDate)){
+                $this->endDate=htmlspecialchars(strip_tags($this->endDate));
+                $stmt->bindParam(':endDate', date( "Y-m-d", strtotime($this->endDate)));
+            }
+            if(!empty($this->reason)){
+                $stmt->bindParam(':reason', $this->reason);
+                $this->reason=htmlspecialchars(strip_tags($this->reason));
+            }
+            if(!empty($this->approver)){
+                $stmt->bindParam(':approver', $this->approver);
+                $this->approver=htmlspecialchars(strip_tags($this->approver));
+            }
      
             // execute the query, also check if query was successful
             if($stmt->execute()){
@@ -459,12 +542,39 @@
         // Read all Leaves status record
         public function getAll(){
      
-            $query = "SELECT * FROM " . $this->table_name . "";
+            $query = "SELECT * FROM " . $this->table_name . " ORDER BY reqId DESC";
      
             // prepare the query
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             return $stmt;
+        }
+
+        public function readDataForwards() {
+            $query = "SELECT * FROM " . $this->table_name . " ORDER BY reqId DESC";
+            $stmt  = $this->conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+            $stmt->execute();
+            return $stmt;
+            
+            //while ($row = $stmt->fetch(PDO::FETCH_NUM, PDO::FETCH_ORI_NEXT)) {
+            //   $data = $row[0] . "\t" . $row[1] . "\t" . $row[2] . "\n";
+            //   print $data;
+            //}
+            
+        }
+
+        public function readDataBackwards() {
+            $query = "SELECT * FROM " . $this->table_name . " ORDER BY reqId DESC";
+            $stmt  = $this->conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+            $stmt->execute();
+            return $stmt;
+            
+            //$row = $stmt->fetch(PDO::FETCH_NUM, PDO::FETCH_ORI_LAST);
+            //do {
+            //    $data = $row[0] . "\t" . $row[1] . "\t" . $row[2] . "\n";
+            //   print $data;
+            //} while ($row = $stmt->fetch(PDO::FETCH_NUM, PDO::FETCH_ORI_PRIOR));
+            
         }
 
         // Get a employee record
@@ -502,7 +612,8 @@
                     $this->approver     = $result['approver'];
                     $this->reason       = $result['reason'];
                     $this->reqId        = $result['reqId'];
-                    $this->modifyedOn   = $result['modifyedOn'];
+                    $this->status       = $result['status'];
+                    $this->modifiedOn   = $result['modifiedOn'];
     
                     return true;
                 } 
@@ -511,5 +622,5 @@
             return false;
         }
     }
-
+  
 ?>

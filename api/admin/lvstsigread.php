@@ -16,7 +16,7 @@
      
     // files needed to connect to database
     include_once '../config/db.php';
-    include_once '../class/user.php';
+    include_once '../class/leave.php';
 
     // get posted data
     $data = json_decode(file_get_contents("php://input"));
@@ -41,7 +41,7 @@
             $decoded = JWT::decode($jwt, $key, array('HS256'));
 
             $lvStatus->leaveId = $data->leaveId;
-            $lvStatus->empId = $date->empId;
+            $lvStatus->empId = $data->empId;
             $lvStatus->year = $data->year;
 
             if($lvStatus->getSingle()){
@@ -51,21 +51,21 @@
                 $lvStatusArr["itemCount"] = 1;
         
                 $e = array(
-                    "leaveId" => $row['leaveId'],
-                    "empId" => $row['empId'],
-                    "year" => $row['year'],
-                    "leaveCarried" => $row['leaveCarried'],
-                    "leaveInYear" => $row['leaveInYear'],
-                    "leaveUsed" => $row['leaveUsed'],
-                    "modifiedBy" => $row['modifiedBy'],
-                    "modifiedOn" => $row['modifiedOn']
+                    "leaveId"      => $lvStatus->leaveId,
+                    "empId"        => $lvStatus->empId,
+                    "year"         => $lvStatus->year,
+                    "leaveCarried" => $lvStatus->leaveCarried,
+                    "leaveInYear"  => $lvStatus->leaveInYear,
+                    "leaveUsed"    => $lvStatus->leaveUsed,
+                    "modifiedBy"   => $lvStatus->modifiedBy,
+                    "modifiedOn"   => $lvStatus->modifiedOn
                 );
                 array_push($lvStatusArr["body"], $e);
                 echo json_encode($lvStatusArr);
             } else{
                 http_response_code(404);
                 echo json_encode(
-                    array("message" => "No record found.")
+                    array("message" => "No record found for " . $lvStatus->leaveId . ", " .$lvStatus->empId. " and " .$lvStatus->year)
                 );
             }
         }catch (Exception $e){

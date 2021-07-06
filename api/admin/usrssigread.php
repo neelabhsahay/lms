@@ -39,7 +39,7 @@
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
 
-            $user->username = $decoded->data->username;
+            $user->username = $data->username;
 
             if( $user->getSingle() ) {
                 
@@ -48,12 +48,12 @@
                 $employeeArr["itemCount"] = 1;
         
                 $e = array(
-                        "empId" => $row['empId'],
-                        "username" => $row['username'],
-                        "passwordType" => $row['passwordType'],
-                        "email" => $row['email'],
-                        "accountType" => $row['accountType'],
-                        "passwordType" => $row['passwordType']
+                        "empId"        => $user->empId,
+                        "username"     => $user->username,
+                        "passwordType" => $user->passwordType,
+                        "email"        => $user->email,
+                        "accountType"  => $user->accountType,
+                        "passwordType" => $user->passwordType
                     );
         
                 array_push($employeeArr["body"], $e);
@@ -61,7 +61,7 @@
             } else{
                 http_response_code(404);
                 echo json_encode(
-                    array("message" => "No record found.")
+                    array("message" => "No record found for username " .$user->username )
                 );
             }
         } catch (Exception $e) {

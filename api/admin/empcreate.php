@@ -52,6 +52,7 @@
             $emp->empRole = $data->empRole;
             $emp->empStatus = $data->empStatus;
             $emp->manager = $data->manager;
+            $emp->departmentId = $data->departmentId;
             
             // create the user
             if( !empty($emp->firstName) &&

@@ -39,20 +39,20 @@
             $decoded = JWT::decode($jwt, $key, array('HS256'));
             
             // set product property values
-            $lvStatus->leaveId = $data->leaveId;
-            $lvStatus->empId = $data->empId;
-            $lvStatus->year = $data->year;
+            $lvStatus->leaveId      = $data->leaveId;
+            $lvStatus->empId        = $data->empId;
+            $lvStatus->year         = $data->year;
             $lvStatus->leaveCarried = $data->leaveCarried;
-            $lvStatus->leaveInYear = $data->leaveInYear;
-            $lvStatus->leaveUsed = $data->leaveUsed;
-            $lvStatus->modifiedBy = $data->modifiedBy;
+            $lvStatus->leaveInYear  = $data->leaveInYear;
+            $lvStatus->leaveUsed    = $data->leaveUsed;
+            $lvStatus->modifiedBy   = $data->modifiedBy;
             
             // create the user
             if( !empty($lvStatus->leaveId) &&
                 !empty($lvStatus->empId) &&
                 !empty($lvStatus->year) &&
                 !empty($lvStatus->modifiedBy) &&
-                $lvStatus>update()
+                $lvStatus->update()
             ){
                 // set response code
                 http_response_code(200);

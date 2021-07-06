@@ -16,7 +16,7 @@
      
     // files needed to connect to database
     include_once '../config/db.php';
-    include_once '../class/user.php';
+    include_once '../class/leave.php';
 
     // get posted data
     $data = json_decode(file_get_contents("php://input"));
@@ -34,14 +34,12 @@
  
     // if jwt is not empty
     if($jwt){
- 
         // if decode succeed, show user details
         try {
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
-            $stmt = $emp->getAll();
+            $stmt = $lvRequest->getAll();
             $itemCount = $stmt->rowCount();
-
 
             echo json_encode($itemCount);
 
@@ -53,18 +51,18 @@
         
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     $e = array(
-                        "reqId" => $row['reqId'],
-                        "leaveId" => $row['leaveId'],
-                        "empId" => $row['empId'],
-                        "appliedBy" => $row['appliedBy'],
+                        "reqId"       => $row['reqId'],
+                        "leaveId"     => $row['leaveId'],
+                        "empId"       => $row['empId'],
+                        "appliedBy"   => $row['appliedBy'],
                         "appliedDate" => $row['appliedDate'],
-                        "leaveDays" => $row['leaveDays'],
-                        "startDate" => $row['startDate'],
-                        "endDate" => $row['endDate'],
-                        "reason" => $row['reason'],
-                        "status" => $row['status'],
-                        "approver" => $row['approver'],
-                        "modifyedOn"   => $row['modifyedOn']
+                        "leaveDays"   => $row['leaveDays'],
+                        "startDate"   => $row['startDate'],
+                        "endDate"     => $row['endDate'],
+                        "reason"      => $row['reason'],
+                        "status"      => $row['status'],
+                        "approver"    => $row['approver'],
+                        "modifiedOn"  => $row['modifiedOn']
                     );
         
                     array_push($employeeArr["body"], $e);
@@ -86,6 +84,7 @@
                 "error" => $e->getMessage()
             ));
         }
+
     } else {
         // set response code
         http_response_code(401);

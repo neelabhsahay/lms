@@ -40,7 +40,7 @@
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
 
-            $emp->empId = $decoded->data->empId;
+            $emp->empId = $data->empId;
 
             if( $emp->getSingle() ) {
                 
@@ -49,19 +49,21 @@
                 $employeeArr["itemCount"] = 1;
         
                 $e = array(
-                        "empId" => $emp->empId,
-                        "firstName" => $emp->firstName,
-                        "middleName" => $emp->middleName,
-                        "lastName" => $emp->lastName,
-                        "email" => $emp->email,
-                        "contact" => $emp->contact,
-                        "dateOfBirth" => $emp->dateOfBirth,
-                        "dateOfJoin" => $emp->dateOfJoin,
-                        "location" => $emp->location,
-                        "empRole" => $emp->empRole,
-                        "empType" => $emp->empType,
-                        "empStatus" = $emp->empStatus,
-                        "modifyedOn"   => $emp->modifyedOn
+                        "empId"        => $emp->empId,
+                        "firstName"    => $emp->firstName,
+                        "middleName"   => $emp->middleName,
+                        "lastName"     => $emp->lastName,
+                        "email"        => $emp->email,
+                        "contact"      => $emp->contact,
+                        "dateOfBirth"  => $emp->dateOfBirth,
+                        "dateOfJoin"   => $emp->dateOfJoin,
+                        "location"     => $emp->location,
+                        "empRole"      => $emp->empRole,
+                        "empType"      => $emp->empType,
+                        "empStatus"    => $emp->empStatus,
+                        "manager"      => $emp->manager,
+                        "departmentId" => $emp->departmentId,
+                        "modifiedOn"   => $emp->modifiedOn
                     );
         
                 array_push($employeeArr["body"], $e);
@@ -69,7 +71,7 @@
             } else{
                 http_response_code(404);
                 echo json_encode(
-                    array("message" => "No record found.")
+                    array("message" => "No record found." . $data->empId )
                 );
             }
         }catch (Exception $e){

@@ -28,7 +28,7 @@
     // instantiate user object
     $user = new User($db);
     
-     
+    
     // set product property values
     $user->username = $data->username;
     $password = $data->password;
@@ -66,8 +66,6 @@
             );
      
     } else{
-        // login failed
-     
         // set response code
         http_response_code(401);
      
