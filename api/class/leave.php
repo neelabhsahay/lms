@@ -279,21 +279,78 @@
             }
             return false;
         }
+
+        private function getReadQuery() {
+            $con_no = 0;
+            $clause = "";
+            $con_array = array();
+            if(!empty($this->empId)){
+                array_push($con_array, " empId = :empId " );
+            }
+
+            if(!empty($this->leaveId)){
+               array_push($con_array, " leaveId = :leaveId " );    
+            }
+            if(!empty($this->year)){
+                array_push($con_array, " year = :year " );
+            }
+
+            if( count($con_array) > 0 ) {
+                $clause = "WHERE ";
+                foreach ($con_array as $cons) {
+                    $con_no++;
+                    $clause = $clause . $cons ;
+                    if( $con_no !== count($con_array) ) {
+                        $clause = $clause . " AND " ;
+                    }
+                }
+            }
+    
+            $query = "SELECT * FROM " . $this->table_name . " {$clause} ORDER BY leaveId DESC";
+            return $query;
+
+        }
     
         // Read all Leaves status record
-        public function getAll(){
-     
-            $query = "SELECT * FROM " . $this->table_name . " ORDER BY leaveId DESC";
-     
+        public function getAll(){        
+            
+            $query = $this->getReadQuery();
+   
             // prepare the query
             $stmt = $this->conn->prepare($query);
+
+            if(!empty($this->empId)){
+                $this->empId=htmlspecialchars(strip_tags($this->empId));
+                $stmt->bindParam(':empId', $this->empId);
+            }
+            if(!empty($this->leaveId)){
+                $this->leaveId=htmlspecialchars(strip_tags($this->leaveId));
+                $stmt->bindParam(':leaveId', $this->leaveId);
+            }
+            if(!empty($this->year)){
+                $this->year=htmlspecialchars(strip_tags($this->year));
+                $stmt->bindParam(':year', $this->year);
+            }
+           
             $stmt->execute();
             return $stmt;
         }
 
         public function readDataForwards() {
-            $query = "SELECT * FROM " . $this->table_name . " ORDER BY leaveId DESC";
+            $query = $this->getReadQuery();
             $stmt  = $this->conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+            if(!empty($this->empId)){
+                $this->empId=htmlspecialchars(strip_tags($this->empId));
+                $stmt->bindParam(':empId', $this->empId);
+            }
+            if(!empty($this->leaveId)){
+                $this->leaveId=htmlspecialchars(strip_tags($this->leaveId));
+                $stmt->bindParam(':leaveId', $this->leaveId);
+            }
+            if(!empty($this->year)){
+                $this->year=htmlspecialchars(strip_tags($this->year));
+                $stmt->bindParam(':year', $this->year);
+            }
             $stmt->execute();
             return $stmt;
             
@@ -305,8 +362,20 @@
         }
 
         public function readDataBackwards() {
-            $query = "SELECT * FROM " . $this->table_name . " ORDER BY leaveId DESC";
+            $query = $this->getReadQuery();
             $stmt  = $this->conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+            if(!empty($this->empId)){
+                $this->empId=htmlspecialchars(strip_tags($this->empId));
+                $stmt->bindParam(':empId', $this->empId);
+            }
+            if(!empty($this->leaveId)){
+                $this->leaveId=htmlspecialchars(strip_tags($this->leaveId));
+                $stmt->bindParam(':leaveId', $this->leaveId);
+            }
+            if(!empty($this->year)){
+                $this->year=htmlspecialchars(strip_tags($this->year));
+                $stmt->bindParam(':year', $this->year);
+            }
             $stmt->execute();
             return $stmt;
             
@@ -538,21 +607,79 @@
             }
             return false;
         }
+
+        private function getReadQuery() {
+            $con_no = 0;
+            $clause = "";
+            $con_array = array();
+            if(!empty($this->empId)){
+                array_push($con_array, " empId = :empId " );
+            }
+
+            if(!empty($this->approver)){
+               array_push($con_array, " approver = :approver " );    
+            }
+            if(!empty($this->leaveId)){
+                array_push($con_array, " leaveId = :leaveId " );
+            }
+
+            if( count($con_array) > 0 ) {
+                $clause = "WHERE ";
+                foreach ($con_array as $cons) {
+                    $con_no++;
+                    $clause = $clause . $cons ;
+                    if( $con_no !== count($con_array) ) {
+                        $clause = $clause . " AND " ;
+                    }
+                }
+            }
+    
+            $query = "SELECT * FROM " . $this->table_name . " {$clause} ORDER BY startDate DESC";
+            return $query;
+
+        }
     
         // Read all Leaves status record
         public function getAll(){
      
-            $query = "SELECT * FROM " . $this->table_name . " ORDER BY reqId DESC";
+            $query = $this->getReadQuery();
      
             // prepare the query
             $stmt = $this->conn->prepare($query);
+            if(!empty($this->empId)){
+                $this->empId=htmlspecialchars(strip_tags($this->empId));
+                $stmt->bindParam(':empId', $this->empId);
+            }
+            if(!empty($this->leaveId)){
+                $this->leaveId=htmlspecialchars(strip_tags($this->leaveId));
+                $stmt->bindParam(':leaveId', $this->leaveId);
+            }
+            if(!empty($this->year)){
+                $this->year=htmlspecialchars(strip_tags($this->year));
+                $stmt->bindParam(':approver', $this->approver);
+            }
             $stmt->execute();
             return $stmt;
         }
 
         public function readDataForwards() {
-            $query = "SELECT * FROM " . $this->table_name . " ORDER BY reqId DESC";
+            $query = $this->getReadQuery();
+     
+            // prepare the query
             $stmt  = $this->conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+            
+            if(!empty($this->empId)){
+                $this->empId=htmlspecialchars(strip_tags($this->empId));
+                $stmt->bindParam(':empId', $this->empId);
+            }
+            if(!empty($this->leaveId)){
+                $this->leaveId=htmlspecialchars(strip_tags($this->leaveId));
+                $stmt->bindParam(':leaveId', $this->leaveId);
+            }
+            if(!empty($this->year)){
+                $this->year=htmlspecialchars(strip_tags($this->year));
+                $stmt->bindParam(':approver', $this->approver);
+            }
             $stmt->execute();
             return $stmt;
             
@@ -564,8 +691,23 @@
         }
 
         public function readDataBackwards() {
-            $query = "SELECT * FROM " . $this->table_name . " ORDER BY reqId DESC";
+            $query = $this->getReadQuery();
+     
+            // prepare the query
             $stmt  = $this->conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+            
+            if(!empty($this->empId)){
+                $this->empId=htmlspecialchars(strip_tags($this->empId));
+                $stmt->bindParam(':empId', $this->empId);
+            }
+            if(!empty($this->leaveId)){
+                $this->leaveId=htmlspecialchars(strip_tags($this->leaveId));
+                $stmt->bindParam(':leaveId', $this->leaveId);
+            }
+            if(!empty($this->year)){
+                $this->year=htmlspecialchars(strip_tags($this->year));
+                $stmt->bindParam(':approver', $this->approver);
+            }
             $stmt->execute();
             return $stmt;
             

@@ -40,6 +40,10 @@
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
 
+            $lvStatus->leaveId = $data->leaveId;
+            $lvStatus->empId = $data->empId;
+            $lvStatus->year = $data->year;
+
             $stmt = $lvStatus->getAll();
             $itemCount = $stmt->rowCount();
 
@@ -67,7 +71,6 @@
                     array_push($lvStatusArr["body"], $e);
                 }
                 echo json_encode($lvStatusArr);
-
             } else{
                 http_response_code(404);
                 echo json_encode(
