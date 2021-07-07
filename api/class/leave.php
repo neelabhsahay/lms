@@ -477,7 +477,7 @@
             $this->conn = $db;
         }
     
-        // create new LeaveStatus record
+        // create new LeaveRequest record
         public function create(){
             $status_set=!empty($this->status) ? ", status = :status" : "";
             // insert query
@@ -533,7 +533,7 @@
             return false;
         }
 
-        // create new LeaveStatus record
+        // create new LeaveRequest record
         public function update(){
 
             $leaveDays_set=!empty($this->leaveDays) ? ", leaveDays = :leaveDays " : "";
@@ -654,8 +654,8 @@
                 $this->leaveId=htmlspecialchars(strip_tags($this->leaveId));
                 $stmt->bindParam(':leaveId', $this->leaveId);
             }
-            if(!empty($this->year)){
-                $this->year=htmlspecialchars(strip_tags($this->year));
+            if(!empty($this->approver)){
+                $this->approver=htmlspecialchars(strip_tags($this->aprover));
                 $stmt->bindParam(':approver', $this->approver);
             }
             $stmt->execute();
@@ -676,8 +676,8 @@
                 $this->leaveId=htmlspecialchars(strip_tags($this->leaveId));
                 $stmt->bindParam(':leaveId', $this->leaveId);
             }
-            if(!empty($this->year)){
-                $this->year=htmlspecialchars(strip_tags($this->year));
+            if(!empty($this->approver)){
+                $this->approver=htmlspecialchars(strip_tags($this->approver));
                 $stmt->bindParam(':approver', $this->approver);
             }
             $stmt->execute();
@@ -704,8 +704,8 @@
                 $this->leaveId=htmlspecialchars(strip_tags($this->leaveId));
                 $stmt->bindParam(':leaveId', $this->leaveId);
             }
-            if(!empty($this->year)){
-                $this->year=htmlspecialchars(strip_tags($this->year));
+            if(!empty($this->approver)){
+                $this->approver=htmlspecialchars(strip_tags($this->approver));
                 $stmt->bindParam(':approver', $this->approver);
             }
             $stmt->execute();
@@ -719,7 +719,7 @@
             
         }
 
-        // Get a employee record
+        // Get a leave request record
         public function getSingle(){
      
             // if no posted password, do not update the password
@@ -731,9 +731,9 @@
             $stmt = $this->conn->prepare($query);
          
             // sanitize
-            $this->empId = htmlspecialchars(strip_tags($this->empId));
+            $this->reqId = htmlspecialchars(strip_tags($this->reqId));
          
-            // bind given empId value
+            // bind given reqId value
             $stmt->bindParam(1, $this->reqId);         
          
             // execute the query
