@@ -21,6 +21,7 @@
         public $manager;
         public $departmentId;
         public $modifiedOn;
+        public $key;
     
         // constructor
         public function __construct($db){
@@ -157,6 +158,25 @@
          
             return false;
         }  
+
+        // GET ALL
+        public function search(){
+            if(!empty($this->key)){
+                $this->key=htmlspecialchars(strip_tags($this->key));
+                $key = $this->key;
+                $query = "SELECT * FROM " . $this->table_name . " WHERE firstName LIKE '{$key}%' OR  
+                                                                  middleName LIKE '{$key}%' OR
+                                                                  lastName LIKE '{$key}%' 
+                                                                  LIMIT 0,5";
+            } else {
+                $query = "SELECT * FROM " . $this->table_name . " LIMIT 0,5";
+            }
+
+            // prepare the query
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt;
+        }
     
         // GET ALL
         public function getAll(){
