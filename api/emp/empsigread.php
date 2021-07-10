@@ -61,7 +61,8 @@
                         "empRole"      => $emp->empRole,
                         "empType"      => $emp->empType,
                         "empStatus"    => $emp->empStatus,
-                        "manager"      => $emp->manager,
+                        "managerId"      => $emp->manager,
+                        "manager"      => $emp->managerName,
                         "departmentId" => $emp->departmentId,
                         "modifiedOn"   => $emp->modifiedOn
                     );

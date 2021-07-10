@@ -54,7 +54,8 @@
                         "firstName"    => $row['firstName'],
                         "middleName"   => $row['middleName'],
                         "lastName"     => $row['lastName'],
-                        "manager"      => $row['manager'],
+                        "managerId"    => $row['manager'],
+                        "manager"      => $row['ManagerName'],
                         "departmentId" => $row['departmentId'],
                         "email"        => $row['email'],
                         "contact"      => $row['contact'],
@@ -75,6 +76,7 @@
                     array("message" => "No record found.")
                 );
             }
+            
         }catch (Exception $e){
             // set response code
             http_response_code(401);
@@ -92,4 +94,5 @@
         // tell the user access denied
         echo json_encode(array("message" => "Access denied."));
     }
+    
 ?>        

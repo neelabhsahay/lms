@@ -42,9 +42,6 @@
             $stmt = $leave->getAll();
             $itemCount = $stmt->rowCount();
 
-
-            echo json_encode($itemCount);
-
             if($itemCount > 0){
                 
                 $userArr = array();
@@ -57,7 +54,7 @@
                         "leaveType"    => $row['leaveType'],
                         "leaveMax"     => $row['leaveMax'],
                         "leaveProvMax" => $row['leaveProvMax'],
-                        "modifyedOn"   => $row['modifyedOn']
+                        "modifiedOn"   => $row['modifiedOn']
                     );
         
                     array_push($userArr["body"], $e);
@@ -80,7 +77,7 @@
             ));
         }
     } else {
-        // set response code
+       // set response code
         http_response_code(401);
      
         // tell the user access denied

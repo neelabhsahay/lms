@@ -19,6 +19,7 @@
         public $empType;
         public $empStatus;
         public $manager;
+        public $managerName;
         public $departmentId;
         public $modifiedOn;
         public $key;
@@ -180,8 +181,8 @@
     
         // GET ALL
         public function getAll(){
-            $query = "SELECT * FROM " . $this->table_name . " ORDER BY empId DESC";
-     
+            $query = "SELECT m.firstName AS ManagerName, e.* FROM " . $this->table_name . "
+             e INNER JOIN " . $this->table_name . " m ON m.empId = e.manager ORDER BY e.empId DESC";
             // prepare the query
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
@@ -218,11 +219,9 @@
     
         // Get a employee record
         public function getSingle(){
-     
-            // if no posted password, do not update the password
-            $query = "SELECT * FROM " . $this->table_name . "
-                      WHERE empId = ?
-                      LIMIT 0,1";
+
+            $query = "SELECT m.firstName AS managerName, e.* FROM " . $this->table_name . "
+             e INNER JOIN " . $this->table_name . " m ON m.empId = e.manager AND e.empId = ? LIMIT 0,1";
      
             // prepare the query
             $stmt = $this->conn->prepare($query);
@@ -257,6 +256,7 @@
                 $this->manager      = $result['manager'];
                 $this->departmentId = $result['departmentId'];
                 $this->modifiedOn   = $result['modifiedOn'];
+                $this->managerName  = $result['managerName'];
                 return true;
             } 
             return false;

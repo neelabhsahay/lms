@@ -61,7 +61,9 @@
         echo json_encode(
                 array(
                     "message" => "Successful login.",
-                    "jwt" => $jwt
+                    "success" => "1",
+                    "jwt" => $jwt,
+                    "accountType" => $user->accountType
                 )
             );
      
