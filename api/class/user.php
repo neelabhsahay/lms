@@ -390,14 +390,16 @@
          
             // if password needs to be updated
             $password_set=!empty($this->password) ? ", password = :password" : "";
-         
+            $accountType_set=!empty($this->accountType) ? ", accountType = :accountType" : "";
+            $passwordType_set=!empty($this->passwordType) ? ", passwordType = :passwordType" : "";
+            $email_set=!empty($this->email) ? ", email = :email" : "";
             // if no posted password, do not update the password
             $query = "UPDATE " . $this->table_name . "
                         SET
-                        empId = :empId,
-                        passwordType = :passwordType,
-                        accountType = :accountType,
-                        email = :email,
+                        empId = :empId
+                        {$accountType_set}
+                        {$accountType_set}
+                        {$passwordType_set}
                         {$password_set}
                         WHERE username = :username";
          
@@ -406,21 +408,30 @@
          
             // sanitize
             $this->empId=htmlspecialchars(strip_tags($this->empId));
-            $this->passwordType=htmlspecialchars(strip_tags($this->passwordType));
-            $this->email=htmlspecialchars(strip_tags($this->email));
-            $this->accountType=htmlspecialchars(strip_tags($this->accountType));
          
             // bind the values from the form
             $stmt->bindParam(':empId', $this->empId);
-            $stmt->bindParam(':passwordType', $this->passwordType);
-            $stmt->bindParam(':email', $this->email);
-            $stmt->bindParam(':accountType', $this->accountType);
-         
+
             // hash the password before saving to database
             if(!empty($this->password)){
                 $this->password=htmlspecialchars(strip_tags($this->password));
                 $password_hash = password_hash($this->password, PASSWORD_BCRYPT);
                 $stmt->bindParam(':password', $password_hash);
+            }
+
+            if(!empty($this->email)){
+                $this->email=htmlspecialchars(strip_tags($this->email));
+                $stmt->bindParam(':email', $this->email);
+            }
+
+            if(!empty($this->passwordType)){
+                $this->passwordType=htmlspecialchars(strip_tags($this->passwordType));
+                $stmt->bindParam(':passwordType', $this->passwordType);
+            }
+
+            if(!empty($this->accountType)){
+                $this->accountType=htmlspecialchars(strip_tags($this->accountType));
+                $stmt->bindParam(':accountType', $this->accountType);
             }
          
             // unique ID of record to be edited

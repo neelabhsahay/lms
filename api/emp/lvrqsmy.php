@@ -13,46 +13,64 @@
     include_once '../libs/php-jwt-master/src/SignatureInvalidException.php';
     include_once '../libs/php-jwt-master/src/JWT.php';
     use \Firebase\JWT\JWT;
-     
+
     // files needed to connect to database
     include_once '../config/db.php';
-    include_once '../class/user.php';
-
-    // get posted data
-    $data = json_decode(file_get_contents("php://input"));
+    include_once '../class/leave.php';
     
     // get database connection
     $database = new Database();
     $db = $database->getConnection();
+    
+    // instantiate product object
+    $lvRequest = new LeaveRequest($db);
+    
+    // get posted data
+    $data = json_decode(file_get_contents("php://input"));
      
-    // instantiate user object
-    $user = new User($db);
-
     // get jwt
     $jwt=isset($data->jwt) ? $data->jwt : "";
- 
+
     // if jwt is not empty
     if($jwt){
- 
-        // if decode succeed, show user details
-        try {
+         try {
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
-
-            $user->username = $decoded->data->username;
-
-            if( $user->delete() ) {
-                
-               // set response code
+            // set product property values
+            $lvRequest->leaveId     = $data->leaveId;
+            $lvRequest->empId       = $decoded->data->empId;
+            $lvRequest->appliedBy   = $data->appliedBy;
+            $lvRequest->appliedDate = $data->appliedDate;
+            $lvRequest->leaveDays   = $data->leaveDays;
+            $lvRequest->startDate   = $data->startDate;
+            $lvRequest->endDate     = $data->endDate;
+            $lvRequest->reason      = $data->reason;
+            $lvRequest->status      = $data->status;
+            $lvRequest->approver    = $data->approver;
+            
+            // create the leave request
+            if( !empty($lvRequest->leaveId) &&
+                !empty($lvRequest->empId) &&
+                !empty($lvRequest->appliedBy) &&
+                !empty($lvRequest->appliedDate) &&
+                !empty($lvRequest->leaveDays) &&
+                !empty($lvRequest->startDate) &&
+                !empty($lvRequest->endDate) &&
+                !empty($lvRequest->approver) &&
+                $lvRequest->create()
+            ){
+                // set response code
                 http_response_code(200);
              
                 // display message: user was created
-                echo json_encode(array("message" => "User record was deleted."));
+                echo json_encode(array("message" => "Leave Request record was inserted."));
             } else{
-                http_response_code(404);
-                echo json_encode(
-                    array("message" => "No record found.")
-                );
+             
+                // set response code
+                http_response_code(400);
+             
+                // display message: unable to create user
+                echo json_encode(array("message" => "Unable to insert leave request record."));
             }
         } catch (Exception $e) {
             // set response code
@@ -71,4 +89,4 @@
         // tell the user access denied
         echo json_encode(array("message" => "Access denied."));
     }
-?>        
+?>

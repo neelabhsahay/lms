@@ -16,7 +16,7 @@
      
     // files needed to connect to database
     include_once '../config/db.php';
-    include_once '../class/user.php';
+    include_once '../class/leave.php';
 
     // get posted data
     $data = json_decode(file_get_contents("php://input"));
@@ -26,7 +26,7 @@
     $db = $database->getConnection();
      
     // instantiate user object
-    $emp = new Employee($db);
+    $lvStatus = new LeaveStatus($db);
 
  
     // get jwt
@@ -40,44 +40,37 @@
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
 
-            $emp->empId = $data->empId;
+            $lvStatus->leaveId = $data->leaveId;
+            $lvStatus->empId = $decoded->data->empId;;
+            $lvStatus->year = $data->year;
 
-            if( $emp->getSingle() ) {
+            if($lvStatus->getSingle()){
                 
-                $employeeArr = array();
-                $employeeArr["body"] = array();
-                $employeeArr["itemCount"] = 1;
+                $lvStatusArr = array();
+                $lvStatusArr["body"] = array();
+                $lvStatusArr["itemCount"] = 1;
         
                 $e = array(
-                        "empId"        => $emp->empId,
-                        "firstName"    => $emp->firstName,
-                        "middleName"   => $emp->middleName,
-                        "lastName"     => $emp->lastName,
-                        "email"        => $emp->email,
-                        "contact"      => $emp->contact,
-                        "dateOfBirth"  => $emp->dateOfBirth,
-                        "dateOfJoin"   => $emp->dateOfJoin,
-                        "location"     => $emp->location,
-                        "empRole"      => $emp->empRole,
-                        "empType"      => $emp->empType,
-                        "empStatus"    => $emp->empStatus,
-                        "managerId"      => $emp->manager,
-                        "manager"      => $emp->managerName,
-                        "departmentId" => $emp->departmentId,
-                        "modifiedOn"   => $emp->modifiedOn
-                    );
-        
-                array_push($employeeArr["body"], $e);
-                echo json_encode($employeeArr);
+                    "leaveId"      => $lvStatus->leaveId,
+                    "empId"        => $lvStatus->empId,
+                    "year"         => $lvStatus->year,
+                    "leaveCarried" => $lvStatus->leaveCarried,
+                    "leaveInYear"  => $lvStatus->leaveInYear,
+                    "leaveUsed"    => $lvStatus->leaveUsed,
+                    "modifiedBy"   => $lvStatus->modifiedBy,
+                    "modifiedOn"   => $lvStatus->modifiedOn
+                );
+                array_push($lvStatusArr["body"], $e);
+                echo json_encode($lvStatusArr);
             } else{
                 http_response_code(404);
                 echo json_encode(
-                    array("message" => "No record found." . $data->empId )
+                    array("message" => "No record found for " . $lvStatus->leaveId . ", " .$lvStatus->empId. " and " .$lvStatus->year)
                 );
             }
         }catch (Exception $e){
             // set response code
-            http_response_code(401);
+            http_response_code(403);
      
             // tell the user access denied  & show error message
             echo json_encode(array(

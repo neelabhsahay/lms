@@ -1,12 +1,10 @@
-
-
 // Get all Products to display
 function usrList() {
   var jwt = getCookie('jwt');
   // Call Web API to get a list of Products
   $.ajax({
     url: 'http://localhost/lms/api/emp/usrread.php',
-    type: 'GET',
+    type: 'POST',
     dataType: 'json',
     data : JSON.stringify({
         "jwt" : jwt
@@ -23,9 +21,10 @@ function usrList() {
 // Get all Products to display
 function userDetail( usr ) {
   var jwt = getCookie('jwt');
+
   // Call Web API to get a list of Products
   $.ajax({
-    url: 'http://localhost/lms/api/emp/usrsigread.php',
+    url: 'http://localhost/lms/api/emp/usrssigread.php',
     type: 'POST',
     dataType: 'json',
     data : JSON.stringify({
@@ -86,60 +85,30 @@ function clearUsrTableRow() {
     $("#usrTable tbody").remove(); 
 }
 
-function loadListUsr() {
+function loadListUser() {
   clearUsrTableRow();
   usrList();
-  displayModal( "listUsrModal" );
 }
 
 function fillUserForm( emp ) {
-  var updateFirstName = document.getElementById('updateFirstName');
-  var updateLastName = document.getElementById('updateLastName');
-  var updateDepartmentId = document.getElementById('updateDepartmentId');
-  var updateManager = document.getElementById('updateManager');
-  var updateDateOfBirth = document.getElementById('updateDateOfBirth');
-  var updateDateOfJoining = document.getElementById('updateDateOfJoining');
-  var updateEmail = document.getElementById('updateEmail');
-  var updateContactNo = document.getElementById('updateContactNo');
-  var updateEmpId = document.getElementById('updateEmpId');
-
-  updateFirstName.value     = emp.firstName;
-  updateLastName.value      = emp.lastName;
-  updateEmpId.value         = emp.empId;
-  updateContactNo.value     = emp.contact;
-  updateEmail.value         = emp.email;
-  updateManager.value       = emp.manager;
-
-  updateDepartmentId.value  = emp.departmentId;
-  
-  updateDateOfBirth.value   = emp.dateOfBirth;
-  updateDateOfJoining.value = emp.dateOfJoin;
+  $("#userForm").setFormData(emp);
 }
 
 function clearUserForm() {
-  var updateFirstName = document.getElementById('updateFirstName');
-  var updateLastName = document.getElementById('updateLastName');
-  var updateDepartmentId = document.getElementById('updateDepartmentId');
-  var updateManager = document.getElementById('updateManager');
-  var updateDateOfBirth = document.getElementById('updateDateOfBirth');
-  var updateDateOfJoining = document.getElementById('updateDateOfJoining');
-  var updateEmail = document.getElementById('updateEmail');
-  var updateContactNo = document.getElementById('updateContactNo');
-  var updateEmpId = document.getElementById('updateEmpId');
-  updateFirstName.value     = "";
-  updateLastName.value      = "";
-  updateDepartmentId.value  = "";
-  updateManager.value       = "";
-  updateDateOfBirth.value   = "";
-  updateDateOfJoining.value = "";
-  updateEmail.value         = "";
-  updateContactNo.value     = "";
-  updateEmpId.value         = "";
+  document.getElementById("userForm").reset();
 }
 
 function viewUser(id) {
   clearUserForm();
   userDetail(id);
-  displayModal( "updateUsrModal" );
-  closeModal( "listUsrModal" );
+  document.getElementById("insertUserbtn").innerHTML = "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspUPDATE <span class='glyphicon glyphicon-send'></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+  document.getElementById("username").readOnly = true;
+  displayModal( "insertUserModal" );
+}
+
+function insertUser() {
+  var datastring = $("#userForm").serialize();
+  datajson = JSON.stringify(datastring);
+  console.log(datajson);
+  return false;
 }

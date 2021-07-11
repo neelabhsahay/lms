@@ -73,7 +73,7 @@
             }
         }catch (Exception $e){
             // set response code
-            http_response_code(401);
+            http_response_code(403);
      
             // tell the user access denied  & show error message
             echo json_encode(array(

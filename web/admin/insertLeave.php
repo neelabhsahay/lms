@@ -2,11 +2,11 @@
     <div class="modal-form-content">
         <div class="container">
     <span id="insertLeaveClose" onclick="closeModal('insertLeaveModal')" class="modal-form-close">&times;</span>
-    <form class="well form-horizontal" action=" " method="post"  id="contact_form">
+    <form class="well form-horizontal" action=" " method="post"  id="leaveForm" onsubmit="return insertLeave()">
         <fieldset>
 
         <!-- Form Name -->
-        <legend id="leaveheader"><center><h2><b >Insert Leave</b></h2></center></legend><br>
+        <legend id="leaveheader"><center><h2><b >Leave Details</b></h2></center></legend><br>
 
         <!-- Text input-->
 

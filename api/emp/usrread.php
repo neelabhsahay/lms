@@ -50,12 +50,11 @@
         
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     $e = array(
-                        "empId" => $row['empId'],
-                        "username" => $row['username'],
+                        "empId"        => $row['empId'],
+                        "username"     => $row['username'],
                         "passwordType" => $row['passwordType'],
-                        "email" => $row['email'],
-                        "accountType" => $row['accountType'],
-                        "passwordType" => $row['passwordType']
+                        "email"        => $row['email'],
+                        "accountType"  => $row['accountType']
                     );
         
                     array_push($userArr["body"], $e);
@@ -69,7 +68,7 @@
             }
         }catch (Exception $e){
             // set response code
-            http_response_code(401);
+            http_response_code(403);
      
             // tell the user access denied  & show error message
             echo json_encode(array(

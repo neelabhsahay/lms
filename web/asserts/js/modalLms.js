@@ -12,6 +12,7 @@ function showLoginPage() {
   setTimeout(' window.location.href = "http://localhost/lms/web/login.php"; ',100);
 }
 
+/*
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
   var modalEmp = document.getElementById("insertEmpModal");
@@ -25,6 +26,31 @@ window.onclick = function(event) {
     modalLeaveStatus.style.display = "none";
   }
 }
+*/
+
+function confirmAndExecute( functionName, dataObj, msg ) {
+     var message = 'Do you want to ' + msg + '?';
+     BootstrapDialog.confirm({
+            title: 'STATUS',
+            message: message,
+            type: BootstrapDialog.TYPE_PRIMARY,
+            size: BootstrapDialog.SIZE_SMALL,
+            btnCancelLabel: 'Cancel', 
+            btnOKLabel: 'Submit', //
+            btnOKClass: 'btn-success',
+            cssClass: "status-message",
+            callback: function(result) {
+                if(result) {
+                  isConfirmed=true;
+                   console.log(isConfirmed);
+                   functionName(dataObj);
+                }else {
+                    isConfirmed=false;
+                    console.log(isConfirmed);
+                }
+            }
+        });
+}
 
 // Handle exceptions from AJAX calls
 function handleException(request, message, error) {
@@ -33,11 +59,13 @@ function handleException(request, message, error) {
   msg += "Code: " + request.status + "\n";
   msg += "Text: " + request.statusText + "\n";
   if (request.responseJSON != null) {
-    msg += "Message" + request.responseJSON.Message + "\n";
+    msg += "Message: " + request.responseJSON.message + "\n";
+    if( request.status == "403" ) {
+      msg += "Error: " + request.responseJSON.error + "\n";
+    }
   }
-  if( request.status == "401" ) {
-    setTimeout(' window.location.href = "http://localhost/lms/web/login.php"; ',100);
-  } else {
-      alert(msg);
-  }
+  BootstrapDialog.alert(msg);
+  if( request.status == "401" || request.status == "403" ) {
+     setTimeout(' window.location.href = "http://localhost/lms/web/login.php"; ',100);
+  } 
 }

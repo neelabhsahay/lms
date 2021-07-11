@@ -1,5 +1,3 @@
-
-
 // Get all Products to display
 function leaveList() {
   var jwt = getCookie('jwt');
@@ -35,6 +33,47 @@ function leaveDetail( leaveId ) {
 
     success: function (leaves) {
       fillLeaveForm(leaves["body"][0]);
+    },
+    error: function (request, message, error) {
+      handleException(request, message, error);
+    }
+  });
+}
+
+function insertLeaveAjax( leaveInfo ) {
+  var jwt = getCookie('jwt');
+  leaveInfo['jwt'] = jwt;
+  console.log(JSON.stringify(leaveInfo));
+  // Call Web API to get a list of Products
+  $.ajax({
+    url: 'http://localhost/lms/api/admin/leavecreate.php',
+    type: 'POST',
+    dataType: 'json',
+    data : JSON.stringify(leaveInfo),
+
+    success: function (leaves) {
+      BootstrapDialog.alert("Inserted Successfully.");
+      document.getElementById("leaveForm").reset();
+    },
+    error: function (request, message, error) {
+      handleException(request, message, error);
+    }
+  });
+}
+
+function updateLeaveAjax( leaveInfo ) {
+  var jwt = getCookie('jwt');
+  leaveInfo['jwt'] = jwt;
+  console.log(JSON.stringify(leaveInfo));
+  // Call Web API to get a list of Products
+  $.ajax({
+    url: 'http://localhost/lms/api/admin/leaveupdate.php',
+    type: 'POST',
+    dataType: 'json',
+    data : JSON.stringify(leaveInfo),
+
+    success: function (leaves) {
+      BootstrapDialog.alert("Updated Successfully.");
     },
     error: function (request, message, error) {
       handleException(request, message, error);
@@ -80,27 +119,27 @@ function clearLeaveTableRow() {
 
 
 function fillLeaveForm( leave ) {
-  var updateLeaveId = document.getElementById('updateLeaveId');
-  var updateLeaveType = document.getElementById('updateLeaveType');
-  var updateLeaveMax = document.getElementById('updateLeaveMax');
-  var updateLeaveProvMax = document.getElementById('updateLeaveProvMax');
-  updateLeaveId.value = leave.leaveId;
-  updateLeaveType.value = leave.leaveType;
-  updateLeaveMax.value = leave.leaveMax;
-  updateLeaveProvMax.value = leave.leaveProvMax;
+  $("#upLeaveForm").setFormData(leave);
 }
 
 function loadListLeave() {
   clearLeaveTableRow();
   leaveList();
-  displayModal( "listLeaveModal" );
 }
 
 function viewLeave(id) {
   leaveDetail(id);
-  //var leaveheader = document.getElementById('leaveheader');
-  //leaveheader.innerHTML( "Update Leave" );
   displayModal( "updateLeaveModal" );
-  closeModal( "listLeaveModal" );
 }
 
+function insertLeave() {
+  var dataObj = $("#leaveForm").serializeFormJSON();
+  confirmAndExecute( insertLeaveAjax, dataObj, "insert leave");
+  return false;
+}
+
+function updateLeave() {
+  var dataObj = $("#upLeaveForm").serializeFormJSON();
+  confirmAndExecute( updateLeaveAjax, dataObj, "update leave" );
+  return false;
+}

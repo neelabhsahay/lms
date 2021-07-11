@@ -1,7 +1,4 @@
-<div id="listEmpModal" class="modal-form">
-    <div class="modal-form-content">
-        <div class="container">
-    <span id="listEmpClose" onclick="closeModal('listEmpModal')" class="modal-form-close">&times;</span>
+<div class="container">
     <div class="well form-horizontal">
         <fieldset>
 
@@ -15,6 +12,11 @@
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
                     <input name="searchLeave" id="searchLeave" onkeyup="myFunction()" placeholder="Search for names.."  class="form-control"  type="text">
+                </div>
+            </div>
+            <div class="col-md-9 selectContainer">
+                <div class="input-group">
+                    <button class="btn btn-primary float-right" type="submit" onclick="displayModal('insertEmpModal')">Add Employee</button>
                 </div>
             </div>
         </div>
@@ -54,7 +56,4 @@
         </div>
 </fieldset>
 </div>
-</div>
-    </div><!-- /.container -->
-    </div>
 </div>

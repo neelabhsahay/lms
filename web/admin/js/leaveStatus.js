@@ -17,6 +17,46 @@ function lvStList() {
   });
 }
 
+function insertLeaveStatusAjax( leaveInfo ) {
+  var jwt = getCookie('jwt');
+  leaveInfo['jwt'] = jwt;
+  console.log(JSON.stringify(leaveInfo));
+  // Call Web API to get a list of Products
+  $.ajax({
+    url: 'http://localhost/lms/api/admin/lvstcreate.php',
+    type: 'POST',
+    dataType: 'json',
+    data : JSON.stringify(leaveInfo),
+
+    success: function (leaves) {
+      alert( "Submitted");
+    },
+    error: function (request, message, error) {
+      handleException(request, message, error);
+    }
+  });
+}
+
+function updateLeaveStatusAjax( leaveInfo ) {
+  var jwt = getCookie('jwt');
+  leaveInfo['jwt'] = jwt;
+  console.log(JSON.stringify(leaveInfo));
+  // Call Web API to get a list of Products
+  $.ajax({
+    url: 'http://localhost/lms/api/admin/lvstupdate.php',
+    type: 'POST',
+    dataType: 'json',
+    data : JSON.stringify(leaveInfo),
+
+    success: function (leaves) {
+      alert( "Submitted");
+    },
+    error: function (request, message, error) {
+      handleException(request, message, error);
+    }
+  });
+}
+
 function lvStInfo(lvsts) {
   $.each(lvsts, function (index, lvst) {
     // Add a row to the Product table
@@ -31,7 +71,7 @@ function lvStAddRow(lvst) {
   }
   // Append row to <table>
   $("#lvStTable tbody").append(
-    lvStTableRow(lvst);
+  lvStTableRow(lvst));
 }
 // Build a <tr> for a row of table data
 function lvStTableRow(lvst) {
@@ -60,6 +100,17 @@ function clearLeaveStatusTableRow() {
 function loadListLeaveStatus() {
   clearLeaveStatusTableRow();
   lvStList();
-  displayModal( "listLeaveStatusModal" );
+}
+
+function insertLeaveStatus() {
+  var dataObj = $("#leaveStatusForm").serializeFormJSON();
+  confirmAndExecute( insertLeaveStatusAjax, dataObj, "insert leave status");
+  return false;
+}
+
+function updateLeaveStatus() {
+  var dataObj = $("#upLeaveStatusForm").serializeFormJSON();
+  confirmAndExecute( updateLeaveStatusAjax, dataObj, "update leave status");
+  return false;
 }
 

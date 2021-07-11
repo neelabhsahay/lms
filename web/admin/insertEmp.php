@@ -2,11 +2,11 @@
     <div class="modal-form-content">
         <div class="container">
     <span class="modal-form-close" onclick="closeModal('insertEmpModal')">&times;</span>
-    <form class="well form-horizontal" action=" " method="post"  id="contact_form">
+    <form class="well form-horizontal" action=" " method="post"  id="empForm" onsubmit="return insertEmp()">
         <fieldset>
 
         <!-- Form Name -->
-        <legend><center><h2><b id="empheader">Insert Employee</b></h2></center></legend><br>
+        <legend><center><h2><b id="empheader">Employee Details</b></h2></center></legend><br>
 
         <!-- Text input-->
 
@@ -29,18 +29,18 @@
         
        
           <div class="form-group"> 
-            <label class="col-md-2 control-label">Department</label>
+            <label class="col-md-2 control-label">Manager Name</label>
             <div class="col-md-3 selectContainer">
             <div class="input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-            <input name="departmentId" placeholder="Department" class="form-control"  type="text">
+            <input name="managerName" placeholder="Manager Name" class="form-control"  type="text">
           </div>
         </div>
          <label class="col-md-2 control-label" >Manager</label> 
             <div class="col-md-3 inputGroupContainer">
             <div class="input-group">
           <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-          <input name="manager" placeholder="Manager" class="form-control"  type="text">
+          <input name="manager" placeholder="Manager" class="form-control"  type="text" readonly>
             </div>
           </div>
         </div>
@@ -57,25 +57,7 @@
             <div class="col-md-3 inputGroupContainer">
             <div class="input-group">
           <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-          <input name="dateOfJoining" class="form-control"  type="date">
-            </div>
-          </div>
-        </div>
-        
-        <!-- Text input-->
-        <div class="form-group">
-          <label class="col-md-2 control-label">E-Mail</label>  
-            <div class="col-md-3 inputGroupContainer">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-          <input name="email" placeholder="E-Mail Address" class="form-control"  type="text">
-            </div>
-          </div>
-          <label class="col-md-2 control-label">Contact No.</label>  
-            <div class="col-md-3 inputGroupContainer">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-          <input name="contact_no" placeholder="(639)" class="form-control" type="text">
+          <input name="dateOfJoin" class="form-control"  type="date">
             </div>
           </div>
         </div>
@@ -89,7 +71,75 @@
           <input  name="empId" placeholder="Employee Id" class="form-control"  type="text">
             </div>
           </div>
+          <label class="col-md-2 control-label">Department</label>
+            <div class="col-md-3 selectContainer">
+            <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+            <input name="departmentId" placeholder="Department" class="form-control"  type="text">
+          </div>
         </div>
+        </div>
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-2 control-label">E-Mail</label>  
+            <div class="col-md-3 inputGroupContainer">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+          <input name="email" placeholder="E-Mail Address" class="form-control"  type="text">
+            </div>
+          </div>
+          <label class="col-md-2 control-label">Contact No.</label>  
+            <div class="col-md-3 inputGroupContainer">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+          <input name="contact" placeholder="(639)" class="form-control" type="text">
+            </div>
+          </div>
+        </div>
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-2 control-label">Employee Type</label>  
+            <div class="col-md-3 inputGroupContainer">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+          <select name="empType" class="form-control"  type="select">
+                    <option value="PRO">Provistion</option>
+                    <option value="PER">Permanent</option>
+                    <option value="TMP">Temporary</option>
+                    <option value="INT">Intern</option>
+                    <option value="CNT">Contractor</option>
+              </select>
+            </div>
+          </div>
+          <label class="col-md-2 control-label">Employee Status</label>  
+            <div class="col-md-3 inputGroupContainer">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                <select name="empStatus" class="form-control"  type="select">
+                    <option value="ACT">Active</option>
+                    <option value="INA">In-Active</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-2 control-label">Location</label>  
+            <div class="col-md-3 inputGroupContainer">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+          <input name="location" placeholder="Location" class="form-control"  type="text">
+            </div>
+          </div>
+          <label class="col-md-2 control-label">Employee Role</label>  
+            <div class="col-md-3 inputGroupContainer">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+          <input name="empRole" placeholder="Employee Role" class="form-control" type="text">
+            </div>
+          </div>
+        </div>
+
         
         <!-- Select Basic -->
         

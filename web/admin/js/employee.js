@@ -25,7 +25,7 @@ function empDetail( empId ) {
   var jwt = getCookie('jwt');
   // Call Web API to get a list of Products
   $.ajax({
-    url: 'http://localhost/lms/api/emp/empsigread.php',
+    url: 'http://localhost/lms/api/emp/empread.php',
     type: 'POST',
     dataType: 'json',
     data : JSON.stringify({
@@ -35,6 +35,48 @@ function empDetail( empId ) {
 
     success: function (empId) {
       fillEmpForm(empId["body"][0]);
+    },
+    error: function (request, message, error) {
+      handleException(request, message, error);
+    }
+  });
+}
+
+function insertEmpAjax( empInfo ) {
+  var jwt = getCookie('jwt');
+  empInfo['jwt'] = jwt;
+  console.log(JSON.stringify(empInfo));
+  // Call Web API to get a list of Products
+  $.ajax({
+    url: 'http://localhost/lms/api/admin/empcreate.php',
+    type: 'POST',
+    dataType: 'json',
+    data : JSON.stringify(empInfo),
+
+    success: function (response) {
+      BootstrapDialog.alert("Inserted Successfully.");
+      document.getElementById("empForm").reset();
+    },
+    error: function (request, message, error) {
+      handleException(request, message, error);
+    }
+  });
+}
+
+function updateEmpAjax( empInfo ) {
+  var jwt = getCookie('jwt');
+  empInfo['jwt'] = jwt;
+  console.log(JSON.stringify(empInfo));
+  // Call Web API to get a list of Products
+  $.ajax({
+    url: 'http://localhost/lms/api/admin/empupdate.php',
+    type: 'POST',
+    dataType: 'json',
+    data : JSON.stringify(empInfo),
+
+    success: function (leaves) {
+      BootstrapDialog.alert("Updated Successfully.");
+      document.getElementById("upEmpForm").reset();
     },
     error: function (request, message, error) {
       handleException(request, message, error);
@@ -86,59 +128,32 @@ function clearEmpTableRow() {
 function loadListEmp() {
   clearEmpTableRow();
   empList();
-  displayModal( "listEmpModal" );
 }
 
 
 function fillEmpForm( emp ) {
-  var updateFirstName = document.getElementById('updateFirstName');
-  var updateLastName = document.getElementById('updateLastName');
-  var updateDepartmentId = document.getElementById('updateDepartmentId');
-  var updateManager = document.getElementById('updateManager');
-  var updateDateOfBirth = document.getElementById('updateDateOfBirth');
-  var updateDateOfJoining = document.getElementById('updateDateOfJoining');
-  var updateEmail = document.getElementById('updateEmail');
-  var updateContactNo = document.getElementById('updateContactNo');
-  var updateEmpId = document.getElementById('updateEmpId');
+  $("#upEmpForm").setFormData(emp);
 
-  updateFirstName.value     = emp.firstName;
-  updateLastName.value      = emp.lastName;
-  updateEmpId.value         = emp.empId;
-  updateContactNo.value     = emp.contact;
-  updateEmail.value         = emp.email;
-  updateManager.value       = emp.manager;
-
-  updateDepartmentId.value  = emp.departmentId;
-  
-  updateDateOfBirth.value   = emp.dateOfBirth;
-  updateDateOfJoining.value = emp.dateOfJoin;
 }
 
 function clearEmpForm() {
-  var updateFirstName = document.getElementById('updateFirstName');
-  var updateLastName = document.getElementById('updateLastName');
-  var updateDepartmentId = document.getElementById('updateDepartmentId');
-  var updateManager = document.getElementById('updateManager');
-  var updateDateOfBirth = document.getElementById('updateDateOfBirth');
-  var updateDateOfJoining = document.getElementById('updateDateOfJoining');
-  var updateEmail = document.getElementById('updateEmail');
-  var updateContactNo = document.getElementById('updateContactNo');
-  var updateEmpId = document.getElementById('updateEmpId');
-  updateFirstName.value     = "";
-  updateLastName.value      = "";
-  updateDepartmentId.value  = "";
-  updateManager.value       = "";
-  updateDateOfBirth.value   = "";
-  updateDateOfJoining.value = "";
-  updateEmail.value         = "";
-  updateContactNo.value     = "";
-  updateEmpId.value         = "";
+  document.getElementById("upEmpForm").reset();
 }
 
 function viewEmp(id) {
   clearEmpForm();
   empDetail(id);
   displayModal( "updateEmpModal" );
-  closeModal( "listEmpModal" );
 }
 
+function insertEmp() {
+  var dataObj = $("#empForm").serializeFormJSON();
+  confirmAndExecute( insertEmpAjax, dataObj, "insert employee");
+  return false;
+}
+
+function updateEmp() {
+  var dataObj = $("#upEmpForm").serializeFormJSON();
+  confirmAndExecute( updateEmpAjax, dataObj, "update employee");
+  return false;
+}

@@ -66,14 +66,14 @@
                 echo json_encode(array("message" => "Employee record was updated."));
             } else {
                 // set response code
-                http_response_code(401);
+                http_response_code(400);
              
                 // show error message
                 echo json_encode(array("message" => "Unable to update user."));
             }
         } catch (Exception $e){
             // set response code
-            http_response_code(401);
+            http_response_code(403);
     
             // show error message
             echo json_encode(array(

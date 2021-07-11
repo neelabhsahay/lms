@@ -29,9 +29,9 @@ function handleException(request, message, error) {
   msg += "Code: " + request.status + "\n";
   msg += "Text: " + request.statusText + "\n";
   if (request.responseJSON != null) {
-    msg += "Message" + request.responseJSON.Message + "\n";
+    msg += "Message" + request.responseJSON.message + "\n";
   }
-
+  BootstrapDialog.alert(msg);
   if( request.status == "401" ) {
     setTimeout(' window.location.href = "http://localhost/lms/web/login.php"; ',100);
   } else {
@@ -57,7 +57,7 @@ function admitToApp( result ) {
     if( result["success"] == "1") {
         setCookie("jwt", result.jwt, 1);
         if( result.accountType == "ADM" ) {
-            setTimeout(' window.location.href = "admin/dashboard.php"; ',2000);
+            setTimeout(' window.location.href = "admin/empdashboard.php"; ',2000);
         } else {
             setTimeout(' window.location.href = "emp/dashboard.php"; ',2000);
         }

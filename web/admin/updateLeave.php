@@ -2,7 +2,7 @@
     <div class="modal-form-content">
         <div class="container">
     <span id="updateLeaveClose" onclick="closeModal('updateLeaveModal')" class="modal-form-close">&times;</span>
-    <form class="well form-horizontal" action=" " method="post"  id="contact_form">
+    <form class="well form-horizontal" action=" " method="post"  id="upLeaveForm" onsubmit="return updateLeave()">
         <fieldset>
 
         <!-- Form Name -->
@@ -15,14 +15,14 @@
             <div class="col-md-3 selectContainer">
             <div class="input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input name="updateLeaveId" id="updateLeaveId" placeholder="Leave Id"  class="form-control"  type="text">
+            <input name="leaveId" id="updateLeaveId" placeholder="Leave Id"  class="form-control"  type="text">
           </div>
         </div>
          <label class="col-md-2 control-label" >Leave Type</label> 
             <div class="col-md-3 inputGroupContainer">
             <div class="input-group">
           <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-          <input name="updateLeaveType" id="updateLeaveType" placeholder="Leave Type" class="form-control"  type="text">
+          <input name="leaveType" id="updateLeaveType" placeholder="Leave Type" class="form-control"  type="text">
             </div>
           </div>
         </div>
@@ -33,14 +33,14 @@
             <div class="col-md-3 selectContainer">
             <div class="input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-            <input name="updateLeaveMax" id="updateLeaveMax" placeholder="Leave Max" class="form-control"  type="text">
+            <input name="leaveMax" id="updateLeaveMax" placeholder="Leave Max" class="form-control"  type="text">
           </div>
         </div>
          <label class="col-md-2 control-label" >Leave Max Pro</label> 
             <div class="col-md-3 inputGroupContainer">
             <div class="input-group">
           <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-          <input name="updateLeaveProvMax" id="updateLeaveProvMax" placeholder="Leave Max Pro" class="form-control"  type="text">
+          <input name="leaveProvMax" id="updateLeaveProvMax" placeholder="Leave Max Pro" class="form-control"  type="text">
             </div>
           </div>
         </div>

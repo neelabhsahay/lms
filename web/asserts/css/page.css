@@ -116,12 +116,11 @@ a{color:inherit;text-decoration:none}
  */
 
 .sidebar {
-  margin: 0;
-  padding: 0;
-  width: 200px;
-  position: fixed;
-  height: 80%;
-  overflow: auto;
+  position: absolute;
+  width : 200px; 
+  z-index: 1; /* Stay on top */
+  top: 80px; /* Stay at the top */
+  left: 0;
 }
 
 .sidebar a {
@@ -138,8 +137,8 @@ a{color:inherit;text-decoration:none}
 }
 
 .sidebar a:hover:not(.active) {
-  background-color: #555;
-  color: white;
+  background-color: #F0F0F0;
+  color: black;
   border-radius: 10px;
 }
 
@@ -242,159 +241,9 @@ $light-bg = #777;
     text-transform: uppercase;
   }
   
-.card_dashboard .value {
-    font-size: 28px;
-    padding: 0 10px;
-  }
-  
-.card_dashboard .blue {
-    background-color: #2298F1;
-    border-radius: 1rem;
-  }
-  
-.card_dashboard .green {
-    background-color: #66B92E;
-    border-radius: 1rem;
-}
-  
-.card_dashboard .orange {
-    background-color: #DA932C;
-    border-radius: 1rem;
-  }
-  
-.card_dashboard .red {
-    background-color: #D65B4A;
-    border-radius: 1rem;
-  }
-
-.projects {
-  background: linear-gradient(90deg, rgba(125, 125, 255, .7) 0, rgba(255, 125, 255, .7) 78%);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid $light-bg;
-  overflow-x: auto;
-  border-radius: 1rem;
-  width: 100%;
-}
-.projects-inner {
-    border-radius: 4px;
-}
-
-.projects-header {
-  color: white;
-  padding: 22px;
-}
-
-.projects-header .count,
-.projects-header .title {
-    display: inline-block;
-}
-  
-.projects-header .count {
-    color: #738297;
-}
-  
-.projects-header .zmdi {
-    cursor: pointer;
-    float: right;
-    font-size: 16px;
-    margin: 5px 0;
-}
-  
-.projects-header .title {
-    font-size: 21px;
- }   
-.projects-header .title .count {
-      margin-left: 5px;
-}
-
-.projects-table {
-  background: linear-gradient(90deg, rgba(125, 125, 255, .7) 0, rgba(255, 125, 255, .7) 78%);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom-radius: 1rem;
-  width: 100%;
-}  
-.projects-table td,
-.projects-table th {
-    color: black;
-    padding: 10px 22px;
-    vertical-align: middle;
-}
-  
-.projects-table td p {
-    font-size: 12px;
-}    
-.projects-table td p:last-of-type {
-      color: $light-text;
-      font-size: 11px;
-}
-
-  
-.projects-table th {
-    background-color: $light-bg;
-  }
-  
-.projects-table tr:hover {
-      background-color: lighten($dark-text, 5%);
-}
-    
-.projects-table tr:not(:last-of-type) {
-      border-bottom: 1px solid $light-bg;
-}
-  
-.projects-table .member figure,
-.projects-table .member .member-info {
-      display: inline-block;
-      vertical-align: top;
-    }
-    
-.projects-table .member figure + .member-info {
-      margin-left: 7px;
-    }
-    
-.projects-table .member img {
-      border-radius: 50%;
-      height: 32px;
-      width: 32px;
-  }
-  
-.projects-table .status > form {
-    float: right;
-  }
-  
-.projects-table .status-text {
-    display: inline-block;
-    font-size: 12px;
-    margin: 11px 0;
-    padding-left: 20px;
-    position: relative;
-}    
-.projects-table .status-text:before {
-      border: 3px solid;
-      border-radius: 50%;
-      content: "";
-      height: 14px;
-      left: 0;
-      position: absolute;
-      top: 1px;
-      width: 14px;
-}
-    
-.projects-table .status-text.status-blue:before {
-      border-color: #1C93ED;
-    }
-    
-.projects-table .status-text.status-green:before {
-      border-color: #66B92E;
-    }
-    
-.projects-table .status-text.status-orange:before {
-      border-color: #DA932C;
-    }
-    
-.projects-table .status-text.status-red:before {
-      border-color: #D65B4A;
-}
-
+/*
+ * Modal style
+ */
 
 .modal-form {
   display: none;
@@ -402,7 +251,7 @@ $light-bg = #777;
   z-index: 1; /* Sit on top */
   padding-top: 100px; /* Location of the box */
   left: 0;
-  top: 0;
+  top: 20px;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
@@ -410,6 +259,16 @@ $light-bg = #777;
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
   border-radius: 15px;
 }
+
+.modal-dialog {
+  /* position: fixed;  Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  border-radius: 15px;
+}
+
 /* Modal Content */
 .modal-form-content {
   background-color: #fefefe;
@@ -440,3 +299,5 @@ $light-bg = #777;
 .pagination li:hover{
     cursor: pointer;
 }
+
+

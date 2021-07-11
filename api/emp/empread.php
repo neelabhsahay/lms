@@ -40,46 +40,81 @@
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
 
-            $stmt = $emp->getAll();
-            $itemCount = $stmt->rowCount();
-
-            if($itemCount > 0){
-                
-                $employeeArr = array();
-                $employeeArr["body"] = array();
-                $employeeArr["itemCount"] = $itemCount;
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                    $e = array( 
-                         "empId"       => $row['empId'],
-                        "firstName"    => $row['firstName'],
-                        "middleName"   => $row['middleName'],
-                        "lastName"     => $row['lastName'],
-                        "managerId"    => $row['manager'],
-                        "manager"      => $row['ManagerName'],
-                        "departmentId" => $row['departmentId'],
-                        "email"        => $row['email'],
-                        "contact"      => $row['contact'],
-                        "dateOfBirth"  => $row['dateOfBirth'],
-                        "dateOfJoin"   => $row['dateOfJoin'],
-                        "location"     => $row['location'],
-                        "empRole"      => $row['empRole'],
-                        "empType"      => $row['empType'],
-                        "empStatus"    => $row['empStatus'],
-                        "modifiedOn"   => $row['modifiedOn']
-                    );
-                    array_push($employeeArr["body"], $e);
-                }
-                echo json_encode($employeeArr);
-            } else{
-                http_response_code(404);
-                echo json_encode(
-                    array("message" => "No record found.")
-                );
-            }
+            $emp->empId = $data->empId;
+            if( !empty($emp->empId) ) {
+                if( $emp->getSingle() ) {
+                    $employeeArr = array();
+                    $employeeArr["body"] = array();
+                    $employeeArr["itemCount"] = 1;
             
+                    $e = array(
+                            "empId"        => $emp->empId,
+                            "firstName"    => $emp->firstName,
+                            "middleName"   => $emp->middleName,
+                            "lastName"     => $emp->lastName,
+                            "email"        => $emp->email,
+                            "contact"      => $emp->contact,
+                            "dateOfBirth"  => $emp->dateOfBirth,
+                            "dateOfJoin"   => $emp->dateOfJoin,
+                            "location"     => $emp->location,
+                            "empRole"      => $emp->empRole,
+                            "empType"      => $emp->empType,
+                            "empStatus"    => $emp->empStatus,
+                            "manager"    => $emp->manager,
+                            "managerName"      => $emp->managerName,
+                            "departmentId" => $emp->departmentId,
+                            "modifiedOn"   => $emp->modifiedOn
+                        );
+            
+                    array_push($employeeArr["body"], $e);
+                    echo json_encode($employeeArr);
+                } else{
+                    http_response_code(404);
+                    echo json_encode(
+                        array("message" => "No record found." . $data->empId )
+                    );
+                }
+            } else {
+                $stmt = $emp->getAll();
+                $itemCount = $stmt->rowCount();
+    
+                if($itemCount > 0){
+                    
+                    $employeeArr = array();
+                    $employeeArr["body"] = array();
+                    $employeeArr["itemCount"] = $itemCount;
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                        $e = array( 
+                            "empId"        => $row['empId'],
+                            "firstName"    => $row['firstName'],
+                            "middleName"   => $row['middleName'],
+                            "lastName"     => $row['lastName'],
+                            "manager  "    => $row['manager'],
+                            "managerName"  => $row['ManagerName'],
+                            "departmentId" => $row['departmentId'],
+                            "email"        => $row['email'],
+                            "contact"      => $row['contact'],
+                            "dateOfBirth"  => $row['dateOfBirth'],
+                            "dateOfJoin"   => $row['dateOfJoin'],
+                            "location"     => $row['location'],
+                            "empRole"      => $row['empRole'],
+                            "empType"      => $row['empType'],
+                            "empStatus"    => $row['empStatus'],
+                            "modifiedOn"   => $row['modifiedOn']
+                        );
+                        array_push($employeeArr["body"], $e);
+                    }
+                    echo json_encode($employeeArr);
+                } else{
+                    http_response_code(404);
+                    echo json_encode(
+                        array("message" => "No record found.")
+                    );
+                }
+            }            
         }catch (Exception $e){
             // set response code
-            http_response_code(401);
+            http_response_code(403);
      
             // tell the user access denied  & show error message
             echo json_encode(array(

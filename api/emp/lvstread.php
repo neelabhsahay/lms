@@ -43,41 +43,66 @@
             $lvStatus->leaveId = $data->leaveId;
             $lvStatus->empId = $data->empId;
             $lvStatus->year = $data->year;
-
-            $stmt = $lvStatus->getAll();
-            $itemCount = $stmt->rowCount();
-
-
-            if($itemCount > 0){
-                
-                $lvStatusArr = array();
-                $lvStatusArr["body"] = array();
-                $lvStatusArr["itemCount"] = $itemCount;
-        
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            if( !empty( $lvStatus->empId )) {
+                if($lvStatus->getSingle()){
+                    $lvStatusArr = array();
+                    $lvStatusArr["body"] = array();
+                    $lvStatusArr["itemCount"] = 1;
+            
                     $e = array(
-                        "leaveId"      => $row['leaveId'],
-                        "empId"        => $row['empId'],
-                        "year"         => $row['year'],
-                        "leaveCarried" => $row['leaveCarried'],
-                        "leaveInYear"  => $row['leaveInYear'],
-                        "leaveUsed"    => $row['leaveUsed'],
-                        "modifiedBy"   => $row['modifiedBy'],
-                        "modifiedOn"   => $row['modifiedOn']
+                        "leaveId"      => $lvStatus->leaveId,
+                        "empId"        => $lvStatus->empId,
+                        "year"         => $lvStatus->year,
+                        "leaveCarried" => $lvStatus->leaveCarried,
+                        "leaveInYear"  => $lvStatus->leaveInYear,
+                        "leaveUsed"    => $lvStatus->leaveUsed,
+                        "modifiedBy"   => $lvStatus->modifiedBy,
+                        "modifiedOn"   => $lvStatus->modifiedOn
                     );
-        
                     array_push($lvStatusArr["body"], $e);
+                    echo json_encode($lvStatusArr);
+                } else{
+                    http_response_code(404);
+                    echo json_encode(
+                        array("message" => "No record found for " . $lvStatus->leaveId . ", " .$lvStatus->empId. " and " .$lvStatus->year)
+                    );
                 }
-                echo json_encode($lvStatusArr);
-            } else{
-                http_response_code(404);
-                echo json_encode(
-                    array("message" => "No record found.")
-                );
-            }
+            } else {
+                $stmt = $lvStatus->getAll();
+                $itemCount = $stmt->rowCount();
+    
+    
+                if($itemCount > 0){
+                    
+                    $lvStatusArr = array();
+                    $lvStatusArr["body"] = array();
+                    $lvStatusArr["itemCount"] = $itemCount;
+            
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                        $e = array(
+                            "leaveId"      => $row['leaveId'],
+                            "empId"        => $row['empId'],
+                            "year"         => $row['year'],
+                            "leaveCarried" => $row['leaveCarried'],
+                            "leaveInYear"  => $row['leaveInYear'],
+                            "leaveUsed"    => $row['leaveUsed'],
+                            "modifiedBy"   => $row['modifiedBy'],
+                            "modifiedOn"   => $row['modifiedOn']
+                        );
+            
+                        array_push($lvStatusArr["body"], $e);
+                    }
+                    echo json_encode($lvStatusArr);
+                } else{
+                    http_response_code(404);
+                    echo json_encode(
+                        array("message" => "No record found.")
+                    );
+                }
+           }
         }catch (Exception $e){
             // set response code
-            http_response_code(401);
+            http_response_code(403);
      
             // tell the user access denied  & show error message
             echo json_encode(array(
