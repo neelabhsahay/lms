@@ -117,10 +117,13 @@ a{color:inherit;text-decoration:none}
 
 .sidebar {
   position: absolute;
-  width : 200px; 
+  width : 170px;
+  height : 88%;
   z-index: 1; /* Stay on top */
-  top: 80px; /* Stay at the top */
-  left: 0;
+  top: 90px; /* Stay at the top */
+  left: 20px;
+  background: #F0F0F0;
+  border-bottom-left-radius:  15px;
 }
 
 .sidebar a {
@@ -128,16 +131,21 @@ a{color:inherit;text-decoration:none}
   color: black;
   padding: 16px;
   text-decoration: none;
+  font-size: 1.6rem;
 }
  
 .sidebar a.active {
-  background-color: #04AA6D;
+  background: rgba(000, 125, 125, .7);
+  background: linear-gradient(90deg, rgba(000, 125, 255, .7) 0, rgba(125, 125, 255, .7) 58%);
+  -webkit-backdrop-filter: blur(10px);
   color: white;
   border-radius: 10px;
 }
 
 .sidebar a:hover:not(.active) {
-  background-color: #F0F0F0;
+  background: rgba(000, 125, 125, .7);
+  background: linear-gradient(90deg, rgba(000, 125, 255, .7) 0, rgba(125, 125, 255, .7) 58%);
+  -webkit-backdrop-filter: blur(10px);
   color: black;
   border-radius: 10px;
 }
@@ -168,7 +176,12 @@ div.content {
 /*
  * Navbar
  */
+.navbar {
+  left: 0 px;
+  background: #F0F0F0;
+  border-top-radius:  15px;
 
+}
 .navbar-brand {
   padding-top: .75rem;
   padding-bottom: .75rem;
@@ -301,3 +314,56 @@ $light-bg = #777;
 }
 
 
+.dropdown-menu a {
+  font-size: 1.6rem;
+}
+
+.dropdown-menu a:hover:not(.active) {
+  background: rgba(000, 125, 125, .7);
+  background: linear-gradient(90deg, rgba(000, 125, 255, .7) 0, rgba(125, 125, 255, .7) 58%);
+  -webkit-backdrop-filter: blur(10px);
+  color: black;
+}
+
+.listbody {
+  width : 100%;
+}
+
+
+/* Remove it if not required
+*/
+.profile-button {
+    background: rgb(99, 39, 120);
+    box-shadow: none;
+    border: none
+}
+
+.profile-button:hover {
+    background: #682773
+}
+
+.profile-button:focus {
+    background: #682773;
+    box-shadow: none
+}
+
+.profile-button:active {
+    background: #682773;
+    box-shadow: none
+}
+
+.back:hover {
+    color: #682773;
+    cursor: pointer
+}
+
+.labels {
+    font-size: 11px
+}
+
+.add-experience:hover {
+    background: #BA68C8;
+    color: #fff;
+    cursor: pointer;
+    border: solid 1px #BA68C8
+}

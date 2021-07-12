@@ -25,7 +25,7 @@
 
 
   <!-- My scripts and css -->
-<script type="text/javascript" src="../asserts/js/modalLms.js"></script>
+
 <script type="test/javascript" src="../asserts/js/yearpicker.js"></script>
 <script type="text/javascript" src="../asserts/js/cookie.js" > </script>
 <script type="text/javascript" src="js/employee.js"></script>
@@ -40,13 +40,14 @@
     <div class="card_body">
         <?php
             include "../asserts/header.php";
+            include "../asserts/sidebar.php";
         ?>
         
-        <div class="container-fluid">
+        <div>
 
           <?php
             include "listEmp.php";
-            include "../asserts/sidebar.php";
+            
         ?>
         </div>
     </div>
@@ -61,6 +62,7 @@
         loadListEmp();
     });
 </script>
+<script type="text/javascript" src="../asserts/js/modalLms.js"></script>
 </body>
 
 </html>

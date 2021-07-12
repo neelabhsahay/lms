@@ -1,159 +1,108 @@
 <div id="insertEmpModal" class="modal-form">
     <div class="modal-form-content">
         <div class="container">
-    <span class="modal-form-close" onclick="closeModal('insertEmpModal')">&times;</span>
-    <form class="well form-horizontal" action=" " method="post"  id="empForm" onsubmit="return insertEmp()">
-        <fieldset>
-
-        <!-- Form Name -->
-        <legend><center><h2><b id="empheader">Employee Details</b></h2></center></legend><br>
-
-        <!-- Text input-->
-
-         <div class="form-group"> 
-            <label class="col-md-2 control-label">First Name</label>
-            <div class="col-md-3 selectContainer">
-            <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input name="firstName" placeholder="First Name"  class="form-control"  type="text">
-          </div>
-        </div>
-         <label class="col-md-2 control-label" >Last Name</label> 
-            <div class="col-md-3 inputGroupContainer">
-            <div class="input-group">
-          <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-          <input name="lastName" placeholder="Last Name" class="form-control"  type="text">
+            <span class="modal-form-close" onclick="closeModal('insertEmpModal')">&times;</span>
+            <div class="container rounded bg-white mt-5 mb-5">
+                <div class="row">
+                    <form  action=" " method="post"  id="empForm" onsubmit="return insertEmp()">
+                        <div class="col-md-3 border-right">
+                            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle     mt-5" src="        http://localhost/lms/web/asserts/img/user.jpg"><span class="font-weight-bold">    Amelly</span><span class="        text-black-50">    amelly12@bbb.com</span><span> </span></div>
+                        </div>
+                        
+                        <div class="col-md-5 border-right">
+                            <div class="p-3 py-5">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h4 class="text-right">Employee Profile</h4>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <label class="labels">Name</label>
+                                        <input name="firstName" type="text" class="form-control" placeholder="first name" value=""    >
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="labels">Surname</label>
+                                        <input name="lastName" type="text" class="form-control" value="" placeholder="surname">
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <label class="labels">Email ID</label>
+                                        <input name="email" type="text" class="form-control" placeholder="enter email id" value=""    >
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="labels">Manager Name</label>
+                                        <input name="managerName" type="text" class="form-control" placeholder="enter manger name"     value="        ">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="labels">Phone Number</label>
+                                        <input name="contact" type="text" class="form-control" placeholder="enter phone number"     value="">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="labels">Employee Role</label>
+                                        <input name="empRole" type="text" class="form-control" placeholder="enter employee role"     value="">
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <label class="labels">Date of Birth</label>
+                                        <input name="dateOfBirth" type="date" class="form-control" value="">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="labels">State/Region</label>
+                                        <input name="location" type="text" class="form-control" placeholder="enter location" value    ="">
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <label class="labels">Manager</label>
+                                        <input name="manager" type="text" class="form-control" placeholder="country" readonly="    true">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="labels">Employee ID</label>
+                                        <input name="empId" type="text" class="form-control" value="" placeholder="enter employee     id">
+                                    </div>
+                                </div>
+                                <div class="mt-5 text-center">
+                                    <button class="btn btn-primary profile-button" type="submit">Save Profile</button></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 py-5">
+                                <div class="d-flex justify-content-between align-items-center experience">
+                                    <span>Edit Official</span>
+                                    <span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Official</span>
+                                </div>
+                                <br>
+                                <div class="col-md-12">
+                                    <label class="labels">Employee Type </label>
+                                    <select name="empType" class="form-control"  type="select">
+                                        <option value="PRO">Provistion</option>
+                                        <option value="PER">Permanent</option>
+                                        <option value="TMP">Temporary</option>
+                                        <option value="INT">Intern</option>
+                                        <option value="CNT">Contractor</option>
+                                    </select>
+                                </div> <br>
+                                <div class="col-md-12">
+                                    <label class="labels">Employee Status</label>
+                                    <select name="empStatus" class="form-control"  type="select">
+                                        <option value="ACT">Active</option>
+                                        <option value="INA">In-Active</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="labels">Date of Joining</label>
+                                    <input name="dateOfJoin" type="date" class="form-control" value="">
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="labels">Depertment</label>
+                                    <input name="departmentId" type="text" class="form-control" placeholder="enter depertment"     value="">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-          </div>
         </div>
-        
-       
-          <div class="form-group"> 
-            <label class="col-md-2 control-label">Manager Name</label>
-            <div class="col-md-3 selectContainer">
-            <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-            <input name="managerName" placeholder="Manager Name" class="form-control"  type="text">
-          </div>
-        </div>
-         <label class="col-md-2 control-label" >Manager</label> 
-            <div class="col-md-3 inputGroupContainer">
-            <div class="input-group">
-          <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-          <input name="manager" placeholder="Manager" class="form-control"  type="text" readonly>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="col-md-2 control-label" >Date of Birth</label> 
-            <div class="col-md-3 inputGroupContainer">
-            <div class="input-group">
-          <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-          <input name="dateOfBirth" class="form-control"  type="date">
-            </div>
-          </div>
-          <label class="col-md-2 control-label" >Date of Joining</label> 
-            <div class="col-md-3 inputGroupContainer">
-            <div class="input-group">
-          <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-          <input name="dateOfJoin" class="form-control"  type="date">
-            </div>
-          </div>
-        </div>
-        <!-- Text input-->
-        
-        <div class="form-group">
-          <label class="col-md-2 control-label">Employee Id</label>  
-          <div class="col-md-3 inputGroupContainer">
-          <div class="input-group">
-          <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-          <input  name="empId" placeholder="Employee Id" class="form-control"  type="text">
-            </div>
-          </div>
-          <label class="col-md-2 control-label">Department</label>
-            <div class="col-md-3 selectContainer">
-            <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-            <input name="departmentId" placeholder="Department" class="form-control"  type="text">
-          </div>
-        </div>
-        </div>
-        <!-- Text input-->
-        <div class="form-group">
-          <label class="col-md-2 control-label">E-Mail</label>  
-            <div class="col-md-3 inputGroupContainer">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-          <input name="email" placeholder="E-Mail Address" class="form-control"  type="text">
-            </div>
-          </div>
-          <label class="col-md-2 control-label">Contact No.</label>  
-            <div class="col-md-3 inputGroupContainer">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-          <input name="contact" placeholder="(639)" class="form-control" type="text">
-            </div>
-          </div>
-        </div>
-        <!-- Text input-->
-        <div class="form-group">
-          <label class="col-md-2 control-label">Employee Type</label>  
-            <div class="col-md-3 inputGroupContainer">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-          <select name="empType" class="form-control"  type="select">
-                    <option value="PRO">Provistion</option>
-                    <option value="PER">Permanent</option>
-                    <option value="TMP">Temporary</option>
-                    <option value="INT">Intern</option>
-                    <option value="CNT">Contractor</option>
-              </select>
-            </div>
-          </div>
-          <label class="col-md-2 control-label">Employee Status</label>  
-            <div class="col-md-3 inputGroupContainer">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                <select name="empStatus" class="form-control"  type="select">
-                    <option value="ACT">Active</option>
-                    <option value="INA">In-Active</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <!-- Text input-->
-        <div class="form-group">
-          <label class="col-md-2 control-label">Location</label>  
-            <div class="col-md-3 inputGroupContainer">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-          <input name="location" placeholder="Location" class="form-control"  type="text">
-            </div>
-          </div>
-          <label class="col-md-2 control-label">Employee Role</label>  
-            <div class="col-md-3 inputGroupContainer">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-          <input name="empRole" placeholder="Employee Role" class="form-control" type="text">
-            </div>
-          </div>
-        </div>
-
-        
-        <!-- Select Basic -->
-        
-        <!-- Button -->
-        <div class="form-group">
-          <label class="col-md-4 control-label"></label>
-          <div class="col-md-4"><br>
-            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<button id= "empBtn" type="submit" class="btn btn-warning" >&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspSUBMIT <span         class="glyphicon glyphicon-send"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>
-           </div>
-        </div>
-
-</fieldset>
-</form>
-</div>
-    </div><!-- /.container -->
     </div>
 </div>

@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="well form-horizontal">
+    <div class="well form-horizontal listbody">
         <fieldset>
 
         <!-- Form Name -->

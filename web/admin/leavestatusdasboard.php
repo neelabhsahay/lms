@@ -40,11 +40,12 @@
     <div class="card_body">
         <?php
             include "../asserts/header.php";
+            include "../asserts/sidebar.php";
         ?>
         <div class="container-fluid">
           <?php
             include "listLeaveStatus.php";
-            include "../asserts/sidebar.php";
+            
           ?>
         </div>
     </div>
