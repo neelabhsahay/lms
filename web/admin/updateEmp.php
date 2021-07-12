@@ -55,11 +55,11 @@
                                 <div class="row mt-3">
                                     <div class="col-md-6">
                                         <label class="labels">Manager</label>
-                                        <input name="manager" type="text" class="form-control" placeholder="country" readonly="true">
+                                        <input name="manager" type="text" class="form-control" placeholder="manager id" readonly="true">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="labels">Employee ID</label>
-                                        <input name="empId" type="text" class="form-control" value="" placeholder="enter employee id">
+                                        <input name="empId" type="text" class="form-control" value="" placeholder="enter employee id" readonly="true">
                                     </div>
                                 </div>
                                 <div class="mt-5 text-center">

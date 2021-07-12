@@ -1,15 +1,42 @@
 
 
 // Get all Products to display
-function lvStList() {
+function leaveStatusList() {
   var jwt = getCookie('jwt');
   // Call Web API to get a list of Products
   $.ajax({
     url: 'http://localhost/lms/api/emp/lvstread.php',
     type: 'POST',
     dataType: 'json',
+    data : JSON.stringify({
+        "jwt": jwt
+      }),
     success: function (lvsts) {
       lvStInfo(lvsts["body"]);
+    },
+    error: function (request, message, error) {
+      handleException(request, message, error);
+    }
+  });
+}
+
+// Get all Products to display
+function leaveStatusDetail( leaveId, empId, year ) {
+  var jwt = getCookie('jwt');
+  // Call Web API to get a list of Products
+  $.ajax({
+    url: 'http://localhost/lms/api/emp/lvstread.php',
+    type: 'POST',
+    dataType: 'json',
+    data : JSON.stringify({
+        "leaveId": leaveId,
+        "empId" : empId,
+        "year" : year,
+        "jwt": jwt
+      }),
+
+    success: function (leaves) {
+      fillLeaveStatusForm(leaves["body"][0]);
     },
     error: function (request, message, error) {
       handleException(request, message, error);
@@ -29,7 +56,9 @@ function insertLeaveStatusAjax( leaveInfo ) {
     data : JSON.stringify(leaveInfo),
 
     success: function (leaves) {
-      alert( "Submitted");
+      BootstrapDialog.alert("Inserted Successfully.");
+      closeModal( "insertLeaveStatusModal" );
+      loadListLeaveStatus();
     },
     error: function (request, message, error) {
       handleException(request, message, error);
@@ -49,7 +78,7 @@ function updateLeaveStatusAjax( leaveInfo ) {
     data : JSON.stringify(leaveInfo),
 
     success: function (leaves) {
-      alert( "Submitted");
+      BootstrapDialog.alert("Inserted Successfully.");
     },
     error: function (request, message, error) {
       handleException(request, message, error);
@@ -76,17 +105,16 @@ function lvStAddRow(lvst) {
 // Build a <tr> for a row of table data
 function lvStTableRow(lvst) {
   var row = "<tr>";
-          row = row +  "<td>" + lvst.empId + "</td>";
-          row = row +  "<td>" + lvst.leaveId + "</td>";
+          row = row +  "<td>" + lvst.employeeName + "</td>";
+          row = row +  "<td>" + lvst.leaveType + "</td>";
           row = row +  "<td>" + lvst.year + "</td>";
           row = row +  "<td>" + lvst.leaveCarried + "</td>";
           row = row +  "<td>" + lvst.leaveInYear + "</td>";
           row = row +  "<td>" + lvst.leaveUsed + "</td>";
           row = row +  "<td>" + lvst.modifiedBy + "</td>";
           row = row +  "<td >";
-          row = row +  "<button value='" + lvst.leaveId + "' ";
-          row = row +  "class='btn btn-primary edit-item' onclick='viewLeave(this.value)'>Edit</button> " +
-                       "<button value='" + lvst.leaveId + "' class='btn btn-info view-item' onclick='viewLeave(this.value)'>View</button>";
+          row = row +  "<button value='" + lvst.leaveId + "+" + lvst.empId + "+" + lvst.year +"'";
+          row = row +  "class='btn btn-primary edit-item' onclick='viewLeaveStatus(this.value)'>Edit</button>";
           row = row + "</td>";
           row = row + "</tr>";
 
@@ -99,7 +127,17 @@ function clearLeaveStatusTableRow() {
 
 function loadListLeaveStatus() {
   clearLeaveStatusTableRow();
-  lvStList();
+  leaveStatusList();
+}
+
+function fillLeaveStatusForm( leaveStatus ) {
+  $("#upLeaveStatusForm").setFormData(leaveStatus);
+}
+
+function viewLeaveStatus( keys ) {
+    var keyArr = keys.split("+");
+    leaveStatusDetail(keyArr[0], keyArr[1], keyArr[2]);
+    displayModal( "updateLeaveStatusModal" );
 }
 
 function insertLeaveStatus() {

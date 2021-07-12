@@ -56,6 +56,8 @@ function insertEmpAjax( empInfo ) {
     success: function (response) {
       BootstrapDialog.alert("Inserted Successfully.");
       document.getElementById("empForm").reset();
+      loadListEmp();
+      closeModal( "insertEmpModal" );
     },
     error: function (request, message, error) {
       handleException(request, message, error);
@@ -77,9 +79,40 @@ function updateEmpAjax( empInfo ) {
     success: function (leaves) {
       BootstrapDialog.alert("Updated Successfully.");
       document.getElementById("upEmpForm").reset();
+      loadListEmp();
+      closeModal( "updateEmpModal" );
     },
     error: function (request, message, error) {
       handleException(request, message, error);
+    }
+  });
+}
+
+// Get all Products to display
+function searchEmp( empStr ) {
+  if( empStr.length == 0 ) {
+    return;
+  }
+  var jwt = getCookie('jwt');
+  // Call Web API to get a list of Products
+  $.ajax({
+    url: 'http://localhost/lms/api/emp/empsearch.php',
+    type: 'POST',
+    dataType: 'json',
+    data : JSON.stringify({
+        "key": empStr,
+        "jwt": jwt
+      }),
+
+    success: function (searchResult) {
+      fillSearchInput(searchResult["body"] );
+    },
+    error: function (request, message, error) {
+      if( request.status == "404" ) {
+          fillSearchInput("" );
+      } else {
+          handleException(request, message, error);
+      }
     }
   });
 }
@@ -89,6 +122,16 @@ function empInfo(emps) {
     // Add a row to the table
     empAddRow(emp);
   });
+}
+
+function fillSearchInput( result) {
+   clearEmpTableRow();
+   if( result.length != 0 ) {
+      $.each(result, function (index, emp) {
+          empAddRow(emp);
+      });
+  }
+  //elem.innerHTML = row;
 }
 
 // Add Product row to <table>
@@ -133,7 +176,6 @@ function loadListEmp() {
 
 function fillEmpForm( emp ) {
   $("#upEmpForm").setFormData(emp);
-
 }
 
 function clearEmpForm() {
@@ -156,4 +198,15 @@ function updateEmp() {
   var dataObj = $("#upEmpForm").serializeFormJSON();
   confirmAndExecute( updateEmpAjax, dataObj, "update employee");
   return false;
+}
+
+function searchEmployee( empStr ) {
+  if( empStr.length != 0 ) {
+      searchEmp(empStr );
+  }
+}
+
+function addNewEmployee() {
+  displayModal('empProfilebtn');
+  displayModal('insertEmpModal');
 }

@@ -20,14 +20,15 @@
     
         // create new Leave record
         function create(){
+            $leaveProvMax_set=!empty($this->leaveProvMax) ? ", leaveProvMax = :leaveProvMax" : "";
             // insert query
             $query = "INSERT INTO " . $this->table_name . "
                       SET
                       leaveId = :leaveId,
                       leaveType = :leaveType,
-                      leaveMax = :leaveMax,
-                      leaveProvMax = :leaveProvMax";
-     
+                      leaveMax = :leaveMax
+                      {$leaveProvMax_set}";
+
             // prepare the query
             $stmt = $this->conn->prepare($query);
      
@@ -35,13 +36,17 @@
             $this->leaveId=htmlspecialchars(strip_tags($this->leaveId));
             $this->leaveType=htmlspecialchars(strip_tags($this->leaveType));
             $this->leaveMax=htmlspecialchars(strip_tags($this->leaveMax));
-            $this->leaveProvMax=htmlspecialchars(strip_tags($this->leaveProvMax));
     
             // bind the values
             $stmt->bindParam(':leaveId', $this->leaveId);
             $stmt->bindParam(':leaveType', $this->leaveType);
             $stmt->bindParam(':leaveMax', $this->leaveMax);
-            $stmt->bindParam(':leaveProvMax', $this->leaveProvMax);
+            
+
+            if( !empty($this->leaveProvMax) ) {
+                $this->leaveProvMax=htmlspecialchars(strip_tags($this->leaveProvMax));
+                $stmt->bindParam(':leaveProvMax', $this->leaveProvMax);
+            }
      
             // execute the query, also check if query was successful
             if($stmt->execute()){
@@ -52,12 +57,14 @@
     
         // create new Leave record
         function update(){
+            $leaveProvMax_set=!empty($this->leaveProvMax) ? ", leaveProvMax = :leaveProvMax " : "";
+            $leaveMax_set=!empty($this->leaveMax) ? ", leaveMax = :leaveMax " : "";
             // insert query
             $query = "UPDATE " . $this->table_name . "
                       SET
-                      leaveType = :leaveType,
-                      leaveMax = :leaveMax,
-                      leaveProvMax = :leaveProvMax
+                      leaveType = :leaveType
+                      {$leaveMax_set}
+                      {$leaveProvMax_set}
                       WHERE leaveId = :leaveId";
      
             // prepare the query
@@ -66,14 +73,21 @@
             // sanitize
             $this->leaveId=htmlspecialchars(strip_tags($this->leaveId));
             $this->leaveType=htmlspecialchars(strip_tags($this->leaveType));
-            $this->leaveMax=htmlspecialchars(strip_tags($this->leaveMax));
-            $this->leaveProvMax=htmlspecialchars(strip_tags($this->leaveProvMax));
     
             // bind the values
             $stmt->bindParam(':leaveId', $this->leaveId);
             $stmt->bindParam(':leaveType', $this->leaveType);
-            $stmt->bindParam(':leaveMax', $this->leaveMax);
-            $stmt->bindParam(':leaveProvMax', $this->leaveProvMax);
+
+
+            if( !empty($this->leaveMax) ) {
+                $this->leaveMax=htmlspecialchars(strip_tags($this->leaveMax));
+                $stmt->bindParam(':leaveMax', $this->leaveMax);
+            }
+
+            if( !empty($this->leaveProvMax) ) {
+                $this->leaveProvMax=htmlspecialchars(strip_tags($this->leaveProvMax));
+                $stmt->bindParam(':leaveProvMax', $this->leaveProvMax);
+            }
      
             // execute the query, also check if query was successful
             if($stmt->execute()){
@@ -189,6 +203,9 @@
        public $leaveUsed;
        public $modifiedBy;
        public $modifiedOn;
+       public $employeeName;
+       public $leaveType;
+       public $key;
     
       
         // constructor
@@ -285,18 +302,18 @@
             $clause = "";
             $con_array = array();
             if(!empty($this->empId)){
-                array_push($con_array, " empId = :empId " );
+                array_push($con_array, " lvst.empId = :empId " );
             }
 
             if(!empty($this->leaveId)){
-               array_push($con_array, " leaveId = :leaveId " );    
+               array_push($con_array, " lvst.leaveId = :leaveId " );    
             }
             if(!empty($this->year)){
-                array_push($con_array, " year = :year " );
+                array_push($con_array, " lvst.year = :year " );
             }
 
             if( count($con_array) > 0 ) {
-                $clause = "WHERE ";
+                $clause = "AND  ( ";
                 foreach ($con_array as $cons) {
                     $con_no++;
                     $clause = $clause . $cons ;
@@ -304,9 +321,17 @@
                         $clause = $clause . " AND " ;
                     }
                 }
+                $clause = $clause . " ) " ;
             }
-    
-            $query = "SELECT * FROM " . $this->table_name . " {$clause} ORDER BY leaveId DESC";
+            
+            $query = "SELECT
+                         e.firstName as employeeName,
+                         l.leaveType as leaveType,
+                         lvst.* FROM employees as e JOIN " . $this->table_name . " 
+                         as lvst ON
+                         e.empId = lvst.empId JOIN
+                         leaves as l  ON
+                         l.leaveId = lvst.leaveId {$clause} ORDER BY leaveId DESC";
             return $query;
 
         }
@@ -332,6 +357,31 @@
                 $stmt->bindParam(':year', $this->year);
             }
            
+            $stmt->execute();
+            return $stmt;
+        }
+
+        // GET ALL
+        public function search(){
+            if(!empty($this->key)){
+                $this->key=htmlspecialchars(strip_tags($this->key));
+                $key = $this->key;
+                $query = "SELECT
+                         e.firstName as employeeName,
+                         l.leaveType as leaveType,
+                         lvst.* FROM employees as e JOIN "   . $this->table_name . " 
+                         as lvst ON
+                         e.empId = lvst.empId JOIN
+                         leaves as l  ON
+                         l.leaveId = lvst.leaveId 
+                         AND ( e.firstName LIKE '{$key}%' OR
+                         e.middleName LIKE '{$key}%' OR e.lastName LIKE '{$key}%' ) LIMIT 0,5";
+            } else {
+                $query = $this->getReadQuery();
+            }
+
+            // prepare the query
+            $stmt = $this->conn->prepare($query);
             $stmt->execute();
             return $stmt;
         }
@@ -386,51 +436,6 @@
             //} while ($row = $stmt->fetch(PDO::FETCH_NUM, PDO::FETCH_ORI_PRIOR));
             
         }
-
-        // Get a employee record
-        public function getSingle(){
-     
-            // if no posted password, do not update the password
-            $query = "SELECT * FROM " . $this->table_name . "
-                      WHERE empId = ? AND leaveId = ? AND year = ?
-                      LIMIT 0,1";
-     
-            // prepare the query
-            $stmt = $this->conn->prepare($query);
-         
-            // sanitize
-            $this->empId = htmlspecialchars(strip_tags($this->empId));
-         
-            // bind given empId value
-            $stmt->bindParam(1, $this->empId);
-            $stmt->bindParam(2, $this->leaveId);
-            $stmt->bindParam(3, $this->year);
-         
-         
-            // execute the query
-            if($stmt->execute()){
-                // get number of rows
-                $num = $stmt->rowCount();
-         
-                if($num>0){
-                    $result = $stmt->fetch(PDO::FETCH_ASSOC);     
-                    
-                    $this->empId        = $result['empId'];
-                    $this->leaveId      = $result['leaveId'];
-                    $this->year         = $result['year'];
-                    $this->leaveCarried = $result['leaveCarried'];
-                    $this->leaveInYear  = $result['leaveInYear'];
-                    $this->leaveUsed    = $result['leaveUsed'];
-                    $this->modifiedBy   = $result['modifiedBy'];
-                    $this->modifiedOn   = $result['modifiedOn'];
-    
-                    return true;
-                } 
-                return false;
-            }
-            return false;
-        }
-
 
         // DELETE
         function delete(){

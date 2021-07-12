@@ -53,6 +53,7 @@
       include "../asserts/footer.php";
       include "insertUser.php";
       include "updateUser.php";
+      include "insertEmp.php";
     ?>
 <script>
     $(document).ready(function () {

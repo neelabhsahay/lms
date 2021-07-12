@@ -34,18 +34,13 @@
  
     // if jwt is not empty
     if($jwt){
- 
         // if decode succeed, show user details
         try {
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
-
-            $lvStatus->leaveId = $data->leaveId;
-            $lvStatus->empId = $data->empId;
-            $lvStatus->year = $data->year;
-            $stmt = $lvStatus->getAll();
+            $lvStatus->key = $data->key;
+            $stmt = $lvStatus->search();
             $itemCount = $stmt->rowCount();
-
 
             if($itemCount > 0){
                 
@@ -86,6 +81,7 @@
                 "error" => $e->getMessage()
             ));
         }
+
     } else {
         // set response code
         http_response_code(401);

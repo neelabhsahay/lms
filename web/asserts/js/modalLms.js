@@ -69,3 +69,38 @@ function handleException(request, message, error) {
      setTimeout(' window.location.href = "http://localhost/lms/web/login.php"; ',100);
   } 
 }
+
+/*
+ * Employee related code
+ */
+
+ // Get all Products to display
+function myInfoDetail() {
+  var jwt = getCookie('jwt');
+  // Call Web API to get a list of Products
+  $.ajax({
+    url: 'http://localhost/lms/api/emp/empmyread.php',
+    type: 'POST',
+    dataType: 'json',
+    data : JSON.stringify({
+        "jwt": jwt
+      }),
+
+    success: function (empInfo) {
+      fillMyInfoForm(empInfo["body"][0]);
+    },
+    error: function (request, message, error) {
+      handleException(request, message, error);
+    }
+  });
+}
+
+function fillMyInfoForm( emp ) {
+  $("#empForm").setFormData(emp);
+  closeModal('empProfilebtn');
+  displayModal('insertEmpModal');
+}
+
+function showEmployeeDetail() {
+  myInfoDetail();
+}

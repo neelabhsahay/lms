@@ -72,7 +72,7 @@
             } else{
                 http_response_code(404);
                 echo json_encode(
-                    array("message" => "No record found." . $data->empId )
+                    array("message" => "No record found." . $emp->empId . " " .$decoded->data->username )
                 );
             }
         }catch (Exception $e){

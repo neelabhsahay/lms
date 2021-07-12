@@ -92,8 +92,8 @@ CREATE TABLE `employee_family` (
 CREATE TABLE `leaves` (
   `leaveId` varchar(20) NOT NULL,
   `leaveType` varchar(30) NOT NULL,
-  `leaveMax` int(11) NOT NULL,
-  `leaveProvMax` int(11) NOT NULL,
+  `leaveMax` int(11) NOT NULL DEFAULT 0,
+  `leaveProvMax` int(11) NOT NULL DEFAULT 0,
   `modifiedOn` TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -104,7 +104,7 @@ CREATE TABLE `leaves` (
 CREATE TABLE `emp_leaves_status` (
   `empId` varchar(30) NOT NULL,
   `leaveId` varchar(20) NOT NULL,
-  `year` int(6) NOT NULL,
+  `year` int(6) NOT NULL DEFAULT 2000,
   `leaveCarried` DECIMAL(20, 2) NOT NULL DEFAULT '0.00',
   `leaveInYear` DECIMAL(20, 2) NOT NULL DEFAULT '0.00',
   `leaveUsed` DECIMAL(20, 2) NOT NULL DEFAULT '0.00',

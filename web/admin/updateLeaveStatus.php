@@ -15,32 +15,47 @@
             <div class="col-md-3 selectContainer">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <input name="empId" id="updateEmpId" placeholder="Employee Name"  class="form-control"  type="text">
+                    <input name="employeeName" placeholder="Employee Name"  class="form-control"  type="text">
                 </div>
             </div>
             <label class="col-md-2 control-label" >Leave Type</label> 
             <div class="col-md-3 inputGroupContainer">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <input name="leaveId" id="updateLeaveId" placeholder="Leave Name" class="form-control"  type="text">
+                    <input name="leaveType" placeholder="Leave Name" class="form-control"  type="text">
                 </div>
             </div>
          </div>
-        
+         <div class="form-group"> 
+            <label class="col-md-2 control-label">Employee Id</label>
+            <div class="col-md-3 selectContainer">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    <input name="empId" placeholder="Employee Id"  class="form-control"  type="text" readonly="true">
+                </div>
+            </div>
+            <label class="col-md-2 control-label" >Leave Id</label> 
+            <div class="col-md-3 inputGroupContainer">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    <input name="leaveId" placeholder="Leave Id" class="form-control"  type="text" readonly="true">
+                </div>
+            </div>
+         </div>
        
           <div class="form-group"> 
             <label class="col-md-2 control-label">Leave Carried</label>
             <div class="col-md-3 selectContainer">
             <div class="input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-            <input name="leaveCarried" id="updateLeaveCarried" placeholder="Leave Carried" class="form-control"  type="number" min="1" max="30" step="0.5">
+            <input name="leaveCarried" placeholder="Leave Carried" class="form-control"  type="number" min="1" max="30" step="0.5">
           </div>
         </div>
          <label class="col-md-2 control-label" >Leave In Year</label> 
             <div class="col-md-3 inputGroupContainer">
             <div class="input-group">
           <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-          <input name="leaveInYear" id="updateLeaveInYear" placeholder="Leave In Year" class="form-control"  type="number" min="1" max="30" step="0.5">
+          <input name="leaveInYear" placeholder="Leave In Year" class="form-control"  type="number" min="1" max="30" step="0.5">
             </div>
           </div>
         </div>
@@ -50,7 +65,7 @@
           <div class="col-md-3 inputGroupContainer">
               <div class="input-group">
                   <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-                  <input name="leaveUsed" id="updateLeaveUsed" class="form-control"  type="number" min="1" max="50" step="0.5">
+                  <input name="leaveUsed" class="form-control"  type="number" min="1" max="50" step="0.5">
               </div>
           </div>
           <label class="col-md-2 control-label" >Year</label> 
@@ -58,9 +73,9 @@
               <div class="input-group">
                   <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
                   <input
+                      name="year"
                       type="text"
                       class="yearpicker form-control"
-                      value=""
                     />
               </div>
           </div>

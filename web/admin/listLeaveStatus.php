@@ -11,7 +11,7 @@
          	<div class="col-md-3 selectContainer">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-                    <input name="searchLeave" id="searchLeave" onkeyup="myFunction()" placeholder="Search for names.."  class="form-control"  type="text">
+                    <input name="searchEmp" onkeyup="searchEmployee(this.value)" placeholder="Search for names.."  class="form-control"  type="text">
                 </div>
             </div>
             <div class="col-md-9 selectContainer">
@@ -26,12 +26,10 @@
                     <table id="lvStTable" class="table table-bordered table-condensed table-striped">
                        <thead>
                         <tr>
-                          <th>Emp Id</th>
-                          <th>Name</th>
-                          <th>Location</th>
-                          <th>Manager</th>
-                          <th>Contact</th>
-                          <th>E-Mail</th>
+                          <th>Employee Name</th>
+                          <th>Leave Type</th>
+                          <th>Max Leave</th>
+                          <th>Max Prov. Leave</th>
                           <th>Action</th>
                         </tr>
                       </thead>

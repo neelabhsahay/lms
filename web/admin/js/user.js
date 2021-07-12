@@ -41,6 +41,28 @@ function userDetail( usr ) {
   });
 }
 
+function updateUserAjax( userInfo ) {
+  var jwt = getCookie('jwt');
+  userInfo['jwt'] = jwt;
+  console.log(JSON.stringify(userInfo));
+  // Call Web API to get a list of Products
+  $.ajax({
+    url: 'http://localhost/lms/api/admin/usrscreate.php',
+    type: 'POST',
+    dataType: 'json',
+    data : JSON.stringify(userInfo),
+
+    success: function (response) {
+      BootstrapDialog.alert("Inserted Successfully.");
+      document.getElementById("userForm").reset();
+      closeModal('insertUserModal');
+    },
+    error: function (request, message, error) {
+      handleException(request, message, error);
+    }
+  });
+}
+
 // Display all Products returned from Web API call
 function usrListSuccess(products) {
   // Iterate over the collection of data
@@ -107,8 +129,7 @@ function viewUser(id) {
 }
 
 function insertUser() {
-  var datastring = $("#userForm").serialize();
-  datajson = JSON.stringify(datastring);
-  console.log(datajson);
+  var dataObj = $("#userForm").serializeFormJSON();
+  confirmAndExecute( updateUserAjax, dataObj, "update employee");
   return false;
 }

@@ -53,7 +53,13 @@
       include "../asserts/footer.php";
       include "insertLeaveStatus.php";
       include "updateLeaveStatus.php";
+      include "insertEmp.php";
     ?>
+<script>
+    $(document).ready(function () {
+        loadListLeaveStatus();
+    });
+</script>
 </body>
 
 </html>

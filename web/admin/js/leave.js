@@ -43,7 +43,7 @@ function leaveDetail( leaveId ) {
 function insertLeaveAjax( leaveInfo ) {
   var jwt = getCookie('jwt');
   leaveInfo['jwt'] = jwt;
-  console.log(JSON.stringify(leaveInfo));
+  //BootstrapDialog.alert(JSON.stringify(leaveInfo));
   // Call Web API to get a list of Products
   $.ajax({
     url: 'http://localhost/lms/api/admin/leavecreate.php',
@@ -54,6 +54,8 @@ function insertLeaveAjax( leaveInfo ) {
     success: function (leaves) {
       BootstrapDialog.alert("Inserted Successfully.");
       document.getElementById("leaveForm").reset();
+      loadListLeave();
+      closeModal( "insertLeaveModal" );
     },
     error: function (request, message, error) {
       handleException(request, message, error);
@@ -74,6 +76,8 @@ function updateLeaveAjax( leaveInfo ) {
 
     success: function (leaves) {
       BootstrapDialog.alert("Updated Successfully.");
+      loadListLeave();
+      closeModal( "updateLeaveModal" );
     },
     error: function (request, message, error) {
       handleException(request, message, error);

@@ -52,6 +52,7 @@
       include "../asserts/footer.php";
       include "insertLeave.php";
       include "updateLeave.php";
+      include "insertEmp.php";
     ?>
 <script>
     $(document).ready(function () {

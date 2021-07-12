@@ -1,26 +1,24 @@
 <div class="container">
     <div class="well form-horizontal listbody">
-        <fieldset>
-
         <!-- Form Name -->
         <legend><center><h2><b>Employees</b></h2></center></legend><br>
 
         <!-- Text input-->
-
-         <div class="form-group"> 
-         	<div class="col-md-3 selectContainer">
+        <div class="form-group"> 
+            <div class="col-md-3 selectContainer">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-                    <input name="searchLeave" id="searchLeave" onkeyup="myFunction()" placeholder="Search for names.."  class="form-control"  type="text">
+                    <input name="searchEmp" onkeyup="searchEmployee(this.value)" placeholder="Search for names.."  class="form-control"  type="text">
                 </div>
             </div>
             <div class="col-md-9 selectContainer">
                 <div class="input-group">
-                    <button class="btn btn-primary float-right" type="submit" onclick="displayModal('insertEmpModal')">Add Employee</button>
+                    <button class="btn btn-primary float-right" type="submit" onclick="addNewEmployee()">Add Employee</button>
                 </div>
             </div>
         </div>
-        <div class="form-group"> 
+         
+        <div class="form-group" style="position:relative;"> 
             <div class="col-md-12 selectContainer">
                 <div class="input-group">
                     <table id="empTable" class="table table-bordered table-condensed table-striped">
@@ -41,7 +39,7 @@
            
         </div>
         <!--        Start Pagination -->
-        <div class='pagination-container' >
+        <div class='pagination-container' style="position:sticky;">
             <nav>
               <ul class="pagination">
                <li data-page="prev" >
@@ -54,6 +52,6 @@
               </ul>
             </nav>
         </div>
-</fieldset>
-</div>
+        
+    </div>
 </div>

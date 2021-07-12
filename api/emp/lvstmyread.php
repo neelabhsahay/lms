@@ -44,7 +44,7 @@
             $lvStatus->empId = $decoded->data->empId;;
             $lvStatus->year = $data->year;
 
-            if($lvStatus->getSingle()){
+            if($lvStatus->getAll()){
                 
                 $lvStatusArr = array();
                 $lvStatusArr["body"] = array();

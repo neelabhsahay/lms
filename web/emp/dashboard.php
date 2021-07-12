@@ -40,23 +40,21 @@
     <div class="card_body">
         <?php
             include "../asserts/header.php";
-            include "../asserts/sidebar.php";
+            include "../asserts/empSidebar.php";
         ?>
         <div class="container-fluid">
           <?php
-            include "listUser.php";
             
           ?>
         </div>
     </div>
     <?php
       include "../asserts/footer.php";
-      include "insertUser.php";
-      include "updateUser.php";
+      include "../admin/insertEmp.php";
     ?>
 <script>
     $(document).ready(function () {
-        loadListUser();
+        //loadListUser();
     });
 </script>
 </body>

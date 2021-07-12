@@ -330,7 +330,7 @@ $light-bg = #777;
 }
 
 
-/* Remove it if not required
+/* Employee Form
 */
 .profile-button {
     background: rgb(99, 39, 120);
@@ -366,4 +366,44 @@ $light-bg = #777;
     color: #fff;
     cursor: pointer;
     border: solid 1px #BA68C8
+}
+
+/*
+ * Search options result
+ */
+.searchResult {
+    width:100%;
+    line-height:1;
+    color:#555;
+    background-color:#fff;
+    background-image:none;
+    border:1px solid #ccc;
+    border-radius:4px;
+}
+.seachResultItem {
+   width : 100%;
+   height:34px;
+   font-size: 2rem;
+   border-bottom: 1px solid #ccc;
+}
+.seachResultItem:hover:not(.active) {
+  background: rgba(000, 125, 125, .7);
+  background: linear-gradient(90deg, rgba(000, 125, 255, .7) 0, rgba(125, 125, 255, .7) 58%);
+  -webkit-backdrop-filter: blur(10px);
+  cursor: pointer;
+  align-text: right;
+}
+
+.seachResultItem a {
+  z-index: 1; /* Stay on top */
+}
+
+.seachResultItem a:hover:not(.active) {
+  color: black;
+  
+}
+
+.floatAboveEverything {
+  z-index: 1000; // or any value higher than your other elements
+  position: sticky;
 }

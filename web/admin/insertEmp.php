@@ -31,7 +31,8 @@
                                     </div>
                                     <div class="col-md-12">
                                         <label class="labels">Manager Name</label>
-                                        <input name="managerName" type="text" class="form-control" placeholder="enter manger name"     value="        ">
+                                        <input name="managerName" type="text" class="form-control" placeholder="enter manger name" onkeyup="searchManager(this.value)">
+                                        <label id="searchedMgr" class="searchResult"></label>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="labels">Phone Number</label>
@@ -55,15 +56,15 @@
                                 <div class="row mt-3">
                                     <div class="col-md-6">
                                         <label class="labels">Manager</label>
-                                        <input name="manager" type="text" class="form-control" placeholder="country" readonly="    true">
+                                        <input name="manager" type="text" class="form-control" placeholder="manager id" >
                                     </div>
                                     <div class="col-md-6">
                                         <label class="labels">Employee ID</label>
-                                        <input name="empId" type="text" class="form-control" value="" placeholder="enter employee     id">
+                                        <input name="empId" type="text" class="form-control" value="" placeholder="enter employee id">
                                     </div>
                                 </div>
-                                <div class="mt-5 text-center">
-                                    <button class="btn btn-primary profile-button" type="submit">Save Profile</button></div>
+                                <div class="mt-5 text-center" id="empProfilebtn" style="display: none;">
+                                    <button class="btn btn-primary profile-button" type="submit" >Save Profile</button></div>
                             </div>
                         </div>
                         <div class="col-md-4">

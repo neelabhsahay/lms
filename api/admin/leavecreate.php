@@ -49,14 +49,13 @@
             if( !empty($leave->leaveId) &&
                 !empty($leave->leaveType) &&
                 !empty($leave->leaveMax) &&
-                !empty($leave->leaveProvMax) &&
                 $leave->create()
               ){
                 // set response code
                 http_response_code(200);
              
                 // display message: user was created
-                echo json_encode(array("message" => "Leave record was inserted."));
+                echo json_encode(array("message" => "Leave record was inserted." ));
             } else {
              
                 // set response code
