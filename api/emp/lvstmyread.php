@@ -44,28 +44,37 @@
             $lvStatus->empId = $decoded->data->empId;;
             $lvStatus->year = $data->year;
 
-            if($lvStatus->getAll()){
+            $stmt = $lvStatus->getAll();
+            $itemCount = $stmt->rowCount();
+
+
+            if($itemCount > 0){
                 
                 $lvStatusArr = array();
                 $lvStatusArr["body"] = array();
-                $lvStatusArr["itemCount"] = 1;
+                $lvStatusArr["itemCount"] = $itemCount;
         
-                $e = array(
-                    "leaveId"      => $lvStatus->leaveId,
-                    "empId"        => $lvStatus->empId,
-                    "year"         => $lvStatus->year,
-                    "leaveCarried" => $lvStatus->leaveCarried,
-                    "leaveInYear"  => $lvStatus->leaveInYear,
-                    "leaveUsed"    => $lvStatus->leaveUsed,
-                    "modifiedBy"   => $lvStatus->modifiedBy,
-                    "modifiedOn"   => $lvStatus->modifiedOn
-                );
-                array_push($lvStatusArr["body"], $e);
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                    $e = array(
+                        "leaveId"      => $row['leaveId'],
+                        "empId"        => $row['empId'],
+                        "year"         => $row['year'],
+                        "leaveCarried" => $row['leaveCarried'],
+                        "leaveInYear"  => $row['leaveInYear'],
+                        "leaveUsed"    => $row['leaveUsed'],
+                        "modifiedBy"   => $row['modifiedBy'],
+                        "modifiedOn"   => $row['modifiedOn'],
+                        "employeeName" => $row['employeeName'],
+                        "leaveType"    => $row['leaveType']
+                    );
+        
+                    array_push($lvStatusArr["body"], $e);
+                }
                 echo json_encode($lvStatusArr);
             } else{
                 http_response_code(404);
                 echo json_encode(
-                    array("message" => "No record found for " . $lvStatus->leaveId . ", " .$lvStatus->empId. " and " .$lvStatus->year)
+                    array("message" => "No record found.")
                 );
             }
         }catch (Exception $e){

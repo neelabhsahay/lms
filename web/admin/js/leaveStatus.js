@@ -95,7 +95,7 @@ function lvStInfo(lvsts) {
 // Add Product row to <table>
 function lvStAddRow(lvst) {
   // First check if a <tbody> tag exists, add one if not
-  if ($("#empTable tbody").length == 0) {
+  if ($("#lvStTable tbody").length == 0) {
     $("#lvStTable").append("<tbody></tbody>");
   }
   // Append row to <table>
@@ -111,7 +111,6 @@ function lvStTableRow(lvst) {
           row = row +  "<td>" + lvst.leaveCarried + "</td>";
           row = row +  "<td>" + lvst.leaveInYear + "</td>";
           row = row +  "<td>" + lvst.leaveUsed + "</td>";
-          row = row +  "<td>" + lvst.modifiedBy + "</td>";
           row = row +  "<td >";
           row = row +  "<button value='" + lvst.leaveId + "+" + lvst.empId + "+" + lvst.year +"'";
           row = row +  "class='btn btn-primary edit-item' onclick='viewLeaveStatus(this.value)'>Edit</button>";

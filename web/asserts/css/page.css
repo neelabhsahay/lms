@@ -264,7 +264,7 @@ $light-bg = #777;
   z-index: 1; /* Sit on top */
   padding-top: 100px; /* Location of the box */
   left: 0;
-  top: 20px;
+  top: 40px;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
@@ -406,4 +406,45 @@ $light-bg = #777;
 .floatAboveEverything {
   z-index: 1000; // or any value higher than your other elements
   position: sticky;
+}
+
+
+#calendar {
+    max-width: 1100px;
+    margin: 0 auto;
+    height: 500px;
+    width: 600px;
+  }
+
+.modal-form-calender {
+
+  position: fixed; /* Stay in place */
+  
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 40px;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  border-radius: 15px;
+}
+
+
+textarea {
+    resize: none;
+}
+
+.leave_box {
+  display: none;
+  height: 120px;
+  width: 180px;
+  background: rgba(000, 125, 125, .7);
+  background: linear-gradient(90deg, rgba(000, 125, 255, .7) 0, rgba(125, 125, 255, .7) 58%);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 15px;
+  font-size: 25px;
+}
+
+.leave_box a {
+  font-size: 40px;
 }

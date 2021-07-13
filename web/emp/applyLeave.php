@@ -1,7 +1,7 @@
-<div id="insertEmpModal" class="modal-form">
+<div id="applyLeaveModal" class="modal-form">
     <div class="modal-form-content">
         <div class="container">
-            <span class="modal-form-close" onclick="closeModal('insertEmpModal')">&times;</span>
+            <span class="modal-form-close" onclick="closeModal('applyLeaveModal')">&times;</span>
             <div class="container rounded bg-white mt-5 mb-5">
                 <div class="row">
                     <form  action=" " method="post"  id="empForm" onsubmit="return insertEmp()">
@@ -66,6 +66,13 @@
                                 <div class="mt-5 text-center" id="empProfilebtn" style="display: none;">
                                     <button class="btn btn-primary profile-button" type="submit" >Save Profile</button>
                                 </div>
+                            </div>
+                            <div class="mt-5 text-center"  >
+                                <label class="labels">Reason of Leave</label>
+                                <textarea id="reason" name="reason" class="form-control" maxlength="400"></textarea>
+                            </div>
+                            <div class="mt-5 text-center"  >
+                                <button class="btn btn-primary profile-button" type="submit" >Apply Leave</button>
                             </div>
                         </div>
                         <div class="col-md-4">

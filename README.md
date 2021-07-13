@@ -27,3 +27,8 @@ At present we install something line this:
                               +--/api
                               |
                               +--/web
+
+
+Few Open Source libraries used:
+1. FullCalendar :: https://fullcalendar.io
+2. BootstrapDialog :: From Bootstrap

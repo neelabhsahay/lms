@@ -20,7 +20,6 @@
  <script type= "text/javascript" src= "//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
  <script type= "text/javascript" src= "//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
- <script type= "text/javascript" src= "//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js"></script>
  <script type= "text/javascript" src= "//cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/1.8/js/bootstrap-switch.min.js"></script>
 
 
@@ -35,6 +34,10 @@
 
  <!-- Material Design Iconic Font CSS -->
   <link rel="stylesheet" href="../asserts/css/material-design-iconic-font.min.css">
+
+  <link href='../asserts/lib/main.css' rel='stylesheet' />
+  <script src='../asserts/lib/main.js'></script>
+  <script src='js/applyLeave.js'></script>
 </head>
 <body>
     <div class="card_body">
@@ -44,19 +47,23 @@
         ?>
         <div class="container-fluid">
           <?php
-            
+             include "listAppliedLeave.php"
           ?>
         </div>
     </div>
     <?php
       include "../asserts/footer.php";
       include "../admin/insertEmp.php";
+      include "applyLeave.php"
     ?>
 <script>
     $(document).ready(function () {
         //loadListUser();
+        loadCalendar();
+        loadMyLeave();
     });
 </script>
+
 </body>
 
 </html>
