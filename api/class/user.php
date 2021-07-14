@@ -31,6 +31,25 @@
      
         // create new employee record
         public function create(){
+
+            $getIdQuery = "SELECT empId FROM " . $this->table_name . "
+               ORDER BY empId DESC LIMIT 0,1";
+            // prepare the getIdQuery
+            $stmt = $this->conn->prepare($getIdQuery);
+            $stmt->execute();
+            // get number of rows
+            $num = $stmt->rowCount();
+
+            if($num > 0 ){
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);     
+                $eId = $result['empId'];
+                $num = trim($eId , "EN");
+                $num = $num + 1;
+                $this->empId = "EN" . sprintf("%04d", $num);
+            } else {
+                $this->empId = "EN0001";
+            }
+
             // insert query
             $query = "INSERT INTO " . $this->table_name . "
                       SET

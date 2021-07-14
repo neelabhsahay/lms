@@ -20,6 +20,24 @@
     
         // create new Leave record
         function create(){
+            $getIdQuery = "SELECT leaveId FROM " . $this->table_name . "
+               ORDER BY leaveId DESC LIMIT 0,1";
+            // prepare the getIdQuery
+            $stmt = $this->conn->prepare($getIdQuery);
+            $stmt->execute();
+            // get number of rows
+            $num = $stmt->rowCount();
+
+            if($num > 0 ){
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);     
+                $eId = $result['leaveId'];
+                $num = trim($eId , "LV");
+                $num = $num + 1;
+                $this->leaveId = "LV" . sprintf("%04d", $num);
+            } else {
+                $this->leaveId = "LV0001";
+            }
+
             $leaveProvMax_set=!empty($this->leaveProvMax) ? ", leaveProvMax = :leaveProvMax" : "";
             // insert query
             $query = "INSERT INTO " . $this->table_name . "

@@ -39,7 +39,6 @@
             $decoded = JWT::decode($jwt, $key, array('HS256'));
             
             // set employee 
-            $emp->empId = $data->empId;
             $emp->firstName = $data->firstName;
             $emp->middleName = $data->middleName;
             $emp->lastName = $data->lastName;
@@ -65,7 +64,7 @@
                 http_response_code(200);
              
                 // display message: user was created
-                echo json_encode(array("message" => "Employee record was inserted."));
+                echo json_encode(array("message" => "Employee record was inserted for " . $emp->empId ));
             } else {
              
                 // set response code

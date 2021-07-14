@@ -24,6 +24,7 @@
     
     // instantiate product object
     $lvRequest = new LeaveRequest($db);
+    $lvStatus  = new LeaveStatus($db);
     
     // get posted data
     $data = json_decode(file_get_contents("php://input"));
@@ -36,41 +37,72 @@
          try {
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
-            // set product property values
-            $lvRequest->leaveId     = $data->leaveId;
-            $lvRequest->empId       = $decoded->data->empId;
-            $lvRequest->appliedBy   = $data->appliedBy;
-            $lvRequest->appliedDate = $data->appliedDate;
-            $lvRequest->leaveDays   = $data->leaveDays;
-            $lvRequest->startDate   = $data->startDate;
-            $lvRequest->endDate     = $data->endDate;
-            $lvRequest->reason      = $data->reason;
-            $lvRequest->status      = $data->status;
-            $lvRequest->approver    = $data->approver;
-            
-            // create the leave request
             if( !empty($lvRequest->leaveId) &&
-                !empty($lvRequest->empId) &&
                 !empty($lvRequest->appliedBy) &&
                 !empty($lvRequest->appliedDate) &&
                 !empty($lvRequest->leaveDays) &&
                 !empty($lvRequest->startDate) &&
                 !empty($lvRequest->endDate) &&
-                !empty($lvRequest->approver) &&
-                $lvRequest->create()
-            ){
-                // set response code
-                http_response_code(200);
-             
-                // display message: user was created
-                echo json_encode(array("message" => "Leave Request record was inserted."));
-            } else{
-             
-                // set response code
-                http_response_code(400);
-             
-                // display message: unable to create user
-                echo json_encode(array("message" => "Unable to insert leave request record."));
+                !empty($lvRequest->approver)
+              ) {
+                // Get the number of leave avaliable
+                $lvStatus->leaveId     = $data->leaveId;
+                $lvStatus->empId       = $decoded->data->empId;
+                $lvStatus->year        = date('Y', strtotime($data->startDate));
+
+                $stmt = $lvStatus->getAll();
+                $itemCount = $stmt->rowCount();
+                $lc = 0;
+                $lp = 0;
+                $lu = 0;
+
+                if($itemCount > 0){
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                        $lc =  $row['leaveCarried'];
+                        $lp =  $row['leaveInYear'];
+                        $lu =  $row['leaveUsed'];
+                    }
+                }
+
+                $tlv = $lc + $lp;
+                $tlv = $tlv - $lu;
+                if( $tlv < $data->leaveDays ) {
+                    // set response code
+                    http_response_code(200);
+                    echo json_encode(array("message" => "Not sufficient leave avaiable.",
+                                           "status" => "failed"));
+                } else {          
+                    // set product property values
+                    $lvRequest->leaveId     = $data->leaveId;
+                    $lvRequest->empId       = $decoded->data->empId;
+                    $lvRequest->appliedBy   = $data->appliedBy;
+                    $lvRequest->appliedDate = $data->appliedDate;
+                    $lvRequest->leaveDays   = $data->leaveDays;
+                    $lvRequest->startDate   = $data->startDate;
+                    $lvRequest->endDate     = $data->endDate;
+                    $lvRequest->reason      = $data->reason;
+                    $lvRequest->status      = $data->status;
+                    $lvRequest->approver    = $data->approver;
+                    
+                    // create the leave request
+                    if( $lvRequest->create()
+                    ){
+                        // set response code
+                        http_response_code(200);
+                     
+                        // display message: user was created
+                        echo json_encode(array("message" => "Leave Request record was inserted.",
+                                               "status" => "passed"));
+                    } else{
+                     
+                        // set response code
+                        http_response_code(400);
+                     
+                        // display message: unable to create user
+                        echo json_encode(array("message" => "Unable to insert leave request record.",
+                                               "status" => "failed"));
+                    }
+                }
             }
         } catch (Exception $e) {
             // set response code
