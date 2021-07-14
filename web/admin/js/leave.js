@@ -1,45 +1,3 @@
-// Get all Products to display
-function leaveList() {
-  var jwt = getCookie('jwt');
-  // Call Web API to get a list of Products
-  $.ajax({
-    url: 'http://localhost/lms/api/emp/leaveread.php',
-    type: 'POST',
-    dataType: 'json',
-    data : JSON.stringify({
-      "jwt": jwt
-    }),
-    success: function (leaves) {
-      leaveInfo(leaves["body"]);
-    },
-    error: function (request, message, error) {
-      handleException(request, message, error);
-    }
-  });
-}
-
-// Get all Products to display
-function leaveDetail( leaveId ) {
-  var jwt = getCookie('jwt');
-  // Call Web API to get a list of Products
-  $.ajax({
-    url: 'http://localhost/lms/api/emp/leavesigread.php',
-    type: 'POST',
-    dataType: 'json',
-    data : JSON.stringify({
-        "leaveId": leaveId,
-        "jwt": jwt
-      }),
-
-    success: function (leaves) {
-      fillLeaveForm(leaves["body"][0]);
-    },
-    error: function (request, message, error) {
-      handleException(request, message, error);
-    }
-  });
-}
-
 function insertLeaveAjax( leaveInfo ) {
   var jwt = getCookie('jwt');
   leaveInfo['jwt'] = jwt;
@@ -123,16 +81,21 @@ function clearLeaveTableRow() {
 
 
 function fillLeaveForm( leave ) {
-  $("#upLeaveForm").setFormData(leave);
+  $("#upLeaveForm").setFormData(leave[0]);
 }
 
 function loadListLeave() {
   clearLeaveTableRow();
-  leaveList();
+  var jsonInput = {
+  };
+  leaveListAJAX(jsonInput, leaveInfo, false);
 }
 
 function viewLeave(id) {
-  leaveDetail(id);
+  var jsonInput = {
+    "leaveId" : id
+  };
+  leaveListAJAX(jsonInput, fillLeaveForm, false);
   displayModal( "updateLeaveModal" );
 }
 

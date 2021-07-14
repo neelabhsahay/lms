@@ -1,7 +1,7 @@
 <div id="updateEmpModal" class="modal-form">
     <div class="modal-form-content">
         <div class="container">
-            <span class="modal-form-close" onclick="closeModal('updateEmpModal')">&times;</span>
+            <span class="modal-form-close" onclick="closeDisplayForm('updateEmpModal', 'upEmpForm')">&times;</span>
             <div class="container rounded bg-white mt-5 mb-5">
                 <div class="row">
                     <form  action=" " method="post"  id="upEmpForm" onsubmit="return updateEmp()">

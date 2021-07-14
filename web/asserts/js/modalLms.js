@@ -12,22 +12,6 @@ function showLoginPage() {
   setTimeout(' window.location.href = "http://localhost/lms/web/login.php"; ',100);
 }
 
-/*
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  var modalEmp = document.getElementById("insertEmpModal");
-  var modalLeave = document.getElementById("insertLeaveModal");
-  var modalLeaveStatus = document.getElementById("insertLeaveStatusModal");
-  if (event.target == modalEmp ||
-      event.target == modalLeave ||
-      event.target == modalLeaveStatus) {
-    modalEmp.style.display = "none";
-    modalLeave.style.display = "none";
-    modalLeaveStatus.style.display = "none";
-  }
-}
-*/
-
 function confirmAndExecute( functionName, dataObj, msg ) {
      var message = 'Do you want to ' + msg + '?';
      BootstrapDialog.confirm({
@@ -70,37 +54,25 @@ function handleException(request, message, error) {
   } 
 }
 
+function closeDisplayForm( modalId, formId ) {
+    closeModal(modalId);
+    document.getElementById(formId).reset();
+}
+
 /*
  * Employee related code
  */
 
- // Get all Products to display
-function myInfoDetail() {
-  var jwt = getCookie('jwt');
-  // Call Web API to get a list of Products
-  $.ajax({
-    url: 'http://localhost/lms/api/emp/empmyread.php',
-    type: 'POST',
-    dataType: 'json',
-    data : JSON.stringify({
-        "jwt": jwt
-      }),
-
-    success: function (empInfo) {
-      fillMyInfoForm(empInfo["body"][0]);
-    },
-    error: function (request, message, error) {
-      handleException(request, message, error);
-    }
-  });
-}
+ 
 
 function fillMyInfoForm( emp ) {
-  $("#empForm").setFormData(emp);
+  $("#empForm").setFormData(emp[0]);
   closeModal('empProfilebtn');
   displayModal('insertEmpModal');
 }
 
 function showEmployeeDetail() {
-  myInfoDetail();
+    var jsonInput = {
+    };
+    myInfoDetailAJAX(jsonInput, fillMyInfoForm, false );
 }

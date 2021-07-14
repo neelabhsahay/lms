@@ -26,6 +26,7 @@
 
   <!-- My scripts and css -->
 <script type="text/javascript" src="../asserts/js/modalLms.js"></script>
+<script type="text/javascript" src="../asserts/js/myAjax.js"></script>
 <script type="test/javascript" src="../asserts/js/yearpicker.js"></script>
 <script type="text/javascript" src="../asserts/js/cookie.js" > </script>
 <script type="text/javascript" src="js/user.js"></script>

@@ -1,7 +1,7 @@
 <div id="insertUserModal" class="modal-form">
     <div class="modal-form-content">
         <div class="container">
-    <span id="insertLeaveClose" onclick="closeModal('insertUserModal')" class="modal-form-close">&times;</span>
+    <span id="insertLeaveClose" onclick="closeDisplayForm('insertUserModal', 'userForm')" class="modal-form-close">&times;</span>
     <form class="well form-horizontal" action=" " method="post"  id="userForm" onsubmit="return insertUser()">
         <fieldset>
 

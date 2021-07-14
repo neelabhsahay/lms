@@ -1,7 +1,7 @@
 <div id="updateLeaveStatusModal" class="modal-form">
     <div class="modal-form-content">
         <div class="container">
-    <span class="modal-form-close" onclick="closeModal('updateLeaveStatusModal')">&times;</span>
+    <span class="modal-form-close" onclick="closeDisplayForm('updateLeaveStatusModal', 'upLeaveStatusForm')">&times;</span>
     <form class="well form-horizontal" action=" " method="post"  id="upLeaveStatusForm" onsubmit="return updateLeaveStatus()">
         <fieldset>
 

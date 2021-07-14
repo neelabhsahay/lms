@@ -1,47 +1,3 @@
-
-
-// Get all Products to display
-function empList() {
-  var jwt = getCookie('jwt');
-  // Call Web API to get a list of Products
-  $.ajax({
-    url: 'http://localhost/lms/api/emp/empread.php',
-    type: 'POST',
-    dataType: 'json',
-    success: function (emps) {
-      empInfo(emps["body"]);
-    },
-    data : JSON.stringify({
-        "jwt": jwt
-      }),
-    error: function (request, message, error) {
-      handleException(request, message, error);
-    }
-  });
-}
-
-// Get all Products to display
-function empDetail( empId ) {
-  var jwt = getCookie('jwt');
-  // Call Web API to get a list of Products
-  $.ajax({
-    url: 'http://localhost/lms/api/emp/empread.php',
-    type: 'POST',
-    dataType: 'json',
-    data : JSON.stringify({
-        "empId": empId,
-        "jwt": jwt
-      }),
-
-    success: function (empId) {
-      fillEmpForm(empId["body"][0]);
-    },
-    error: function (request, message, error) {
-      handleException(request, message, error);
-    }
-  });
-}
-
 function insertEmpAjax( empInfo ) {
   var jwt = getCookie('jwt');
   empInfo['jwt'] = jwt;
@@ -88,50 +44,20 @@ function updateEmpAjax( empInfo ) {
   });
 }
 
-// Get all Products to display
-function searchEmp( empStr ) {
-  if( empStr.length == 0 ) {
-    return;
-  }
-  var jwt = getCookie('jwt');
-  // Call Web API to get a list of Products
-  $.ajax({
-    url: 'http://localhost/lms/api/emp/empsearch.php',
-    type: 'POST',
-    dataType: 'json',
-    data : JSON.stringify({
-        "key": empStr,
-        "jwt": jwt
-      }),
-
-    success: function (searchResult) {
-      fillSearchInput(searchResult["body"] );
-    },
-    error: function (request, message, error) {
-      if( request.status == "404" ) {
-          fillSearchInput("" );
-      } else {
-          handleException(request, message, error);
-      }
-    }
-  });
-}
-
-function empInfo(emps) {
+function empInfos(emps) {
   $.each(emps, function (index, emp) {
     // Add a row to the table
     empAddRow(emp);
   });
 }
 
-function fillSearchInput( result) {
-   clearEmpTableRow();
-   if( result.length != 0 ) {
-      $.each(result, function (index, emp) {
-          empAddRow(emp);
-      });
-  }
-  //elem.innerHTML = row;
+function fillEmpSearchOutput( result) {
+    clearEmpTableRow();
+    if( result.length != 0 ) {
+        $.each(result, function (index, emp) {
+           empAddRow(emp);
+        });
+    }
 }
 
 // Add Product row to <table>
@@ -153,7 +79,7 @@ function empTableRow(emp) {
       row = row +          emp.middleName + " ";
       row = row +          emp.lastName + "</td>";
       row = row + "<td>" + emp.location + "</td>";
-      row = row + "<td>" + emp.manager + "</td>";
+      row = row + "<td>" + emp.managerName + "</td>";
       row = row + "<td>" + emp.contact + "</td>";
       row = row + "<td>" + emp.email + "</td>" ;
       row = row + "<td >";
@@ -170,12 +96,14 @@ function clearEmpTableRow() {
 
 function loadListEmp() {
   clearEmpTableRow();
-  empList();
+  var jsonInput = {
+  };
+  getEmployeeAJAX(jsonInput, empInfos, false);
 }
 
 
 function fillEmpForm( emp ) {
-  $("#upEmpForm").setFormData(emp);
+  $("#upEmpForm").setFormData(emp[0]);
 }
 
 function clearEmpForm() {
@@ -184,7 +112,10 @@ function clearEmpForm() {
 
 function viewEmp(id) {
   clearEmpForm();
-  empDetail(id);
+  var jsonInput = {
+      "empId": id
+  };
+  getEmployeeAJAX(jsonInput, fillEmpForm, false);
   displayModal( "updateEmpModal" );
 }
 
@@ -202,11 +133,50 @@ function updateEmp() {
 
 function searchEmployee( empStr ) {
   if( empStr.length != 0 ) {
-      searchEmp(empStr );
+      var jsonInput = {
+            "key": empStr
+        };
+      searchEmployeeAJAX(jsonInput, fillEmpSearchOutput, true );
   }
 }
 
 function addNewEmployee() {
   displayModal('empProfilebtn');
   displayModal('insertEmpModal');
+}
+
+function fillMgrSearchOutput( result ) {
+    var div = document.getElementById("searchedMgr");
+    
+    if( result.length != 0 ) {
+        div.style.display = "block";
+        var disp = "";
+        $.each(result, function (index, emp) {
+           var name = emp.firstName + " " + emp.lastName;
+           disp = disp + "<div class='seachResultItem' id='" +
+                  emp.empId + "' onclick='selectMgr(this.id, this.value )' value='"+ name +"'><a>" + name + "</a></div>";
+        });
+        div.innerHTML = disp;
+    } else {
+        div.style.display = "none";
+    }
+}
+
+function selectMgr( mgrId, mgrName ) {
+  var mgrName = document.getElementById(mgrId).getAttribute("value");
+  document.getElementById("searchedMgr").style.display = "none";
+  document.getElementById("managerId").value = mgrId;
+  document.getElementById("managerName").value =  mgrName;
+
+}
+
+function searchManager( mgrStr ) {
+    if( mgrStr.length != 0 ) {
+        var jsonInput = {
+            "key": mgrStr
+        };
+      searchEmployeeAJAX(jsonInput, fillMgrSearchOutput, true );
+     } else {
+        document.getElementById("searchedMgr").style.display = "none";
+     }
 }

@@ -60,8 +60,8 @@
                             "empRole"      => $emp->empRole,
                             "empType"      => $emp->empType,
                             "empStatus"    => $emp->empStatus,
-                            "manager"    => $emp->manager,
-                            "managerName"      => $emp->managerName,
+                            "manager"      => $emp->manager,
+                            "managerName"  => $emp->managerName,
                             "departmentId" => $emp->departmentId,
                             "modifiedOn"   => $emp->modifiedOn
                         );
@@ -89,8 +89,8 @@
                             "firstName"    => $row['firstName'],
                             "middleName"   => $row['middleName'],
                             "lastName"     => $row['lastName'],
-                            "manager  "    => $row['manager'],
-                            "managerName"  => $row['ManagerName'],
+                            "manager"      => $row['manager'],
+                            "managerName"  => $row['managerName'],
                             "departmentId" => $row['departmentId'],
                             "email"        => $row['email'],
                             "contact"      => $row['contact'],

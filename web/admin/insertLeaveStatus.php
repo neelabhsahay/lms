@@ -1,7 +1,7 @@
 <div id="insertLeaveStatusModal" class="modal-form">
     <div class="modal-form-content">
         <div class="container">
-    <span class="modal-form-close" onclick="closeModal('insertLeaveStatusModal')">&times;</span>
+    <span class="modal-form-close" onclick="closeDisplayForm('insertLeaveStatusModal', 'leaveStatusForm')">&times;</span>
     <form class="well form-horizontal" action=" " method="post"  id="leaveStatusForm">
         <fieldset>
 
@@ -15,14 +15,18 @@
             <div class="col-md-3 selectContainer">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <input name="employeeName" placeholder="Employee Name"  class="form-control"  type="text">
+                    <input id="lvstEmployeeName" name="employeeName" placeholder="Employee Name" class="form-control" type="text" onkeyup="searchEmpForLeave(this.value)">
+                    
                 </div>
+                <label id="searchedEmp" class="searchResult"></label>
             </div>
             <label class="col-md-2 control-label" >Leave Type</label> 
             <div class="col-md-3 inputGroupContainer">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <input name="leaveTypw" placeholder="Leave Name" class="form-control"  type="text">
+                    <select id="lvstLeaveId" name="leaveId" placeholder="Leave Name" class="form-control" type="select" >
+                        <option value="">Select Leave</option>
+                    </select> 
                 </div>
             </div>
          </div>
@@ -31,17 +35,21 @@
             <div class="col-md-3 selectContainer">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <input name="empId" id="updateEmpId" placeholder="Employee Id"  class="form-control"  type="text" readonly="true">
+                    <input name="empId" id="lvstEmpId" placeholder="Employee Id"  class="form-control"  type="text" readonly="true">
                 </div>
             </div>
-            <label class="col-md-2 control-label" >Leave Id</label> 
+            <label class="col-md-2 control-label" >Year</label> 
             <div class="col-md-3 inputGroupContainer">
                 <div class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <input name="leaveId" id="updateLeaveId" placeholder="Leave Id" class="form-control"  type="text" readonly="true">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                    <input name="year"
+                        type="text"
+                        class="yearpicker form-control"
+                        value=""
+                      />
                 </div>
             </div>
-         </div>
+          </div>
        
           <div class="form-group"> 
             <label class="col-md-2 control-label">Leave Carried</label>
@@ -68,17 +76,7 @@
                   <input name="leaveUsed" class="form-control"  type="number" min="1" max="50" step="0.5">
               </div>
           </div>
-          <label class="col-md-2 control-label" >Year</label> 
-          <div class="col-md-3 inputGroupContainer">
-              <div class="input-group">
-                  <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-                  <input name="year"
-                      type="text"
-                      class="yearpicker form-control"
-                      value=""
-                    />
-              </div>
-          </div>
+          
         </div>
         
         

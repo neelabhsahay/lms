@@ -200,7 +200,7 @@
     
         // GET ALL
         public function getAll(){
-            $query = "SELECT m.firstName AS ManagerName, e.* FROM " . $this->table_name . "
+            $query = "SELECT m.firstName AS managerName, e.* FROM " . $this->table_name . "
              e INNER JOIN " . $this->table_name . " m ON m.empId = e.manager ORDER BY e.empId DESC";
             // prepare the query
             $stmt = $this->conn->prepare($query);

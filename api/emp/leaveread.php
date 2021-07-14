@@ -39,32 +39,58 @@
         try {
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
-            $stmt = $leave->getAll();
-            $itemCount = $stmt->rowCount();
-
-            if($itemCount > 0){
+            $leave->leaveId = $data->leaveId;
+            if(!empty($leave->leaveId)) {
+                if( $leave->getSingle() ) {
                 
-                $userArr = array();
-                $userArr["body"] = array();
-                $userArr["itemCount"] = $itemCount;
-        
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                    $leaveArr = array();
+                    $leaveArr["body"] = array();
+                    $leaveArr["itemCount"] = 1;
+            
                     $e = array(
-                        "leaveId"      => $row['leaveId'],
-                        "leaveType"    => $row['leaveType'],
-                        "leaveMax"     => $row['leaveMax'],
-                        "leaveProvMax" => $row['leaveProvMax'],
-                        "modifiedOn"   => $row['modifiedOn']
+                        "leaveId"      => $leave->leaveId,
+                        "leaveType"    => $leave->leaveType,
+                        "leaveMax"     => $leave->leaveMax,
+                        "leaveProvMax" => $leave->leaveProvMax,
+                        "modifiedOn"   => $leave->modifiedOn
                     );
-        
-                    array_push($userArr["body"], $e);
+            
+                    array_push($leaveArr["body"], $e);
+                    echo json_encode($leaveArr);
+                } else{
+                    http_response_code(404);
+                    echo json_encode(
+                        array("message" => "No record found.")
+                    );
                 }
-                echo json_encode($userArr);
-            } else{
-                http_response_code(404);
-                echo json_encode(
-                    array("message" => "No record found.")
-                );
+            } else {
+                $stmt = $leave->getAll();
+                $itemCount = $stmt->rowCount();
+    
+                if($itemCount > 0){
+                    
+                    $userArr = array();
+                    $userArr["body"] = array();
+                    $userArr["itemCount"] = $itemCount;
+            
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                        $e = array(
+                            "leaveId"      => $row['leaveId'],
+                            "leaveType"    => $row['leaveType'],
+                            "leaveMax"     => $row['leaveMax'],
+                            "leaveProvMax" => $row['leaveProvMax'],
+                            "modifiedOn"   => $row['modifiedOn']
+                        );
+            
+                        array_push($userArr["body"], $e);
+                    }
+                    echo json_encode($userArr);
+                } else{
+                    http_response_code(404);
+                    echo json_encode(
+                        array("message" => "No record found.")
+                    );
+                }
             }
         }catch (Exception $e){
             // set response code

@@ -372,6 +372,7 @@ $light-bg = #777;
  * Search options result
  */
 .searchResult {
+    display: none;
     width:100%;
     line-height:1;
     color:#555;
@@ -379,6 +380,7 @@ $light-bg = #777;
     background-image:none;
     border:1px solid #ccc;
     border-radius:4px;
+    z-index: 9999;
 }
 .seachResultItem {
    width : 100%;

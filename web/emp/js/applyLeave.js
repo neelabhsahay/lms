@@ -1,53 +1,15 @@
-function leaveAvailList() {
-  var jwt = getCookie('jwt');
-  // Call Web API to get a list of Products
-  $.ajax({
-    url: 'http://localhost/lms/api/emp/leaveread.php',
-    type: 'POST',
-    dataType: 'json',
-    data : JSON.stringify({
-      "jwt": jwt
-    }),
-    success: function (leaves) {
-      updateLeaveSelection(leaves["body"]);
-    },
-    error: function (request, message, error) {
-      handleException(request, message, error);
-    }
-  });
-}
-
-// Get all Products to display
-function loadMyLeaveStatus( year ) {
-  var jwt = getCookie('jwt');
-  // Call Web API to get a list of Products
-  $.ajax({
-    url: 'http://localhost/lms/api/emp/lvstmyread.php',
-    type: 'POST',
-    dataType: 'json',
-    data : JSON.stringify({
-        "year" : year,
-        "jwt": jwt
-      }),
-
-    success: function (leaves) {
-      updateAvaliableLeave(leaves["body"]);
-    },
-    error: function (request, message, error) {
-      handleException(request, message, error);
-    }
-  });
-}
-
 function setLeaveStatusContainer( index, enable, type, value ) {
-  var arrCont = [ 'leaveCont1', 'leaveCont1' , 'leaveCont1'];
-  var arrLabel = [ 'leave1', 'leave2' , 'leave3'];
-  var arrValue = [ 'leaveValue2', 'leaveValue2' , 'leaveValue2'];
+  var arrCont = [ 'leaveCont1', 'leaveCont2' , 'leaveCont3',
+                  'leaveCont4', 'leaveCont5'];
+  var arrLabel = [ 'leave1', 'leave2' , 'leave3', 'leave4',
+                   'leave5'];
+  var arrValue = [ 'leaveValue1', 'leaveValue2', 'leaveValue3',
+                   'leaveValue5', 'leaveValue5'];
   var lab = document.getElementById(arrLabel[index]);
   var val = document.getElementById(arrValue[index]);
   var con = document.getElementById(arrCont[index]);
   lab.innerHTML = type;
-  val.innerHTML = value;
+  val.innerHTML = "<a>" + value + "</a>";
   con.style.display = enable;
 }
 
@@ -115,7 +77,9 @@ function loadCalendar() {
 
 function showApplyLeaveForm() {
   document.getElementById("applyLeaveForm").reset();
-  leaveAvailList();
+  var jsonInput = {
+  };
+  leaveListAJAX(jsonInput, updateLeaveSelection, false);
   displayModal('applyLeaveModal');
 }
 
@@ -126,5 +90,8 @@ function displayAvaliableLeaves() {
 function loadMyLeave() {
     var date = new Date();
     var nowYear = date.getFullYear();
-    loadMyLeaveStatus(nowYear);
+    var jsonInput = {
+        "year" : nowYear
+    };
+    myLeaveStatusAJAX(jsonInput, updateAvaliableLeave, false)
 }

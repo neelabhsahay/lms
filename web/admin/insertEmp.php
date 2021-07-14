@@ -1,7 +1,7 @@
 <div id="insertEmpModal" class="modal-form">
     <div class="modal-form-content">
         <div class="container">
-            <span class="modal-form-close" onclick="closeModal('insertEmpModal')">&times;</span>
+            <span class="modal-form-close" onclick="closeDisplayForm('insertEmpModal', 'empForm')">&times;</span>
             <div class="container rounded bg-white mt-5 mb-5">
                 <div class="row">
                     <form  action=" " method="post"  id="empForm" onsubmit="return insertEmp()">
@@ -31,7 +31,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <label class="labels">Manager Name</label>
-                                        <input name="managerName" type="text" class="form-control" placeholder="enter manger name" onkeyup="searchManager(this.value)">
+                                        <input id="managerName" name="managerName" type="text" class="form-control" placeholder="enter manger name" onkeyup="searchManager(this.value)">
                                         <label id="searchedMgr" class="searchResult"></label>
                                     </div>
                                     <div class="col-md-12">
@@ -56,11 +56,11 @@
                                 <div class="row mt-3">
                                     <div class="col-md-6">
                                         <label class="labels">Manager</label>
-                                        <input name="manager" type="text" class="form-control" placeholder="manager id" >
+                                        <input name="manager" id='managerId' type="text" class="form-control" placeholder="manager id" readonly="true" >
                                     </div>
                                     <div class="col-md-6">
                                         <label class="labels">Employee ID</label>
-                                        <input name="empId" type="text" class="form-control" value="" placeholder="enter employee id">
+                                        <label name="empId" type="text" class="form-control" value="" >
                                     </div>
                                 </div>
                                 <div class="mt-5 text-center" id="empProfilebtn" style="display: none;">

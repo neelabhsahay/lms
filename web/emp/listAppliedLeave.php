@@ -24,21 +24,31 @@
                             </div>
                             <br>
                             <div class="col-md-12 leave_box border-bottom" id="leaveCont1">
-                                <label id="leave1" class="labels" >Leave Type </label>
+                                <label id="leave1" class="labels" ></label>
                                 <br>
-                                <label id="leaveValue1" class="labels"><a>14.5</a></label>
+                                <label id="leaveValue1" class="labels"></label>
                             </div> 
                             <br>
                             <div class="col-md-12 leave_box border-bottom" id="leaveCont3">
-                                <label id="leave2" class="labels">Leave Type </label>
+                                <label id="leave2" class="labels"></label>
                                 <br>
-                                <label id="leaveValue2" class="labels"><a>14.5</a></label>
+                                <label id="leaveValue2" class="labels"></label>
                             </div>
                             <br>
                             <div class="col-md-12 leave_box" id="leaveCont3">
-                                <label id="leave3" class="labels">Number of Days</label>
+                                <label id="leave3" class="labels"></label>
                                 <br>
-                                <label id="leaveValue3" class="labels"><a>14.5</a></label>
+                                <label id="leaveValue3" class="labels"></label>
+                            </div>
+                            <div class="col-md-12 leave_box" id="leaveCont4">
+                                <label id="leave4" class="labels"></label>
+                                <br>
+                                <label id="leaveValue4" class="labels"></label>
+                            </div>
+                            <div class="col-md-12 leave_box" id="leaveCont5">
+                                <label id="leave5" class="labels"></label>
+                                <br>
+                                <label id="leaveValue5" class="labels"></label>
                             </div>
                         </div>
                     </div>                    
