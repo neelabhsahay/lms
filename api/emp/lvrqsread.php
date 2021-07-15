@@ -38,39 +38,73 @@
         try {
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
-            $stmt = $lvRequest->getAll();
-            $itemCount = $stmt->rowCount();
-
-            if($itemCount > 0){
-                
-                $employeeArr = array();
-                $employeeArr["body"] = array();
-                $employeeArr["itemCount"] = $itemCount;
-        
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            
+            $lvRequest->reqId = $data->reqId;
+            if( !empty($lvRequest->reqId)) {     
+                if( $lvRequest->getSingle() ) {
+                    
+                    $employeeArr = array();
+                    $employeeArr["body"] = array();
+                    $employeeArr["itemCount"] = 1;
+            
                     $e = array(
-                        "reqId"       => $row['reqId'],
-                        "leaveId"     => $row['leaveId'],
-                        "empId"       => $row['empId'],
-                        "appliedBy"   => $row['appliedBy'],
-                        "appliedDate" => $row['appliedDate'],
-                        "leaveDays"   => $row['leaveDays'],
-                        "startDate"   => $row['startDate'],
-                        "endDate"     => $row['endDate'],
-                        "reason"      => $row['reason'],
-                        "status"      => $row['status'],
-                        "approver"    => $row['approver'],
-                        "modifiedOn"  => $row['modifiedOn']
+                        "reqId"       => $lvRequest->reqId,
+                        "leaveId"     => $lvRequest->leaveId,
+                        "empId"       => $lvRequest->empId,
+                        "appliedBy"   => $lvRequest->appliedBy,
+                        "appliedDate" => $lvRequest->appliedDate,
+                        "leaveDays"   => $lvRequest->leaveDays,
+                        "startDate"   => $lvRequest->startDate,
+                        "endDate"     => $lvRequest->endDate,
+                        "reason"      => $lvRequest->reason,
+                        "status"      => $lvRequest->status,
+                        "approver"    => $lvRequest->approver,
+                        "modifiedOn"  => $lvRequest->modifiedOn
                     );
-        
+            
                     array_push($employeeArr["body"], $e);
+                    echo json_encode($employeeArr);
+                } else{
+                    http_response_code(404);
+                    echo json_encode(
+                        array("message" => "No record found.")
+                    );
                 }
-                echo json_encode($employeeArr);
-            } else{
-                http_response_code(404);
-                echo json_encode(
-                    array("message" => "No record found.")
-                );
+            } else {
+                $stmt = $lvRequest->getAll();
+                $itemCount = $stmt->rowCount();
+    
+                if($itemCount > 0){
+                    
+                    $employeeArr = array();
+                    $employeeArr["body"] = array();
+                    $employeeArr["itemCount"] = $itemCount;
+            
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                        $e = array(
+                            "reqId"       => $row['reqId'],
+                            "leaveId"     => $row['leaveId'],
+                            "empId"       => $row['empId'],
+                            "appliedBy"   => $row['appliedBy'],
+                            "appliedDate" => $row['appliedDate'],
+                            "leaveDays"   => $row['leaveDays'],
+                            "startDate"   => $row['startDate'],
+                            "endDate"     => $row['endDate'],
+                            "reason"      => $row['reason'],
+                            "status"      => $row['status'],
+                            "approver"    => $row['approver'],
+                            "modifiedOn"  => $row['modifiedOn']
+                        );
+            
+                        array_push($employeeArr["body"], $e);
+                    }
+                    echo json_encode($employeeArr);
+                } else{
+                    http_response_code(404);
+                    echo json_encode(
+                        array("message" => "No record found.")
+                    );
+                }
             }
         }catch (Exception $e){
             // set response code

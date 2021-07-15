@@ -47,11 +47,13 @@
                 http_response_code(200);
              
                 // display message: user was created
-                echo json_encode(array("message" => "Employee record was deleted."));
+                echo json_encode(array("message" => "Employee record was deleted.",
+                                        "status" => "passed"));
             } else{
                 http_response_code(404);
                 echo json_encode(
-                    array("message" => "No record found.")
+                    array("message" => "No record found.",
+                          "status" => "failed")
                 );
             }
         }catch (Exception $e){

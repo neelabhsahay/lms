@@ -26,7 +26,6 @@
 
   <!-- My scripts and css -->
 <script type="text/javascript" src="../asserts/js/modalLms.js"></script>
-<script type="test/javascript" src="../asserts/js/yearpicker.js"></script>
 <script type="text/javascript" src="../asserts/js/cookie.js" > </script>
 <script type="text/javascript" src="../asserts/js/myAjax.js" > </script>
 <script type="text/javascript" src="js/leaveStatus.js"></script>
@@ -56,8 +55,16 @@
       include "updateLeaveStatus.php";
       include "insertEmp.php";
     ?>
+<script src= '../asserts/js/jquery.min.js'></script>
+<script src= '../asserts/js/core.js'></script>
+<script src= "../asserts/js/libs/yearpicker.js"></script>
+<script src= "../asserts/js/cookie.js" > </script>
 <script>
     $(document).ready(function () {
+        $(".yearpicker").yearpicker({
+          startYear: new Date().getFullYear() - 50,
+          endYear: new Date().getFullYear() + 10,
+        });
         loadListLeaveStatus();
     });
 </script>

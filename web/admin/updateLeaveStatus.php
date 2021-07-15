@@ -6,7 +6,7 @@
         <fieldset>
 
         <!-- Form Name -->
-        <legend><center><h2><b>Insert Leave Status</b></h2></center></legend><br>
+        <legend><center><h2><b>Update Leave Status</b></h2></center></legend><br>
 
         <!-- Text input-->
 
@@ -15,14 +15,14 @@
             <div class="col-md-3 selectContainer">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <input name="employeeName" placeholder="Employee Name"  class="form-control"  type="text">
+                    <input name="employeeName" placeholder="Employee Name"  class="form-control"  type="text" readonly="true">
                 </div>
             </div>
             <label class="col-md-2 control-label" >Leave Type</label> 
             <div class="col-md-3 inputGroupContainer">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <input name="leaveType" placeholder="Leave Name" class="form-control"  type="text">
+                    <input name="leaveType" placeholder="Leave Name" class="form-control"  type="text" readonly="true">
                 </div>
             </div>
          </div>
@@ -72,11 +72,7 @@
           <div class="col-md-3 inputGroupContainer">
               <div class="input-group">
                   <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-                  <input
-                      name="year"
-                      type="text"
-                      class="yearpicker form-control"
-                    />
+                  <input name="year"  type="text" class="form-control" readonly="true" />
               </div>
           </div>
         </div>
@@ -92,7 +88,7 @@
            </div>
         </div>
 
-</fieldset>
+    </fieldset>
 </form>
 </div>
     </div><!-- /.container -->

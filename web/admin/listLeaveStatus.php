@@ -16,7 +16,7 @@
             </div>
             <div class="col-md-9 selectContainer">
                 <div class="input-group">
-                    <button class="btn btn-primary float-right" type="submit" onclick="displayInsertLeave()">Add Leave Status</button>
+                    <button class="btn btn-primary float-right" type="submit" onclick="displayLeaveStatus()">Add Leave Status</button>
                 </div>
             </div>
         </div>

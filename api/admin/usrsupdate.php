@@ -44,44 +44,26 @@
      
             // set user property values
             $user->empId        = $data->empId;
-            $user->username     = $decoded->data->username;
+            $user->username     = $data->username;
             $user->password     = $data->password;
             $user->email        = $data->email;
             $user->passwordType = $data->passwordType;
     
             // update the user record
             if($user->update()){
-                // we need to re-generate jwt because user details might be different
-                $token = array(
-                   "iat" => $issued_at,
-                   "exp" => $expiration_time,
-                   "iss" => $issuer,
-                   "data" => array(
-                       "username" => $user->username,
-                       "empId" => $user->empId,
-                       "email" => $user->email,
-                       "passwordType" => $user->passwordType,
-                       "accountType" => $user->accountType
-                   )
-                );
-                $jwt = JWT::encode($token, $key);
-                 
                 // set response code
                 http_response_code(200);
-                 
-                // response in json format
-                echo json_encode(
-                        array(
-                            "message" => "User was updated.",
-                            "jwt" => $jwt
-                        )
-                    );
+             
+                // display message: user was created
+                echo json_encode(array("message" => "User record was updated.",
+                                       "status" => "passed"));
             } else {
                 // set response code
                 http_response_code(401);
              
                 // show error message
-                echo json_encode(array("message" => "Unable to update user."));
+                echo json_encode(array("message" => "Unable to update user.",
+                                       "status" => "failed"));
             }
         } catch (Exception $e){
             // set response code

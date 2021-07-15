@@ -63,13 +63,15 @@
                 http_response_code(200);
              
                 // display message: user was created
-                echo json_encode(array("message" => "Employee record was updated."));
+                echo json_encode(array("message" => "Employee record was updated.",
+                                       "status" => "passed"));
             } else {
                 // set response code
                 http_response_code(400);
              
                 // show error message
-                echo json_encode(array("message" => "Unable to update user."));
+                echo json_encode(array("message" => "Unable to update user.",
+                                       "status" => "failed"));
             }
         } catch (Exception $e){
             // set response code

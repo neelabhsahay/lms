@@ -27,13 +27,13 @@
   <!-- My scripts and css -->
 <script type="text/javascript" src="../asserts/js/modalLms.js"></script>
 <script type="text/javascript" src="../asserts/js/myAjax.js"></script>
-<script type="test/javascript" src="../asserts/js/yearpicker.js"></script>
+
 <script type="text/javascript" src="../asserts/js/cookie.js" > </script>
 <script type="text/javascript" src="js/user.js"></script>
 
 <link rel="stylesheet" type="text/css" href="../asserts/css/page.css" />
-<link rel="stylesheet" type="text/css" href="../asserts/css/yearpicker.css" />
 
+<link rel="stylesheet" type="text/css" href="../asserts/css/yearpicker.css" />
  <!-- Material Design Iconic Font CSS -->
   <link rel="stylesheet" href="../asserts/css/material-design-iconic-font.min.css">
 </head>
@@ -56,7 +56,7 @@
       include "updateUser.php";
       include "insertEmp.php";
     ?>
-<script>
+  <script>
     $(document).ready(function () {
         loadListUser();
     });

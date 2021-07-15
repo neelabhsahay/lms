@@ -1,0 +1,307 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"insta",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Applications/XAMPP/xamppfiles/htdocs/lms",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web"
+	],
+	"file_history":
+	[
+		"/Users/neelabh/Library/Application Support/Sublime Text 3/Packages/Function Name Display/Function Name Display.sublime-settings",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/login.js",
+		"/Users/neelabh/Library/Application Support/Sublime Text 3/Packages/User/Function Name Display.sublime-settings",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/js/user.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/.gitignore",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/lms.sublime-project",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/js/leave.js",
+		"/Users/neelabh/Library/Application Support/Sublime Text 3/Packages/HTML-CSS-JS Prettify/HTMLPrettify.sublime-settings",
+		"/Users/neelabh/Library/Application Support/Sublime Text 3/Packages/HTML-CSS-JS Prettify/.jsbeautifyrc.defaults.json",
+		"/Users/neelabh/Library/Application Support/Sublime Text 3/Packages/User/.jsbeautifyrc",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/admin/usrsupdate.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/js/leaveStatus.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/insertLeaveStatus.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/userdashboard.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/updateLeaveStatus.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/asserts/js/cookie.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/js/employee.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/leavestatusdasboard.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/asserts/js/myAjax.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/listLeaveStatus.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/test.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/login.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/asserts/css/yearpicker.css",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/emp/leaveread.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/emp/applyLeave.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/updateEmp.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/insertEmp.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/emp/dashboard.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/emp/listAppliedLeave.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/emp/js/applyLeave.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/asserts/js/modalLms.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/leavedashboard.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/emp/empread.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/class/user.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/insertLeave.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/updateLeave.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/insertUser.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/empdashboard.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/emp/lvrqsmy.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/class/leave.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/admin/leavecreate.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/admin/empcreate.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/emp/ckusrn.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/asserts/css/page.css",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/emp/lvstmyread.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/README.md",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/emp/applyLeave.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/applyLeave.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/date.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/applly.php.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/asserts/libs/bootstrap/jsdelivr/css/daterangepicker.min.css",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/asserts/libs/bootstrap/jsdelivr/js/daterangepicker.min.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/asserts/libs/bootstrap/jsdelivr/js/moment.min.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/asserts/libs/bootstrap/3.0.5/css/daterangepicker.min.css",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/asserts/libs/bootstrap/3.0.5/js/daterangepicker.min.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/asserts/libs/bootstrap/3.0.5/js/moment.min.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/DATABASE/mylms.sql",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/emp/empmyread.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/asserts/header.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/listEmp.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/emp/lvstread.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/asserts/empSidebar.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/asserts/sidebar.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/emp/lvstsearch.php",
+		"/Users/neelabh/Desktop/test.c",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/listLeave.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/emp/usrssigread.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/listUser.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/zest/index.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/zest/style.css",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/zest/script.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/asserts/footer.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/mydashboard.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/emp/lvrqscreate.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/emp/resetpass.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/emp/empsearch.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/emp/empsigread.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/emp/leavesigread.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/emp/lvrqsread.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/emp/lvrqssigread.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/emp/lvrqsupdate.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/emp/lvstsigread.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/emp/usrread.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/admin/usrsdelete.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/admin/usrscreate.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/admin/lvstupdate.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/admin/lvstdelete.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/admin/lvstcreate.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/admin/leaveupdate.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/admin/leavedelete.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/admin/empdelete.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/admin/empupdate.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/dashboard.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/status.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/status.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/login.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/common.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/reset.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/asserts/js/login.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/js/listUser.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/js/listLeaveStatus.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/js/listEmp.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/js/listLeave.js",
+		"/Users/neelabh/Neelabh_Personal/CODE/python/lms/api/app.py",
+		"/Users/neelabh/Neelabh_Personal/CODE/python/lms/api/config/db.py",
+		"/Users/neelabh/Neelabh_Personal/CODE/python/lms/api/config/config.py",
+		"/Users/neelabh/Neelabh_Personal/CODE/python/hello.py",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/test.py",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/js/listEmp copy.js",
+		"/Users/neelabh/Neelabh_Work/Help/PENSD/vimHelp.txt",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/emp/listLeave.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/js/updateLeave.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/js/insertEmp.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/js/insertLeaveStatus.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/js/insertLeave.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/insertLeaveStatus.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/js/modalLms.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/test2.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/test2.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/admin/applyLeave.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/asserts/js/applyLeave.js",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/web/asserts/js/yearpicker.js",
+		"/Users/neelabh/Neelabh_Work/Work/WS/ws0.0/sw/nic/vpp/flow/impl/polaris/node_helper.c",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/admin/lvstread.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/admin/usrssigread.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/admin/lvstsigread.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/admin/leavesigread.php",
+		"/Applications/XAMPP/xamppfiles/htdocs/lms/api/admin/empread.php"
+	],
+	"find":
+	{
+		"height": 28.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 28.0
+	},
+	"input":
+	{
+		"height": 40.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.SublimeLinter":
+	{
+		"height": 0.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "lms.sublime-project",
+	"replace":
+	{
+		"height": 52.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 227.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

@@ -64,14 +64,16 @@
                 http_response_code(200);
              
                 // display message: user was created
-                echo json_encode(array("message" => "Employee record was inserted for " . $emp->empId ));
+                echo json_encode(array("message" => "Employee record was inserted for " . $emp->empId,
+                                       "status" => "passed" ));
             } else {
              
                 // set response code
                 http_response_code(400);
              
                 // display message: unable to create user
-                echo json_encode(array("message" => "Unable to insert employee record."));
+                echo json_encode(array("message" => "Unable to insert employee record.",
+                                       "status" => "failed"));
             }
         }catch (Exception $e){
             // set response code

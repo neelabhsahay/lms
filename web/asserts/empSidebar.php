@@ -9,7 +9,7 @@
         </a>
       </li>
       <li>
-        <a href="http://localhost/lms/web/admin/leavedashboard.php" class="nav-link link-dark">
+        <a href="http://localhost/lms/web/emp/myleaverequest.php" class="nav-link link-dark">
           <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
           Revoke Leave
         </a>

@@ -2,7 +2,7 @@
     <div class="modal-form-content">
         <div class="container">
     <span class="modal-form-close" onclick="closeDisplayForm('insertLeaveStatusModal', 'leaveStatusForm')">&times;</span>
-    <form class="well form-horizontal" action=" " method="post"  id="leaveStatusForm">
+    <form class="well form-horizontal" action=" " method="post"  id="leaveStatusForm" onsubmit="return insertLeaveStatus()">
         <fieldset>
 
         <!-- Form Name -->

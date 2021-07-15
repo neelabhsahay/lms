@@ -1,49 +1,3 @@
-
-
-// Get all Products to display
-function leaveStatusList() {
-  var jwt = getCookie('jwt');
-  // Call Web API to get a list of Products
-  $.ajax({
-    url: 'http://localhost/lms/api/emp/lvstread.php',
-    type: 'POST',
-    dataType: 'json',
-    data : JSON.stringify({
-        "jwt": jwt
-      }),
-    success: function (lvsts) {
-      lvStInfo(lvsts["body"]);
-    },
-    error: function (request, message, error) {
-      handleException(request, message, error);
-    }
-  });
-}
-
-// Get all Products to display
-function leaveStatusDetail( leaveId, empId, year ) {
-  var jwt = getCookie('jwt');
-  // Call Web API to get a list of Products
-  $.ajax({
-    url: 'http://localhost/lms/api/emp/lvstread.php',
-    type: 'POST',
-    dataType: 'json',
-    data : JSON.stringify({
-        "leaveId": leaveId,
-        "empId" : empId,
-        "year" : year,
-        "jwt": jwt
-      }),
-
-    success: function (leaves) {
-      fillLeaveStatusForm(leaves["body"][0]);
-    },
-    error: function (request, message, error) {
-      handleException(request, message, error);
-    }
-  });
-}
-
 function insertLeaveStatusAjax( leaveInfo ) {
   var jwt = getCookie('jwt');
   leaveInfo['jwt'] = jwt;
@@ -86,6 +40,10 @@ function updateLeaveStatusAjax( leaveInfo ) {
   });
 }
 
+/*
+ * List Section and on Load section
+ **********************************
+ */
 function lvStInfo(lvsts) {
   $.each(lvsts, function (index, lvst) {
     // Add a row to the Product table
@@ -126,23 +84,35 @@ function clearLeaveStatusTableRow() {
 
 function loadListLeaveStatus() {
   clearLeaveStatusTableRow();
-  leaveStatusList();
+  var jsonInput = {
+    };
+    leaveStatusListAJAX(jsonInput, lvStInfo, false );
 }
 
-function fillLeaveStatusForm( leaveStatus ) {
-  $("#upLeaveStatusForm").setFormData(leaveStatus);
+function displayLeaveStatus() {
+    var jsonInput = {
+    };
+    leaveListAJAX(jsonInput, updateLeavePresent, false );
+    displayModal('insertLeaveStatusModal');
 }
+
+/*
+ * Update section of code 
+ *************************
+ */
+function fillLeaveStatusForm( leaveStatus ) {
+  $("#upLeaveStatusForm").setFormDataFromJSON(leaveStatus[0]);
+  displayModal( "updateLeaveStatusModal" );
+}  
 
 function viewLeaveStatus( keys ) {
     var keyArr = keys.split("+");
-    leaveStatusDetail(keyArr[0], keyArr[1], keyArr[2]);
-    displayModal( "updateLeaveStatusModal" );
-}
-
-function insertLeaveStatus() {
-  var dataObj = $("#leaveStatusForm").serializeFormJSON();
-  confirmAndExecute( insertLeaveStatusAjax, dataObj, "insert leave status");
-  return false;
+    var jsonInput = {
+        "leaveId": keyArr[0],
+        "empId" : keyArr[1],
+        "year" : keyArr[2]
+    };
+    leaveStatusListAJAX(jsonInput, fillLeaveStatusForm, false );
 }
 
 function updateLeaveStatus() {
@@ -151,6 +121,17 @@ function updateLeaveStatus() {
   return false;
 }
 
+
+/*
+ * Insert New section of code 
+ *************************
+ */
+
+function insertLeaveStatus() {
+  var dataObj = $("#leaveStatusForm").serializeFormJSON();
+  confirmAndExecute( insertLeaveStatusAjax, dataObj, "insert leave status");
+  return false;
+}
 
 function fillEmpSearchOutput( result ) {
     var div = document.getElementById("searchedEmp");
@@ -161,7 +142,7 @@ function fillEmpSearchOutput( result ) {
         $.each(result, function (index, emp) {
            var name = emp.firstName + " " + emp.lastName;
            disp = disp + "<div class='seachResultItem' id='" +
-                  emp.empId + "' onclick='selectEmployee(this.id, this.value )' value='"+ name +"'><a>" + name + "</a></div>";
+                  emp.empId + "'onclick='selectEmployee(this.id, this.value )' value='"+ name +"'><a>" + name + "</a></div>";
         });
         div.innerHTML = disp;
     } else {
@@ -191,6 +172,10 @@ function searchEmpForLeave( empStr ) {
 
 function updateLeavePresent( leaveList ) {
   var x = document.getElementById("lvstLeaveId");
+  var length = x.options.length;
+  for (i = length-1; i >= 1; i--) {
+      select.options[i] = null;
+  }
   $.each(leaveList, function (index, leave) {
       var option = document.createElement("option");
       option.text = leave.leaveType;
@@ -199,10 +184,9 @@ function updateLeavePresent( leaveList ) {
   });
 }
 
-
-function displayInsertLeave() {
-    var jsonInput = {
-    };
-    leaveListAJAX(jsonInput, updateLeavePresent, false );
-    displayModal('insertLeaveStatusModal');
+function insertLeaveStatus() {
+  var dataObj = $("#leaveStatusForm").serializeFormJSON();
+  confirmAndExecute( insertLeaveStatusAjax, dataObj, "insert leave status");
+  return false;
 }
+

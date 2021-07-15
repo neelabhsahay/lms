@@ -53,14 +53,16 @@
                 http_response_code(200);
              
                 // display message: user was created
-                echo json_encode(array("message" => "Leave record was inserted." ));
+                echo json_encode(array("message" => "Leave record was inserted.",
+                                       "status" => "passed"));
             } else {
              
                 // set response code
                 http_response_code(400);
              
                 // display message: unable to create user
-                echo json_encode(array("message" => "Unable to insert Leave record."));
+                echo json_encode(array("message" => "Unable to insert Leave record.",
+                                       "status" => "failed"));
             }
         } catch (Exception $e) {
             // set response code

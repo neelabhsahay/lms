@@ -37,19 +37,29 @@
          try {
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
+            // Get the number of leave avaliable
+            $lvStatus->leaveId     = $data->leaveId;
+            $lvStatus->empId       = $decoded->data->empId;
+            $lvStatus->year        = date('Y', strtotime($data->startDate));
+            // set product property values
+            $lvRequest->leaveId     = $data->leaveId;
+            $lvRequest->empId       = $decoded->data->empId;
+            $lvRequest->appliedBy   = $decoded->data->empId;
+            $lvRequest->appliedDate = $data->appliedDate;
+            $lvRequest->leaveDays   = $data->leaveDays;
+            $lvRequest->startDate   = $data->startDate;
+            $lvRequest->endDate     = $data->endDate;
+            $lvRequest->reason      = $data->reason;
+            $lvRequest->status      = $data->status;
+            $lvRequest->approver    = $data->approver;
+
             if( !empty($lvRequest->leaveId) &&
-                !empty($lvRequest->appliedBy) &&
                 !empty($lvRequest->appliedDate) &&
                 !empty($lvRequest->leaveDays) &&
                 !empty($lvRequest->startDate) &&
                 !empty($lvRequest->endDate) &&
                 !empty($lvRequest->approver)
               ) {
-                // Get the number of leave avaliable
-                $lvStatus->leaveId     = $data->leaveId;
-                $lvStatus->empId       = $decoded->data->empId;
-                $lvStatus->year        = date('Y', strtotime($data->startDate));
-
                 $stmt = $lvStatus->getAll();
                 $itemCount = $stmt->rowCount();
                 $lc = 0;
@@ -68,25 +78,12 @@
                 $tlv = $tlv - $lu;
                 if( $tlv < $data->leaveDays ) {
                     // set response code
-                    http_response_code(200);
+                    http_response_code(400);
                     echo json_encode(array("message" => "Not sufficient leave avaiable.",
                                            "status" => "failed"));
-                } else {          
-                    // set product property values
-                    $lvRequest->leaveId     = $data->leaveId;
-                    $lvRequest->empId       = $decoded->data->empId;
-                    $lvRequest->appliedBy   = $data->appliedBy;
-                    $lvRequest->appliedDate = $data->appliedDate;
-                    $lvRequest->leaveDays   = $data->leaveDays;
-                    $lvRequest->startDate   = $data->startDate;
-                    $lvRequest->endDate     = $data->endDate;
-                    $lvRequest->reason      = $data->reason;
-                    $lvRequest->status      = $data->status;
-                    $lvRequest->approver    = $data->approver;
-                    
+                } else {
                     // create the leave request
-                    if( $lvRequest->create()
-                    ){
+                    if( $lvRequest->create()){
                         // set response code
                         http_response_code(200);
                      
@@ -103,6 +100,13 @@
                                                "status" => "failed"));
                     }
                 }
+            } else {
+                // set response code
+                http_response_code(400);
+                     
+                // display message: unable to create user
+                echo json_encode(array("message" => "Incomplete data passed to API.",
+                                       "status" => "failed"));
             }
         } catch (Exception $e) {
             // set response code
