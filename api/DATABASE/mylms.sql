@@ -121,6 +121,7 @@ CREATE TABLE `emp_leaves_request` (
   `reqId` int(11) NOT NULL,
   `empId` varchar(30) NOT NULL,
   `leaveId` varchar(20) NOT NULL,
+  `year` int(6) NOT NULL DEFAULT 2021,
   `appliedBy` varchar(30) NOT NULL,
   `appliedDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `leaveDays` DECIMAL(20, 2) NOT NULL,

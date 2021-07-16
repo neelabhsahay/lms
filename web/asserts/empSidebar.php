@@ -3,21 +3,27 @@
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
-        <a href="http://localhost/lms/web/admin/empdashboard.php" class="nav-link link-dark" aria-current="page">
+        <a href="http://localhost/lms/web/emp/dashboard.php" class="nav-link link-dark" aria-current="page">
           <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"/></svg>
-          My Leave Status
+          Home
         </a>
       </li>
       <li>
-        <a href="http://localhost/lms/web/emp/myleaverequest.php" class="nav-link link-dark">
+        <a href="http://localhost/lms/web/emp/mylrqhdashboard.php" class="nav-link link-dark">
           <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
           Revoke Leave
         </a>
       </li>
       <li>
-        <a href="http://localhost/lms/web/admin/leavestatusdasboard.php" class="nav-link link-dark">
+        <a href="http://localhost/lms/web/emp/approvedashboard.php" class="nav-link link-dark">
           <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
           Approve Leave
+        </a>
+      </li>
+      <li>
+        <a href="http://localhost/lms/web/admin/leavestatusdasboard.php" class="nav-link link-dark">
+          <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
+          Admin
         </a>
       </li>
     </ul>

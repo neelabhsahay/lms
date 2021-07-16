@@ -80,7 +80,8 @@ function loadCalendar() {
          selectLeaveDays(info.startStr, info.endStr);
       },
       datesSet: function(dateInfo) {
-         var currentdate = dateInfo.startStr;
+         calendar.removeAllEvents();
+         myLeaveRequestInRange(calendar, dateInfo.startStr, dateInfo.endStr);
       }
    });
 
@@ -141,7 +142,7 @@ function showEmployeeApprover() {
  * insert leave request section
  */
 
-function sucessfullyAppliedLeave(message, status) {
+function sucessfullyAppliedLeave(message, status, data) {
    BootstrapDialog.alert("Inserted Successfully.");
    //TODO Update full calender event 
    closeDisplayForm('applyLeaveModal', 'applyLeaveForm');
@@ -159,4 +160,59 @@ function applyForLeave() {
    dataObj['status'] = 'Pending';
    confirmAndExecute(insertLeaveRequest, dataObj, "apply for leave ");
    return false;
+}
+
+/*
+ * Calendar add event
+ */
+
+function getMyAppliedLeaves() {
+   var date = new Date();
+   var nowYear = date.getFullYear();
+   var jsonInput = {
+      "year": nowYear
+   };
+   myLeaveStatusAJAX(jsonInput, myAvaliableLeave, false)
+}
+
+function createCalEvent(data, calendar) {
+   var eventJason = {
+      "id": data['reqId'],
+      "start": data['startDate'],
+      "end": data['endDate'],
+      "title": data['leaveType'],
+      "status": data['status']
+   }
+   addEventOnCalendar(eventJason, calendar);
+}
+
+// eventJason = {
+//    "id" : reqId,
+//    "start" : startDate,
+//    "end" : endDate,
+//    "title" : leaveType,
+//    "status" : status,   
+//}
+function addEventOnCalendar(eventJson, calendar) {
+   if (eventJson['status'] == 'Approved') {
+      eventJson['color'] = 'blue';
+   } else {
+      eventJson['color'] = 'green';
+   }
+   calendar.addEvent(eventJson);
+}
+
+function createCalEvents(events, calendar) {
+   $.each(events, function(index, event) {
+      createCalEvent(event, calendar);
+   });
+}
+
+
+function myLeaveRequestInRange(calendar, rangeStart, rangeEnd) {
+   var jsonInput = {
+      "rangeStart": rangeStart,
+      "rangeEnd": rangeEnd
+   };
+   myLeaveRequestInRangeAJAX(jsonInput, createCalEvents, true, calendar);
 }

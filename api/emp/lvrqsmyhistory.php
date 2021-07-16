@@ -40,9 +40,8 @@
             $decoded = JWT::decode($jwt, $key, array('HS256'));
             
             $lvRequest->reqId = $data->reqId;
-            $lvRequest->empId = $data->empId;
+            $lvRequest->empId = $decoded->data->empId;
             $lvRequest->leaveId = $data->leaveId;
-            $lvRequest->approver = $data->approver;
             if( !empty($lvRequest->reqId)) {     
                 if( $lvRequest->getSingle() ) {
                     
@@ -62,10 +61,8 @@
                         "reason"      => $lvRequest->reason,
                         "status"      => $lvRequest->status,
                         "approver"    => $lvRequest->approver,
-                        "modifiedOn"  => $lvRequest->modifiedOn,
-                        "leaveType"   => $lvRequest->leaveType,
-                        "firstName"   => $lvRequest->firstName,
-                        "lastName"    => $lvRequest->lastName
+                        "leaveRqtState"=> $lvRequest->leaveRqtState,
+                        "modifiedOn"  => $lvRequest->modifiedOn
                     );
             
                     array_push($employeeArr["body"], $e);
@@ -88,21 +85,19 @@
             
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                         $e = array(
-                            "reqId"        => $row['reqId'],
-                            "leaveId"      => $row['leaveId'],
-                            "empId"        => $row['empId'],
-                            "appliedBy"    => $row['appliedBy'],
-                            "appliedDate"  => $row['appliedDate'],
-                            "leaveDays"    => $row['leaveDays'],
-                            "startDate"    => $row['startDate'],
-                            "endDate"      => $row['endDate'],
-                            "reason"       => $row['reason'],
-                            "status"       => $row['status'],
-                            "approver"     => $row['approver'],
-                            "modifiedOn"   => $row['modifiedOn'],
-                            "firstName"    => $row['firstName'],
-                            "leaveType"    => $row['leaveType'],
-                            "lastName"     => $row['lastName']
+                            "reqId"       => $row['reqId'],
+                            "leaveId"     => $row['leaveId'],
+                            "empId"       => $row['empId'],
+                            "appliedBy"   => $row['appliedBy'],
+                            "appliedDate" => $row['appliedDate'],
+                            "leaveDays"   => $row['leaveDays'],
+                            "startDate"   => $row['startDate'],
+                            "endDate"     => $row['endDate'],
+                            "reason"      => $row['reason'],
+                            "status"      => $row['status'],
+                            "approver"    => $row['approver'],
+                            "leaveRqtState"=> $row['leaveRqtState'],
+                            "modifiedOn"  => $row['modifiedOn']
                         );
             
                         array_push($employeeArr["body"], $e);

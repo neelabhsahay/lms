@@ -54,16 +54,30 @@
                 // set response code
                 http_response_code(200);
              
-                // display message: user was created
-                echo json_encode(array("message" => "User record was updated.",
-                                       "status" => "passed"));
+                // display message: unable to create user
+                $insertResponse = array();
+                $insertResponse["message"] = "User record was updated.";
+                $insertResponse["status"] = "passed";
+                $insertResponse["data"] = array();
+                $e = array(
+                    "username" => $user->username
+                ); 
+                array_push($insertResponse["data"], $e);
+                echo json_encode($insertResponse); 
             } else {
                 // set response code
                 http_response_code(401);
              
                 // show error message
-                echo json_encode(array("message" => "Unable to update user.",
-                                       "status" => "failed"));
+                $insertResponse = array();
+                $insertResponse["message"] = "User record not updated.";
+                $insertResponse["status"] = "failed";
+                $insertResponse["data"] = array();
+                $e = array(
+                    "username" => $user->username
+                ); 
+                array_push($insertResponse["data"], $e);
+                echo json_encode($insertResponse); 
             }
         } catch (Exception $e){
             // set response code

@@ -49,8 +49,6 @@
     ?>
 <script>
     $(document).ready(function () {
-        loadCalendar();
-        loadMyLeave();
     });
 </script>
 

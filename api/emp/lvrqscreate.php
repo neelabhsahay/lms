@@ -47,6 +47,7 @@
             $lvRequest->reason      = $data->reason;
             $lvRequest->status      = $data->status;
             $lvRequest->approver    = $data->approver;
+            $lvRequest->year        = $data->startDate.getFullYear();
             
             // create the leave request
             if( !empty($lvRequest->leaveId) &&
@@ -62,17 +63,26 @@
                 // set response code
                 http_response_code(200);
              
-                // display message: user was created
-                echo json_encode(array("message" => "Leave Request record was inserted.",
-                                       "status" => "passed"));
+                $insertResponse = array();
+                $insertResponse["message"] =  "Inserted leave request.";
+                $insertResponse["status"] = "passed";
+                $insertResponse["data"] = array();
+                $e = array(
+                    "reqId"      => $lvRequest->reqId,
+                ); 
+                array_push($insertResponse["data"], $e);
+                echo json_encode($insertResponse);
             } else{
              
                 // set response code
                 http_response_code(400);
              
                 // display message: unable to create user
-                echo json_encode(array("message" => "Unable to insert leave request record.",
-                                       "status" => "failed"));
+                $insertResponse = array();
+                $insertResponse["message"] =  "Unable to insert leave request record.";
+                $insertResponse["status"] = "failed";
+                $insertResponse["data"] = array();
+                echo json_encode($insertResponse);
             }
         } catch (Exception $e) {
             // set response code

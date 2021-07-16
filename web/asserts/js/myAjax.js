@@ -3,12 +3,13 @@ function insertMyLeaveRequest(jsonInput, callBackFunc, skipFailure404) {
    jsonInput['jwt'] = jwt;
    // Call Web API to get a list of Products
    $.ajax({
-      url: 'http://localhost/lms/api/emp/lvrqsmy.php',
+      url: 'http://localhost/lms/api/emp/lvrqsmycreate.php',
       type: 'POST',
       dataType: 'json',
       data: JSON.stringify(jsonInput),
       success: function(response) {
-         callBackFunc(response["message"], response["status"]);
+         callBackFunc(response["message"], response["status"],
+            response['data']);
       },
       error: function(request, message, error) {
          handleException(request, message, error);
@@ -180,7 +181,52 @@ function myLeaveStatusAJAX(jsonInput, callBackFunc, skipFailure404) {
    });
 }
 
+// Get all Products to display
+function myLeaveRequestInRangeAJAX(jsonInput, callBackFunc, skipFailure404,
+   passThroughData) {
+   var jwt = getCookie('jwt');
+   jsonInput['jwt'] = jwt;
+   // Call Web API to get a list of Products
+   $.ajax({
+      url: 'http://localhost/lms/api/emp/lvrqsrange.php',
+      type: 'POST',
+      dataType: 'json',
+      data: JSON.stringify(jsonInput),
+      success: function(response) {
+         callBackFunc(response["body"], passThroughData);
+      },
+      error: function(request, message, error) {
+         if (skipFailure404 && request.status == "404") {
+            callBackFunc("");
+         } else {
+            handleException(request, message, error);
+         }
+      }
+   });
+}
 
+// Get all Products to display
+function myLeaveRequestAJAX(jsonInput, callBackFunc, skipFailure404) {
+   var jwt = getCookie('jwt');
+   jsonInput['jwt'] = jwt;
+   // Call Web API to get a list of Products
+   $.ajax({
+      url: 'http://localhost/lms/api/emp/lvrqsmyhistory.php',
+      type: 'POST',
+      dataType: 'json',
+      data: JSON.stringify(jsonInput),
+      success: function(response) {
+         callBackFunc(response["body"]);
+      },
+      error: function(request, message, error) {
+         if (skipFailure404 && request.status == "404") {
+            callBackFunc("");
+         } else {
+            handleException(request, message, error);
+         }
+      }
+   });
+}
 
 // Get all Products to display
 function empLeaveRequestAJAX(jsonInput, callBackFunc, skipFailure404) {

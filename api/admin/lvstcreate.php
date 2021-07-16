@@ -59,16 +59,34 @@
                 // set response code
                 http_response_code(200);
              
-                // display message: user was created
-                echo json_encode(array("message" => "Leave Status record was inserted.",
-                                       "status" => "passed"));
+                // display message: unable to create user
+                $insertResponse = array();
+                $insertResponse["message"] = "Leave Status record was inserted.";
+                $insertResponse["status"] = "passed";
+                $insertResponse["data"] = array();
+                $e = array(
+                    "leaveId" => $lvStatus->leaveId,
+                    "empId"   => $lvStatus->empId,
+                    "year"    => $lvStatus->year
+                ); 
+                array_push($insertResponse["data"], $e);
+                echo json_encode($insertResponse);
             } else{
                 // set response code
                 http_response_code(400);
              
                 // display message: unable to create user
-                echo json_encode(array("message" => "Unable to insert leave status record.",
-                                       "status" => "failed"));
+                $insertResponse = array();
+                $insertResponse["message"] = "Unable to insert leave status record.";
+                $insertResponse["status"] = "failed";
+                $insertResponse["data"] = array();
+                $e = array(
+                    "leaveId" => $lvStatus->leaveId,
+                    "empId"   => $lvStatus->empId,
+                    "year"    => $lvStatus->year
+                ); 
+                array_push($insertResponse["data"], $e);
+                echo json_encode($insertResponse);
             }
         } catch (Exception $e) {
             // set response code

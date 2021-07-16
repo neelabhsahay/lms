@@ -493,6 +493,13 @@
        public $status;
        public $approver;
        public $modifiedOn;
+       public $year;
+       public $rangeStart;
+       public $rangeEnd;
+       public $leaveType;
+       public $firstName;
+       public $lastName;
+       public $leaveRqtState;
     
       
         // constructor
@@ -514,7 +521,8 @@
                       startDate = :startDate,
                       endDate = :endDate,
                       reason = :reason,
-                      approver = :approver
+                      approver = :approver,
+                      year = :year
                       {$status_set}";
      
             // prepare the query
@@ -530,6 +538,7 @@
             $this->endDate=htmlspecialchars(strip_tags($this->endDate));
             $this->reason=htmlspecialchars(strip_tags($this->reason));
             $this->approver=htmlspecialchars(strip_tags($this->approver));
+            $this->year=htmlspecialchars(strip_tags($this->year));
            
      
             // bind the values
@@ -542,16 +551,24 @@
             $stmt->bindParam(':endDate', date( "Y-m-d", strtotime($this->endDate)));
             $stmt->bindParam(':reason', $this->reason);
             $stmt->bindParam(':approver', $this->approver);
+            $stmt->bindParam(':year', $this->year);
             
 
             if(!empty($this->status)){
                 $this->status=htmlspecialchars(strip_tags($this->status));
                 $stmt->bindParam(':status', $this->status);
             }
-     
-            // execute the query, also check if query was successful
-            if($stmt->execute()){
-                return true;
+
+            // begin a transaction
+            $this->conn->beginTransaction();
+            // try the insert, if something goes wrong, rollback.
+            if ($stmt->execute() === FALSE) {
+               $this->conn->rollback();
+               return false;
+            } else {
+               $this->reqId = $this->conn->lastInsertId();
+               $this->conn->commit();
+               return true;
             }
             return false;
         }
@@ -636,18 +653,17 @@
             $clause = "";
             $con_array = array();
             if(!empty($this->empId)){
-                array_push($con_array, " empId = :empId " );
+                array_push($con_array, " lvrq.empId = :empId " );
             }
 
             if(!empty($this->approver)){
-               array_push($con_array, " approver = :approver " );    
+               array_push($con_array, " lvrq.approver = :approver " );    
             }
             if(!empty($this->leaveId)){
-                array_push($con_array, " leaveId = :leaveId " );
+                array_push($con_array, " lvrq.leaveId = :leaveId " );
             }
-
             if( count($con_array) > 0 ) {
-                $clause = "WHERE ";
+                $clause = "AND ( ";
                 foreach ($con_array as $cons) {
                     $con_no++;
                     $clause = $clause . $cons ;
@@ -655,9 +671,18 @@
                         $clause = $clause . " AND " ;
                     }
                 }
+                $clause = $clause . " ) " ;
             }
     
-            $query = "SELECT * FROM " . $this->table_name . " {$clause} ORDER BY startDate DESC";
+            $query = "SELECT
+                         e.firstName  as firstName,
+                         e.lastName  as lastName,
+                         l.leaveType as leaveType,
+                         lvrq.* FROM employees as e JOIN " . $this->table_name . " 
+                         as lvrq ON
+                         e.empId = lvrq.empId JOIN
+                         leaves as l  ON
+                         l.leaveId = lvrq.leaveId {$clause} ORDER BY leaveId DESC";
             return $query;
 
         }
@@ -681,6 +706,49 @@
                 $this->approver=htmlspecialchars(strip_tags($this->aprover));
                 $stmt->bindParam(':approver', $this->approver);
             }
+            $stmt->execute();
+            return $stmt;
+        }
+
+
+        // Read all Leaves status record
+        public function getInRange(){
+            $match_empId = !empty($this->empId) ? " AND empId = :empId " : "";
+            if (!empty($this->rangeStart) && !empty($this->rangeEnd)) {
+                $matchRange = 'startDate <= :rangeEnd AND endDate >= :rangeStart';
+            } elseif (!empty($this->rangeStart)) {
+                $matchRange = 'endDate >= :rangeStart';
+            } elseif (!empty($this->rangeEnd)) {
+                $matchRange = 'startDate <= :rangeEnd';
+            } else {
+                $matchRange = '';
+            }
+     
+            $query = "SELECT l.leaveType as leaveType, lr.* FROM leaves as l JOIN " . $this->table_name . " 
+                     as lr ON
+                     l.leaveId = lr.leaveId
+                     AND
+                     {$matchRange}
+                     {$match_empId}
+                     ORDER BY startDate DESC";
+     
+            // prepare the query
+            $stmt = $this->conn->prepare($query);
+
+            if(!empty($this->empId)){
+                $this->empId=htmlspecialchars(strip_tags($this->empId));
+                $stmt->bindParam(':empId', $this->empId);
+            }
+
+            if(!empty($this->rangeStart)){
+                $this->rangeStart=htmlspecialchars(strip_tags($this->rangeStart));
+                $stmt->bindParam(':rangeStart', $this->rangeStart);
+            }
+            if(!empty($this->rangeEnd)){
+                $this->rangeEnd=htmlspecialchars(strip_tags($this->rangeEnd));
+                $stmt->bindParam(':rangeEnd', $this->rangeEnd);
+            }
+
             $stmt->execute();
             return $stmt;
         }
@@ -744,11 +812,15 @@
 
         // Get a leave request record
         public function getSingle(){
-     
-            // if no posted password, do not update the password
-            $query = "SELECT * FROM " . $this->table_name . "
-                      WHERE reqId = ?
-                      LIMIT 0,1";
+            $query = "SELECT
+                         e.firstName  as firstName,
+                         e.lastName  as lastName,
+                         l.leaveType as leaveType,
+                         lvrq.* FROM employees as e JOIN " . $this->table_name . " 
+                         as lvrq ON
+                         e.empId = lvrq.empId JOIN
+                         leaves as l  ON
+                         l.leaveId = lvrq.leaveId AND reqId = ? LIMIT 0,1";
      
             // prepare the query
             $stmt = $this->conn->prepare($query);
@@ -767,18 +839,22 @@
                 if($num>0){
                     $result = $stmt->fetch(PDO::FETCH_ASSOC);     
                     
-                    $this->empId        = $result['empId'];
-                    $this->leaveId      = $result['leaveId'];
-                    $this->appliedBy    = $result['appliedBy'];
-                    $this->appliedDate  = $result['appliedDate'];
-                    $this->leaveDays    = $result['leaveDays'];
-                    $this->startDate    = $result['startDate'];
-                    $this->endDate      = $result['endDate'];
-                    $this->approver     = $result['approver'];
-                    $this->reason       = $result['reason'];
-                    $this->reqId        = $result['reqId'];
-                    $this->status       = $result['status'];
-                    $this->modifiedOn   = $result['modifiedOn'];
+                    $this->empId         = $result['empId'];
+                    $this->leaveId       = $result['leaveId'];
+                    $this->appliedBy     = $result['appliedBy'];
+                    $this->appliedDate   = $result['appliedDate'];
+                    $this->leaveDays     = $result['leaveDays'];
+                    $this->startDate     = $result['startDate'];
+                    $this->endDate       = $result['endDate'];
+                    $this->approver      = $result['approver'];
+                    $this->reason        = $result['reason'];
+                    $this->reqId         = $result['reqId'];
+                    $this->status        = $result['status'];
+                    $this->modifiedOn    = $result['modifiedOn'];
+                    $this->firstName     = $result['firstName'];
+                    $this->lastName      = $result['lastName'];
+                    $this->leaveType     = $result['leaveType'];
+                    $this->leaveRqtState = $result['leaveRqtState'];
     
                     return true;
                 } 
@@ -786,6 +862,44 @@
             }
             return false;
         }
+
+        // create new LeaveRequest record
+        public function approveReject(){
+            // insert query
+            if($this->status =='Approved' ) {
+                $query = "UPDATE " . $this->table_name . " as lr  
+                      LEFT JOIN emp_leaves_status as ls  ON
+                      ( ls.leaveId = lr.leaveId 
+                        AND ls.empId = lr.empId 
+                        AND ls.year = lr.year ) 
+                        SET leaveUsed = leaveUsed + lr.leaveDays,
+                        lr.status = 'Approved'
+                        WHERE lr.reqId = :reqId AND lr.status = 'Pending'
+                        AND lr.leaveRqtState = 'Applied'";
+            } else if($this->status =='Rejected' ) {
+                $query = "UPDATE " . $this->table_name . "
+                        SET status = 'Rejected'
+                        WHERE reqId = :reqId";
+            } else {
+                return false;
+            }
+            // prepare the query
+            $stmt = $this->conn->prepare($query);
+     
+            // sanitize
+            $this->status=htmlspecialchars(strip_tags($this->status));
+            $this->reqId=htmlspecialchars(strip_tags($this->reqId));
+     
+            // bind the values
+            $stmt->bindParam(':status', $this->status);    
+            $stmt->bindParam(':reqId', $this->reqId);
+     
+            if($stmt->execute()){
+                return true;
+            }
+            return false;
+        }
     }
+
   
 ?>

@@ -26,7 +26,7 @@
     $db = $database->getConnection();
      
     // instantiate user object
-    $leave = new Leave($db);
+    $lvRequest = new LeaveRequest($db);
 
  
     // get jwt
@@ -39,35 +39,56 @@
         try {
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
-            
-            $leave->leaveId = $data->leaveId;
 
-            if( $leave->getSingle() ) {
-                // set response code
-                http_response_code(200);
-             
-                // display message: user was created
-                $insertResponse = array();
-                $insertResponse["message"] = "Leave record was deleted.";
-                $insertResponse["status"] = "passed";
-                $insertResponse["data"] = array();
-                $e = array(
-                    "leaveId"      => $leave->leaveId,
-                ); 
-                array_push($insertResponse["data"], $e);
-                echo json_encode($insertResponse);
+            $lvRequest->empId = $decoded->data->empId;
+            $lvRequest->rangeStart = $data->rangeStart;
+            $lvRequest->rangeEnd = $data->rangeEnd;
 
-            } else{
-                http_response_code(404);
+            if(empty($lvRequest->rangeStart) &&
+                empty($lvRequest->rangeEnd) ) {
+                http_response_code(400);
+
                 $insertResponse = array();
-                $insertResponse["message"] = "No record found.";
+                $insertResponse["message"] =  "Incomplete data passed to API.";
                 $insertResponse["status"] = "failed";
                 $insertResponse["data"] = array();
-                $e = array(
-                    "leaveId"      => $leave->leaveId,
-                ); 
-                array_push($insertResponse["data"], $e);
                 echo json_encode($insertResponse);
+            } else {
+
+                $stmt = $lvRequest->getInRange();
+                $itemCount = $stmt->rowCount();
+    
+                if($itemCount > 0){
+                    $employeeArr = array();
+                    $employeeArr["body"] = array();
+                    $employeeArr["itemCount"] = $itemCount;
+            
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                        $e = array(
+                            "reqId"       => $row['reqId'],
+                            "leaveId"     => $row['leaveId'],
+                            "empId"       => $row['empId'],
+                            "appliedBy"   => $row['appliedBy'],
+                            "appliedDate" => $row['appliedDate'],
+                            "leaveDays"   => $row['leaveDays'],
+                            "startDate"   => $row['startDate'],
+                            "endDate"     => $row['endDate'],
+                            "reason"      => $row['reason'],
+                            "status"      => $row['status'],
+                            "approver"    => $row['approver'],
+                            "modifiedOn"  => $row['modifiedOn'],
+                            "leaveType"   => $row['leaveType']
+                        );
+            
+                        array_push($employeeArr["body"], $e);
+                    }
+                    echo json_encode($employeeArr);
+                } else{
+                    http_response_code(404);
+                    echo json_encode(
+                        array("message" => "No record found.")
+                    );
+                }
             }
         }catch (Exception $e){
             // set response code

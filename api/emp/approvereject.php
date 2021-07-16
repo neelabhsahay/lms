@@ -27,65 +27,56 @@
      
     // instantiate user object
     $lvRequest = new LeaveRequest($db);
-
- 
+     
     // get jwt
     $jwt=isset($data->jwt) ? $data->jwt : "";
- 
+     
     // if jwt is not empty
     if($jwt){
- 
         // if decode succeed, show user details
-        try {
+        try {   
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
 
-            $lvRequest->reqId = $data->reqId;
+            // set product property values
+            $lvRequest->reqId       = $data->reqId;
+            $lvRequest->status      = $data->status;
 
-            if( $lvRequest->getSingle() ) {
-                
-                $employeeArr = array();
-                $employeeArr["body"] = array();
-                $employeeArr["itemCount"] = 1;
-        
-                $e = array(
-                    "reqId"       => $lvRequest->reqId,
-                    "leaveId"     => $lvRequest->leaveId,
-                    "empId"       => $lvRequest->empId,
-                    "appliedBy"   => $lvRequest->appliedBy,
-                    "appliedDate" => $lvRequest->appliedDate,
-                    "leaveDays"   => $lvRequest->leaveDays,
-                    "startDate"   => $lvRequest->startDate,
-                    "endDate"     => $lvRequest->endDate,
-                    "reason"      => $lvRequest->reason,
-                    "status"      => $lvRequest->status,
-                    "approver"    => $lvRequest->approver,
-                    "modifiedOn"  => $lvRequest->modifiedOn
-                );
-        
-                array_push($employeeArr["body"], $e);
-                echo json_encode($employeeArr);
-            } else{
-                http_response_code(404);
-                echo json_encode(
-                    array("message" => "No record found.")
-                );
+            // create the leave request
+            if( !empty($lvRequest->reqId) &&
+                !empty($lvRequest->status) &&
+                $lvRequest->approveReject()
+            ) {
+                // set response code
+                http_response_code(200);
+             
+                // display message: user was created
+                echo json_encode(array("message" => "Leave Request record was updated."));
+
+            } else {
+                // set response code
+                http_response_code(401);
+             
+                // show error message
+                echo json_encode(array("message" => "Unable to update Leave Request."));
             }
-        }catch (Exception $e){
+
+        } catch (Exception $e){
             // set response code
             http_response_code(403);
-     
-            // tell the user access denied  & show error message
+    
+            // show error message
             echo json_encode(array(
                 "message" => "Access denied.",
                 "error" => $e->getMessage()
             ));
         }
-    } else {
+    } else{
+     
         // set response code
         http_response_code(401);
      
         // tell the user access denied
         echo json_encode(array("message" => "Access denied."));
     }
-?>        
+?>

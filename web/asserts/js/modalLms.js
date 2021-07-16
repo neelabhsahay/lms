@@ -67,7 +67,7 @@ function closeDisplayForm(modalId, formId) {
 
 
 function fillMyInfoForm(emp) {
-   $("#empForm").setFormData(emp[0]);
+   $("#empForm").setFormDataFromJSON(emp[0]);
    closeModal('empProfilebtn');
    displayModal('insertEmpModal');
 }
