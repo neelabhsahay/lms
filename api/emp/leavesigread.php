@@ -47,6 +47,7 @@
                 $leaveArr = array();
                 $leaveArr["body"] = array();
                 $leaveArr["itemCount"] = 1;
+                $leaveArr["totalCount"] = 1;
         
                 $e = array(
                     "leaveId"      => $leave->leaveId,

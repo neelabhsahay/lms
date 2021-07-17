@@ -12,6 +12,10 @@
         public $leaveMax;
         public $leaveProvMax;
         public $modifiedOn;
+        public $startIndex;
+        public $rowCounts;
+        public $getCount;
+        public $totalCount;
      
         // constructor
         public function __construct($db){
@@ -116,10 +120,35 @@
     
         // Read all Leaves record
         public function getAll(){
-     
-            // if no posted password, do not update the password
-            $query = "SELECT * FROM " . $this->table_name . " ORDER BY leaveId DESC";
-     
+
+            if( !empty($this->getCount)) {
+                $countquery = "SELECT * FROM " . $this->table_name . " ORDER BY leaveId DESC";
+
+                $stmt = $this->conn->prepare($countquery);
+             
+                // execute the query
+                $stmt->execute();
+                // get number of rows
+                $num = $stmt->rowCount();
+    
+                if($num > 0 ){
+                    $result = $stmt->fetch(PDO::FETCH_ASSOC);                    
+                    $this->totalCount        = $result['cont'];
+                }
+            }
+            
+            if(!empty($this->startIndex) && !empty($this->rowCounts) ) {
+                $set_limit = "LIMIT " . $this->rowCounts . " OFFSET " . $this->startIndex;
+            } elseif ( !empty($this->startIndex) ) {
+                $set_limit = "LIMIT 10,  " . $this->startIndex;
+            } elseif ( !empty($this->rowCounts) ) {
+                $set_limit = "LIMIT " . $this->rowCounts . " OFFSET 0";
+            } else {
+                $set_limit ="";
+            }
+            $query = "SELECT * FROM " . $this->table_name . " ORDER BY leaveId DESC
+             {$set_limit}";
+
             // prepare the query
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
@@ -224,7 +253,10 @@
        public $employeeName;
        public $leaveType;
        public $key;
-    
+       public $startIndex;
+       public $rowCounts;
+       public $getCount;
+       public $totalCount;    
       
         // constructor
         public function __construct($db){
@@ -315,7 +347,7 @@
             return false;
         }
 
-        private function getReadQuery() {
+        private function getReadQuery( $countQuery ) {
             $con_no = 0;
             $clause = "";
             $con_array = array();
@@ -341,23 +373,59 @@
                 }
                 $clause = $clause . " ) " ;
             }
-            
-            $query = "SELECT
+
+            if(!empty($this->startIndex) && !empty($this->rowCounts) ) {
+                $set_limit = "LIMIT " . $this->rowCounts . " OFFSET " . $this->startIndex;
+            } elseif ( !empty($this->startIndex) ) {
+                $set_limit = "LIMIT 10,  " . $this->startIndex;
+            } elseif ( !empty($this->rowCounts) ) {
+                $set_limit = "LIMIT " . $this->rowCounts . " OFFSET 0";
+            } else {
+                $set_limit ="";
+            }
+
+            if( $countQuery == true ) {
+                $query = "SELECT
+                         COUNT( * ) as cont FROM employees as e JOIN " . $this->table_name . " 
+                         as lvst ON
+                         e.empId = lvst.empId JOIN
+                         leaves as l  ON
+                         l.leaveId = lvst.leaveId {$clause} ORDER BY lvst.leaveId DESC
+                         {$set_limit}";
+            } else {
+                $query = "SELECT
                          e.firstName as employeeName,
                          l.leaveType as leaveType,
                          lvst.* FROM employees as e JOIN " . $this->table_name . " 
                          as lvst ON
                          e.empId = lvst.empId JOIN
                          leaves as l  ON
-                         l.leaveId = lvst.leaveId {$clause} ORDER BY leaveId DESC";
+                         l.leaveId = lvst.leaveId {$clause} ORDER BY lvst.leaveId DESC
+                         {$set_limit}";
+                     }
             return $query;
 
         }
     
         // Read all Leaves status record
-        public function getAll(){        
+        public function getAll(){
+            if( !empty($this->getCount)) {
+                $countquery = $this->getReadQuery( true);
+
+                $stmt = $this->conn->prepare($countquery);
+             
+                // execute the query
+                $stmt->execute();
+                // get number of rows
+                $num = $stmt->rowCount();
+    
+                if($num > 0 ){
+                    $result = $stmt->fetch(PDO::FETCH_ASSOC);                    
+                    $this->totalCount        = $result['cont'];
+                }
+            }    
             
-            $query = $this->getReadQuery();
+            $query = $this->getReadQuery( false);
    
             // prepare the query
             $stmt = $this->conn->prepare($query);
@@ -395,7 +463,7 @@
                          AND ( e.firstName LIKE '{$key}%' OR
                          e.middleName LIKE '{$key}%' OR e.lastName LIKE '{$key}%' ) LIMIT 0,5";
             } else {
-                $query = $this->getReadQuery();
+                $query = $this->getReadQuery( false );
             }
 
             // prepare the query
@@ -405,7 +473,7 @@
         }
 
         public function readDataForwards() {
-            $query = $this->getReadQuery();
+            $query = $this->getReadQuery( false);
             $stmt  = $this->conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
             if(!empty($this->empId)){
                 $this->empId=htmlspecialchars(strip_tags($this->empId));
@@ -430,7 +498,7 @@
         }
 
         public function readDataBackwards() {
-            $query = $this->getReadQuery();
+            $query = $this->getReadQuery( false);
             $stmt  = $this->conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
             if(!empty($this->empId)){
                 $this->empId=htmlspecialchars(strip_tags($this->empId));
@@ -500,6 +568,10 @@
        public $firstName;
        public $lastName;
        public $leaveRqtState;
+       public $startIndex;
+       public $rowCounts;
+       public $getCount;
+       public $totalCount;
     
       
         // constructor
@@ -648,7 +720,7 @@
             return false;
         }
 
-        private function getReadQuery() {
+        private function getReadQuery( $countQuery ) {
             $con_no = 0;
             $clause = "";
             $con_array = array();
@@ -673,24 +745,62 @@
                 }
                 $clause = $clause . " ) " ;
             }
-    
-            $query = "SELECT
-                         e.firstName  as firstName,
-                         e.lastName  as lastName,
-                         l.leaveType as leaveType,
-                         lvrq.* FROM employees as e JOIN " . $this->table_name . " 
-                         as lvrq ON
-                         e.empId = lvrq.empId JOIN
-                         leaves as l  ON
-                         l.leaveId = lvrq.leaveId {$clause} ORDER BY leaveId DESC";
-            return $query;
+
+            if(!empty($this->startIndex) && !empty($this->rowCounts) ) {
+                $set_limit = "LIMIT " . $this->rowCounts . " OFFSET " . $this->startIndex;
+            } elseif ( !empty($this->startIndex) ) {
+                $set_limit = "LIMIT 10,  " . $this->startIndex;
+            } elseif ( !empty($this->rowCounts) ) {
+                $set_limit = "LIMIT " . $this->rowCounts . " OFFSET 0";
+            } else {
+                $set_limit ="";
+            }
+
+            if( $countQuery == false ) {
+                $query = "SELECT
+                             e.firstName  as firstName,
+                             e.lastName  as lastName,
+                             l.leaveType as leaveType,
+                             lvrq.* FROM employees as e JOIN " . $this->table_name . " 
+                             as lvrq ON
+                             e.empId = lvrq.empId JOIN
+                             leaves as l  ON
+                             l.leaveId = lvrq.leaveId {$clause} ORDER BY lvrq.leaveId DESC
+                             {$set_limit}";
+                return $query;
+            } else {
+                $query = "SELECT
+                             COUNT(*) as cont FROM employees as e JOIN " . $this->table_name . " 
+                             as lvrq ON
+                             e.empId = lvrq.empId JOIN
+                             leaves as l  ON
+                             l.leaveId = lvrq.leaveId {$clause} ORDER BY lvrq.leaveId DESC
+                             {$set_limit}";
+                return $query;
+            }
 
         }
     
         // Read all Leaves status record
         public function getAll(){
+
+            if( !empty($this->getCount)) {
+                $countquery = $this->getReadQuery( true);
+
+                $stmt = $this->conn->prepare($countquery);
+             
+                // execute the query
+                $stmt->execute();
+                // get number of rows
+                $num = $stmt->rowCount();
+    
+                if($num > 0 ){
+                    $result = $stmt->fetch(PDO::FETCH_ASSOC);                    
+                    $this->totalCount        = $result['cont'];
+                }
+            }
      
-            $query = $this->getReadQuery();
+            $query = $this->getReadQuery( false );
      
             // prepare the query
             $stmt = $this->conn->prepare($query);
@@ -754,7 +864,7 @@
         }
 
         public function readDataForwards() {
-            $query = $this->getReadQuery();
+            $query = $this->getReadQuery( false );
      
             // prepare the query
             $stmt  = $this->conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
@@ -782,7 +892,7 @@
         }
 
         public function readDataBackwards() {
-            $query = $this->getReadQuery();
+            $query = $this->getReadQuery( false );
      
             // prepare the query
             $stmt  = $this->conn->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));

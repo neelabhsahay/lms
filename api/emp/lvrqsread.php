@@ -49,6 +49,7 @@
                     $employeeArr = array();
                     $employeeArr["body"] = array();
                     $employeeArr["itemCount"] = 1;
+                    $employeeArr["totalCount"] = 1;
             
                     $e = array(
                         "reqId"       => $lvRequest->reqId,
@@ -77,6 +78,9 @@
                     );
                 }
             } else {
+                $lvRequest->getCount = $data->getCount;
+                $lvRequest->startIndex = $data->startIndex;
+                $lvRequest->rowCounts = $data->rowCounts;
                 $stmt = $lvRequest->getAll();
                 $itemCount = $stmt->rowCount();
     
@@ -85,6 +89,7 @@
                     $employeeArr = array();
                     $employeeArr["body"] = array();
                     $employeeArr["itemCount"] = $itemCount;
+                    $employeeArr['totalCount'] = $lvRequest->totalCount;
             
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                         $e = array(

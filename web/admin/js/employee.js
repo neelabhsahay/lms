@@ -1,3 +1,9 @@
+var totalEmpCount = 10;
+var totalItemPerPage = 5;
+var totalPage = 2;
+var firstPage = 0;
+var currentPage = 0;
+
 function insertEmpAjax(empInfo) {
    var jwt = getCookie('jwt');
    empInfo['jwt'] = jwt;
@@ -44,11 +50,16 @@ function updateEmpAjax(empInfo) {
    });
 }
 
-function empInfos(emps) {
+function empInfos(emps, totalCount) {
+   if (totalCount !== null) {
+      totalEmpCount = totalCount;
+      totalPage = Math.ceil(totalEmpCount / totalItemPerPage);
+   }
    $.each(emps, function(index, emp) {
       // Add a row to the table
       empAddRow(emp);
    });
+   apply_pagination(totalPage);
 }
 
 function fillEmpSearchOutput(result) {
@@ -96,12 +107,27 @@ function clearEmpTableRow() {
 
 function loadListEmp() {
    clearEmpTableRow();
-   var jsonInput = {};
+   var jsonInput = {
+      "getCount": true,
+      "startIndex": 0,
+      "rowCounts": totalItemPerPage,
+   };
+   getEmployeeAJAX(jsonInput, empInfos, false);
+}
+
+function loadListEmpByIndex(pageNumber) {
+
+   let startIndex = (pageNumber - 1) * totalItemPerPage;
+   clearEmpTableRow();
+   var jsonInput = {
+      'startIndex': startIndex,
+      'rowCounts': totalItemPerPage
+   };
    getEmployeeAJAX(jsonInput, empInfos, false);
 }
 
 
-function fillEmpForm(emp) {
+function fillEmpForm(emp, totalCount) {
    $("#upEmpForm").setFormDataFromJSON(emp[0]);
 }
 
@@ -178,4 +204,41 @@ function searchManager(mgrStr) {
    } else {
       document.getElementById("searchedMgr").style.display = "none";
    }
+}
+
+/*
+ * Paging section of code
+ */
+
+function apply_pagination(totalPages) {
+   var myPagination = new Pagination({
+      // Where to render this component
+      container: $("#emplyeePages"),
+
+      // Called when user change page by this component
+      // contains one parameter with page number
+      pageClickCallback: function(pageNumber) {
+         loadListEmpByIndex(pageNumber);
+      },
+
+      // The URL to which is browser redirected after user change page by this component
+      pageClickUrl: '',
+
+      // If true, pageClickCallback is called immediately after component render (after make method call)
+      callPageClickCallbackOnInit: false,
+
+      // The number of visible buttons in pagination panel
+      maxVisibleElements: 13,
+
+      showInput: false,
+
+      // The content of tooltip displayed on text input box.
+      inputTitle: '',
+      // If false, standard mode is used (show arrows on the edges, border page numbers, shorting dots and page numbers around current page).
+      // If true, standard mode is enhanced, so page number between border number and middle area is also displayed.
+      enhancedMode: true
+   });
+   var itemsCount = totalEmpCount;
+   var itemsOnPage = totalItemPerPage;
+   myPagination.make(itemsCount, itemsOnPage);
 }

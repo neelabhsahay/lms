@@ -46,6 +46,7 @@
                     $leaveArr = array();
                     $leaveArr["body"] = array();
                     $leaveArr["itemCount"] = 1;
+                    $leaveArr["totalCount"] = 1;
             
                     $e = array(
                         "leaveId"      => $leave->leaveId,
@@ -69,9 +70,10 @@
     
                 if($itemCount > 0){
                     
-                    $userArr = array();
-                    $userArr["body"] = array();
-                    $userArr["itemCount"] = $itemCount;
+                    $leaveArr = array();
+                    $leaveArr["body"] = array();
+                    $leaveArr["itemCount"] = $itemCount;
+                    $leaveArr["totalCount"] = $itemCount;
             
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                         $e = array(
@@ -82,9 +84,9 @@
                             "modifiedOn"   => $row['modifiedOn']
                         );
             
-                        array_push($userArr["body"], $e);
+                        array_push($leaveArr["body"], $e);
                     }
-                    echo json_encode($userArr);
+                    echo json_encode($leaveArr);
                 } else{
                     http_response_code(404);
                     echo json_encode(

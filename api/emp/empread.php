@@ -46,6 +46,7 @@
                     $employeeArr = array();
                     $employeeArr["body"] = array();
                     $employeeArr["itemCount"] = 1;
+                    $employeeArr["totalCount"] = 1;
             
                     $e = array(
                             "empId"        => $emp->empId,
@@ -75,6 +76,9 @@
                     );
                 }
             } else {
+                $emp->getCount = $data->getCount;
+                $emp->startIndex = $data->startIndex;
+                $emp->rowCounts = $data->rowCounts;
                 $stmt = $emp->getAll();
                 $itemCount = $stmt->rowCount();
     
@@ -83,6 +87,7 @@
                     $employeeArr = array();
                     $employeeArr["body"] = array();
                     $employeeArr["itemCount"] = $itemCount;
+                    $employeeArr['totalCount'] = $emp->totalCount;
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                         $e = array( 
                             "empId"        => $row['empId'],

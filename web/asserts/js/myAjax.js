@@ -76,7 +76,7 @@ function getEmployeeAJAX(jsonInput, callBackFunc, skipFailure404) {
       dataType: 'json',
       data: JSON.stringify(jsonInput),
       success: function(response) {
-         callBackFunc(response["body"]);
+         callBackFunc(response["body"], response["totalCount"]);
       },
       error: function(request, message, error) {
          if (skipFailure404 && request.status == "404") {

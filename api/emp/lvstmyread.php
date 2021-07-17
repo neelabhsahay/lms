@@ -53,6 +53,7 @@
                 $lvStatusArr = array();
                 $lvStatusArr["body"] = array();
                 $lvStatusArr["itemCount"] = $itemCount;
+                $lvStatusArr["totalCount"] = $itemCount;
         
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     $e = array(

@@ -32,3 +32,4 @@ At present we install something line this:
 Few Open Source libraries used:
 1. FullCalendar :: https://fullcalendar.io
 2. BootstrapDialog :: From Bootstrap
+3. Scale soft https://github.com/Scalesoft/s-pagination

@@ -1,5 +1,5 @@
 // Get all Products to display
-function usrList() {
+function usrListAJAX() {
    var jwt = getCookie('jwt');
    // Call Web API to get a list of Products
    $.ajax({
@@ -9,8 +9,8 @@ function usrList() {
       data: JSON.stringify({
          "jwt": jwt
       }),
-      success: function(products) {
-         usrListSuccess(products);
+      success: function(usersJson) {
+         usrListSuccess(usersJson);
       },
       error: function(request, message, error) {
          handleException(request, message, error);
@@ -64,12 +64,9 @@ function updateUserAjax(userInfo) {
 }
 
 // Display all Products returned from Web API call
-function usrListSuccess(products) {
-   // Iterate over the collection of data
-   $.each(products, function(index, product) {
-      // Add a row to the Product table
-      usrInfo(product);
-   });
+function usrListSuccess(usersJson) {
+   // Add a row to the Product table
+   usrInfo(usersJson["body"]);
 }
 
 function usrInfo(usrs) {
@@ -110,7 +107,7 @@ function clearUsrTableRow() {
 
 function loadListUser() {
    clearUsrTableRow();
-   usrList();
+   usrListAJAX();
 }
 
 function fillUserForm(emp) {

@@ -39,6 +39,9 @@
         try {
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
+            $user->getCount = $data->getCount;
+            $user->startIndex = $data->startIndex;
+            $user->rowCounts = $data->rowCounts;
             $stmt = $user->getAll();
             $itemCount = $stmt->rowCount();
 
@@ -47,6 +50,7 @@
                 $userArr = array();
                 $userArr["body"] = array();
                 $userArr["itemCount"] = $itemCount;
+                $userArr['totalCount'] = $user->totalCount;
         
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     $e = array(

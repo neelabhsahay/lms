@@ -62,6 +62,7 @@
                     $employeeArr = array();
                     $employeeArr["body"] = array();
                     $employeeArr["itemCount"] = $itemCount;
+                    $employeeArr["totalCount"] = $itemCount;
             
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                         $e = array(

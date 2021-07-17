@@ -18,7 +18,6 @@
  <script type= "text/javascript" src= "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
  <script type= "text/javascript" src= "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
  <script type= "text/javascript" src= "https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
- <script type= "text/javascript" src= "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js"></script>
 
 
   <!-- My scripts and css -->
@@ -33,6 +32,9 @@
 
  <!-- Material Design Iconic Font CSS -->
   <link rel="stylesheet" href="../asserts/css/material-design-iconic-font.min.css">
+
+  <link rel="stylesheet" href="../asserts/lib/spage/pagination.css">
+  <script src="../asserts/lib/spage/pagination.js"></script>
 </head>
 <body>
     <div class="card_body">

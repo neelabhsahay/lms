@@ -43,6 +43,10 @@
             $lvStatus->leaveId = $data->leaveId;
             $lvStatus->empId = $data->empId;
             $lvStatus->year = $data->year;
+            $lvStatus->getCount = $data->getCount;
+            $lvStatus->startIndex = $data->startIndex;
+            $lvStatus->rowCounts = $data->rowCounts;
+            
             $stmt = $lvStatus->getAll();
             $itemCount = $stmt->rowCount();
 
@@ -52,6 +56,7 @@
                 $lvStatusArr = array();
                 $lvStatusArr["body"] = array();
                 $lvStatusArr["itemCount"] = $itemCount;
+                $lvStatusArr['totalCount'] = $lvStatus->totalCount;
         
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     $e = array(

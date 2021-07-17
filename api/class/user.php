@@ -23,6 +23,10 @@
         public $departmentId;
         public $modifiedOn;
         public $key;
+        public $startIndex;
+        public $rowCounts;
+        public $getCount;
+        public $totalCount;
     
         // constructor
         public function __construct($db){
@@ -200,9 +204,35 @@
     
         // GET ALL
         public function getAll(){
+            if( !empty($this->getCount)) {
+                $countquery = "SELECT COUNT(*) as cont FROM " . $this->table_name . "
+                 e INNER JOIN " . $this->table_name . " m ON m.empId = e.manager ORDER BY e.empId DESC";
+                $stmt = $this->conn->prepare($countquery);
+             
+                // execute the query
+                $stmt->execute();
+                // get number of rows
+                $num = $stmt->rowCount();
+    
+                if($num > 0 ){
+                    $result = $stmt->fetch(PDO::FETCH_ASSOC);                    
+                    $this->totalCount        = $result['cont'];
+                }
+            }
+            if(!empty($this->startIndex) && !empty($this->rowCounts) ) {
+                $set_limit = "LIMIT " . $this->rowCounts . " OFFSET " . $this->startIndex;
+            } elseif ( !empty($this->startIndex) ) {
+                $set_limit = "LIMIT 10,  " . $this->startIndex;
+            } elseif ( !empty($this->rowCounts) ) {
+                $set_limit = "LIMIT " . $this->rowCounts . " OFFSET 0";
+            } else {
+                $set_limit ="";
+            }
             $query = "SELECT m.firstName AS managerName, e.* FROM " . $this->table_name . "
-             e INNER JOIN " . $this->table_name . " m ON m.empId = e.manager ORDER BY e.empId DESC";
+             e INNER JOIN " . $this->table_name . " m ON m.empId = e.manager ORDER BY e.empId DESC 
+             {$set_limit}";
             // prepare the query
+
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             return $stmt;
@@ -313,6 +343,10 @@
         public $passwordType;
         public $accountType;
         public $modifiedOn;
+        public $startIndex;
+        public $rowCounts;
+        public $getCount;
+        public $totalCount;
      
         // constructor
         public function __construct($db){
@@ -466,9 +500,35 @@
     
          // update a employee record
         public function getAll(){
-     
-            // if no posted password, do not update the password
-            $query = "SELECT * FROM " . $this->table_name . " ORDER BY username DESC";
+
+            if( !empty($this->getCount)) {
+                $countquery = "SELECT COUNT(*) as cont FROM " . $this->table_name . " ORDER BY username DESC";
+
+                $stmt = $this->conn->prepare($countquery);
+             
+                // execute the query
+                $stmt->execute();
+                // get number of rows
+                $num = $stmt->rowCount();
+    
+                if($num > 0 ){
+                    $result = $stmt->fetch(PDO::FETCH_ASSOC);                    
+                    $this->totalCount        = $result['cont'];
+                }
+            }
+
+            if(!empty($this->startIndex) && !empty($this->rowCounts) ) {
+                $set_limit = "LIMIT " . $this->rowCounts . " OFFSET " . $this->startIndex;
+            } elseif ( !empty($this->startIndex) ) {
+                $set_limit = "LIMIT 10,  " . $this->startIndex;
+            } elseif ( !empty($this->rowCounts) ) {
+                $set_limit = "LIMIT " . $this->rowCounts . " OFFSET 0";
+            } else {
+                $set_limit ="";
+            }
+
+            $query = "SELECT * FROM " . $this->table_name . " ORDER BY username DESC
+             {$set_limit}";
      
             // prepare the query
             $stmt = $this->conn->prepare($query);

@@ -46,6 +46,7 @@
                 $employeeArr = array();
                 $employeeArr["body"] = array();
                 $employeeArr["itemCount"] = 1;
+                $employeeArr["totalCount"] = 1;
         
                 $e = array(
                         "empId"        => $user->empId,
