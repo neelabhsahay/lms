@@ -35,7 +35,6 @@
      
         // create new employee record
         public function create(){
-
             $getIdQuery = "SELECT empId FROM " . $this->table_name . "
                ORDER BY empId DESC LIMIT 0,1";
             // prepare the getIdQuery
@@ -72,7 +71,9 @@
                       manager = :manager,
                       departmentId = :departmentId
                       ";
-     
+
+            // begin a transaction
+            $this->conn->beginTransaction();
             // prepare the query
             $stmt = $this->conn->prepare($query);
      
@@ -110,9 +111,17 @@
             $stmt->bindParam(':departmentId', $this->departmentId);
             
             // execute the query, also check if query was successful
-            if($stmt->execute()){
-                return true;
+
+
+            // try the insert, if something goes wrong, rollback.
+            if ($stmt->execute() === FALSE) {
+                $this->conn->rollback();
+                return false;
+            } else {                
+               $this->conn->commit();
+               return true;
             }
+
             return false;
         }
     

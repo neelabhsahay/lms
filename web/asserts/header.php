@@ -54,7 +54,7 @@
         aria-labelledby="navbarDropdownMenuLink" data-toggle="dropdown"
       >
         <li>
-          <a class="dropdown-item" href="#" onclick="showEmployeeDetail()">My profile</a>
+          <a class="dropdown-item" href="#" onclick="showMyInfoDetail()">My profile</a>
         </li>
         <li>
           <a class="dropdown-item" href="#">Settings</a>

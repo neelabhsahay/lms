@@ -1,8 +1,5 @@
 var totalEmpCount = 10;
 var totalItemPerPage = 5;
-var totalPage = 2;
-var firstPage = 0;
-var currentPage = 0;
 
 function insertEmpAjax(empInfo) {
    var jwt = getCookie('jwt');
@@ -59,7 +56,14 @@ function empInfos(emps, totalCount) {
       // Add a row to the table
       empAddRow(emp);
    });
-   apply_pagination(totalPage);
+   apply_pagination(totalPage, loadListEmpByIndex);
+}
+
+function empInfoNextPage(emps, totalCount) {
+   $.each(emps, function(index, emp) {
+      // Add a row to the table
+      empAddRow(emp);
+   });
 }
 
 function fillEmpSearchOutput(result) {
@@ -95,10 +99,17 @@ function empTableRow(emp) {
    row = row + "<td>" + emp.email + "</td>";
    row = row + "<td >";
    row = row + "<button value='" + emp.empId + "' class='btn btn-primary edit-item' onclick='viewEmp(this.value)'>Edit</button> " +
-      "<button value='" + emp.empId + "' class='btn btn-info view-item' onclick='viewEmp(this.value)'>View</button>";
+      "<button value='" + emp.empId + "' class='btn btn-info view-item' onclick='showEmployeeDetail(this.value)'>View</button>";
    row = row + "</td>";
    row = row + "</tr>";
    return row;
+}
+
+function showEmployeeDetail(empId) {
+   var jsonInput = {
+      "empId": empId
+   };
+   getEmployeeAJAX(jsonInput, fillMyInfoForm, false);
 }
 
 function clearEmpTableRow() {
@@ -110,7 +121,7 @@ function loadListEmp() {
    var jsonInput = {
       "getCount": true,
       "startIndex": 0,
-      "rowCounts": totalItemPerPage,
+      "rowCounts": totalItemPerPage
    };
    getEmployeeAJAX(jsonInput, empInfos, false);
 }
@@ -123,7 +134,7 @@ function loadListEmpByIndex(pageNumber) {
       'startIndex': startIndex,
       'rowCounts': totalItemPerPage
    };
-   getEmployeeAJAX(jsonInput, empInfos, false);
+   getEmployeeAJAX(jsonInput, empInfoNextPage, false);
 }
 
 
@@ -204,41 +215,4 @@ function searchManager(mgrStr) {
    } else {
       document.getElementById("searchedMgr").style.display = "none";
    }
-}
-
-/*
- * Paging section of code
- */
-
-function apply_pagination(totalPages) {
-   var myPagination = new Pagination({
-      // Where to render this component
-      container: $("#emplyeePages"),
-
-      // Called when user change page by this component
-      // contains one parameter with page number
-      pageClickCallback: function(pageNumber) {
-         loadListEmpByIndex(pageNumber);
-      },
-
-      // The URL to which is browser redirected after user change page by this component
-      pageClickUrl: '',
-
-      // If true, pageClickCallback is called immediately after component render (after make method call)
-      callPageClickCallbackOnInit: false,
-
-      // The number of visible buttons in pagination panel
-      maxVisibleElements: 13,
-
-      showInput: false,
-
-      // The content of tooltip displayed on text input box.
-      inputTitle: '',
-      // If false, standard mode is used (show arrows on the edges, border page numbers, shorting dots and page numbers around current page).
-      // If true, standard mode is enhanced, so page number between border number and middle area is also displayed.
-      enhancedMode: true
-   });
-   var itemsCount = totalEmpCount;
-   var itemsOnPage = totalItemPerPage;
-   myPagination.make(itemsCount, itemsOnPage);
 }

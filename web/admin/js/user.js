@@ -1,23 +1,5 @@
-// Get all Products to display
-function usrListAJAX() {
-   var jwt = getCookie('jwt');
-   // Call Web API to get a list of Products
-   $.ajax({
-      url: 'http://localhost/lms/api/emp/usrread.php',
-      type: 'POST',
-      dataType: 'json',
-      data: JSON.stringify({
-         "jwt": jwt
-      }),
-      success: function(usersJson) {
-         usrListSuccess(usersJson);
-      },
-      error: function(request, message, error) {
-         handleException(request, message, error);
-      }
-   });
-}
-
+var totalEmpCount = 10;
+var totalItemPerPage = 5;
 // Get all Products to display
 function userDetail(usr) {
    var jwt = getCookie('jwt');
@@ -64,9 +46,19 @@ function updateUserAjax(userInfo) {
 }
 
 // Display all Products returned from Web API call
-function usrListSuccess(usersJson) {
+function usrListSuccess(usersInfo, totalCount) {
+   if (totalCount !== null) {
+      totalEmpCount = totalCount;
+      totalPage = Math.ceil(totalEmpCount / totalItemPerPage);
+   }
    // Add a row to the Product table
-   usrInfo(usersJson["body"]);
+   usrInfo(usersInfo);
+   apply_pagination(totalPage, loadListUserByIndex);
+}
+
+function usrListNextPage(usersInfo, totalCount) {
+   // Add a row to the Product table
+   usrInfo(usersInfo);
 }
 
 function usrInfo(usrs) {
@@ -107,7 +99,20 @@ function clearUsrTableRow() {
 
 function loadListUser() {
    clearUsrTableRow();
-   usrListAJAX();
+   var jsonInput = {
+      "getCount": true
+   };
+   usrListAJAX(jsonInput, usrListSuccess, false);
+}
+
+function loadListUserByIndex(pageNumber) {
+   let startIndex = (pageNumber - 1) * totalItemPerPage;
+   clearUsrTableRow();
+   var jsonInput = {
+      'startIndex': startIndex,
+      'rowCounts': totalItemPerPage
+   };
+   usrListAJAX(jsonInput, usrListNextPage, false);
 }
 
 function fillUserForm(emp) {

@@ -123,7 +123,7 @@ function leaveStatusListAJAX(jsonInput, callBackFunc, skipFailure404) {
       dataType: 'json',
       data: JSON.stringify(jsonInput),
       success: function(response) {
-         callBackFunc(response["body"]);
+         callBackFunc(response["body"], response["totalCount"]);
       },
       error: function(request, message, error) {
          if (skipFailure404 && request.status == "404") {
@@ -239,7 +239,33 @@ function empLeaveRequestAJAX(jsonInput, callBackFunc, skipFailure404) {
       dataType: 'json',
       data: JSON.stringify(jsonInput),
       success: function(response) {
-         callBackFunc(response["body"]);
+         callBackFunc(response["body"], response["totalCount"]);
+      },
+      error: function(request, message, error) {
+         if (skipFailure404 && request.status == "404") {
+            callBackFunc("");
+         } else {
+            handleException(request, message, error);
+         }
+      }
+   });
+}
+
+/*
+ * USER SPECFIC
+ */
+// Get all Products to display
+function usrListAJAX(jsonInput, callBackFunc, skipFailure404) {
+   var jwt = getCookie('jwt');
+   jsonInput['jwt'] = jwt;
+   // Call Web API to get a list of Products
+   $.ajax({
+      url: 'http://localhost/lms/api/emp/usrread.php',
+      type: 'POST',
+      dataType: 'json',
+      data: JSON.stringify(jsonInput),
+      success: function(response) {
+         callBackFunc(response["body"], response["totalCount"]);
       },
       error: function(request, message, error) {
          if (skipFailure404 && request.status == "404") {

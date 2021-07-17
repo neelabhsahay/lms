@@ -49,7 +49,7 @@
       include "../asserts/footer.php";
       include "insertLeave.php";
       include "updateLeave.php";
-      include "insertEmp.php";
+      include "viewEmp.php";
     ?>
 <script>
     $(document).ready(function () {

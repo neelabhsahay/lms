@@ -1,3 +1,6 @@
+var totalEmpCount = 10;
+var totalItemPerPage = 5;
+
 function insertLeaveStatusAjax(leaveInfo) {
    var jwt = getCookie('jwt');
    leaveInfo['jwt'] = jwt;
@@ -44,12 +47,26 @@ function updateLeaveStatusAjax(leaveInfo) {
  * List Section and on Load section
  **********************************
  */
-function lvStInfo(lvsts) {
+function lvStInfo(lvsts, totalCount) {
+   totalPage = 0;
+   if (totalCount !== null) {
+      totalEmpCount = totalCount;
+      totalPage = Math.ceil(totalEmpCount / totalItemPerPage);
+   }
+   $.each(lvsts, function(index, lvst) {
+      // Add a row to the Product table
+      lvStAddRow(lvst);
+   });
+   apply_pagination(totalPage, loadLeaveStatusByIndex);
+}
+
+function lvStInfoNextPage(lvsts, totalCount) {
    $.each(lvsts, function(index, lvst) {
       // Add a row to the Product table
       lvStAddRow(lvst);
    });
 }
+
 // Add Product row to <table>
 function lvStAddRow(lvst) {
    // First check if a <tbody> tag exists, add one if not
@@ -85,7 +102,9 @@ function clearLeaveStatusTableRow() {
 function loadListLeaveStatus() {
    clearLeaveStatusTableRow();
    var jsonInput = {
-      "getCount": true
+      "getCount": true,
+      "startIndex": 0,
+      "rowCounts": totalItemPerPage
    };
    leaveStatusListAJAX(jsonInput, lvStInfo, false);
 }
@@ -188,4 +207,19 @@ function insertLeaveStatus() {
    var dataObj = $("#leaveStatusForm").serializeFormJSON();
    confirmAndExecute(insertLeaveStatusAjax, dataObj, "insert leave status");
    return false;
+}
+
+/*
+ * Paging section of code
+ */
+
+function loadLeaveStatusByIndex(pageNumber) {
+
+   let startIndex = (pageNumber - 1) * totalItemPerPage;
+   clearLeaveStatusTableRow();
+   var jsonInput = {
+      'startIndex': startIndex,
+      'rowCounts': totalItemPerPage
+   };
+   leaveStatusListAJAX(jsonInput, lvStInfoNextPage, false);
 }

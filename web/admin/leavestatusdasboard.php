@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Employee Board</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script type= "text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script type= "text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script type= "text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -22,16 +22,20 @@
 
 
   <!-- My scripts and css -->
+
 <script type="text/javascript" src="../asserts/js/modalLms.js"></script>
-<script type="text/javascript" src="../asserts/js/cookie.js" > </script>
 <script type="text/javascript" src="../asserts/js/myAjax.js" > </script>
 <script type="text/javascript" src="js/leaveStatus.js"></script>
+<script src="../asserts/lib/spage/pagination.js"></script>
 
 <link rel="stylesheet" type="text/css" href="../asserts/css/page.css" />
 <link rel="stylesheet" type="text/css" href="../asserts/css/yearpicker.css" />
 
- <!-- Material Design Iconic Font CSS -->
-  <link rel="stylesheet" href="../asserts/css/material-design-iconic-font.min.css">
+
+<!-- Material Design Iconic Font CSS -->
+   <link rel="stylesheet" href="../asserts/css/material-design-iconic-font.min.css">
+  <link rel="stylesheet" href="../asserts/lib/spage/pagination.css">
+ 
 </head>
 <body>
     <div class="card_body">
@@ -39,7 +43,7 @@
             include "../asserts/header.php";
             include "../asserts/sidebar.php";
         ?>
-        <div class="container-fluid">
+        <div>
           <?php
             include "listLeaveStatus.php";
             
@@ -50,10 +54,10 @@
       include "../asserts/footer.php";
       include "insertLeaveStatus.php";
       include "updateLeaveStatus.php";
-      include "insertEmp.php";
+      include "viewEmp.php";
     ?>
-<script src= '../asserts/js/jquery.min.js'></script>
-<script src= '../asserts/js/core.js'></script>
+<script src= '../asserts/js/libs/jquery.min.js'></script>
+<script src= '../asserts/js/libs/core.js'></script>
 <script src= "../asserts/js/libs/yearpicker.js"></script>
 <script src= "../asserts/js/cookie.js" > </script>
 <script>

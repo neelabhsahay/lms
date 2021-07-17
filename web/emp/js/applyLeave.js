@@ -22,10 +22,8 @@ function setLeaveStatusContainer(index, enable, type, value) {
 }
 
 function myAvaliableLeave(leaves) {
-
    $.each(leaves, function(index, leave) {
       // Add a row to the Product table
-
       var y = Number(leave.leaveInYear) + Number(leave.leaveCarried);
       var u = y - Number(leave.leaveUsed);
       setLeaveStatusContainer(index, "block", leave.leaveType, u);
@@ -216,3 +214,7 @@ function myLeaveRequestInRange(calendar, rangeStart, rangeEnd) {
    };
    myLeaveRequestInRangeAJAX(jsonInput, createCalEvents, true, calendar);
 }
+
+/*
+ * Leave Request List
+ */

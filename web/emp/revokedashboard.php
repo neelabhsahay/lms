@@ -44,7 +44,7 @@
     </div>
     <?php
       include "../asserts/footer.php";
-      include "../admin/insertEmp.php";
+      include "../admin/viewEmp.php";
       include "applyLeave.php"
     ?>
 <script>

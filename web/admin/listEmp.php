@@ -39,7 +39,7 @@
            
         </div>
         <!--        Start Pagination -->
-        <div class="pagination-container" id="emplyeePages">
+        <div class="pagination-container" id="pagerDIV">
         </div>        
     </div>
 </div>

@@ -22,15 +22,15 @@
   <!-- My scripts and css -->
 <script type="text/javascript" src="../asserts/js/modalLms.js"></script>
 <script type="text/javascript" src="../asserts/js/myAjax.js"></script>
-
 <script type="text/javascript" src="../asserts/js/cookie.js" > </script>
 <script type="text/javascript" src="js/user.js"></script>
+<script src="../asserts/lib/spage/pagination.js"></script>
 
 <link rel="stylesheet" type="text/css" href="../asserts/css/page.css" />
 
-<link rel="stylesheet" type="text/css" href="../asserts/css/yearpicker.css" />
  <!-- Material Design Iconic Font CSS -->
   <link rel="stylesheet" href="../asserts/css/material-design-iconic-font.min.css">
+  <link rel="stylesheet" href="../asserts/lib/spage/pagination.css">
 </head>
 <body>
     <div class="card_body">
@@ -49,7 +49,7 @@
       include "../asserts/footer.php";
       include "insertUser.php";
       include "updateUser.php";
-      include "insertEmp.php";
+      include "viewEmp.php";
     ?>
   <script>
     $(document).ready(function () {

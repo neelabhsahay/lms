@@ -37,7 +37,8 @@
       </div>
       <?php
       include "../asserts/footer.php";
-      include "applyLeave.php"
+      include "applyLeave.php";
+      include "../admin/viewEmp.php";
     ?>
       <script>
       $(document).ready(function() {

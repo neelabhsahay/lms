@@ -111,6 +111,7 @@
       include "listLeave.php";
       include "listEmp.php";
       include "listUser.php";
+      include "viewEmp.php";
       include "listLeaveStatus.php";
  ?>
 </body>

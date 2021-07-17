@@ -413,6 +413,19 @@
                 $countquery = $this->getReadQuery( true);
 
                 $stmt = $this->conn->prepare($countquery);
+
+                if(!empty($this->empId)){
+                    $this->empId=htmlspecialchars(strip_tags($this->empId));
+                    $stmt->bindParam(':empId', $this->empId);
+                }
+                if(!empty($this->leaveId)){
+                    $this->leaveId=htmlspecialchars(strip_tags($this->leaveId));
+                    $stmt->bindParam(':leaveId', $this->leaveId);
+                }
+                if(!empty($this->year)){
+                    $this->year=htmlspecialchars(strip_tags($this->year));
+                    $stmt->bindParam(':year', $this->year);
+                }
              
                 // execute the query
                 $stmt->execute();
