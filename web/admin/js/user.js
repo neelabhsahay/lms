@@ -1,5 +1,3 @@
-var totalEmpCount = 10;
-var totalItemPerPage = 5;
 // Get all Products to display
 function userDetail(usr) {
    var jwt = getCookie('jwt');

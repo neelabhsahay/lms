@@ -1,3 +1,8 @@
+var totalEmpCount = 10;
+var totalItemPerPage = 5;
+
+var myPagination;
+
 function closeModal(modalId) {
    var modal = document.getElementById(modalId);
    modal.style.display = "none";
@@ -51,7 +56,7 @@ function handleException(request, message, error) {
    }
    BootstrapDialog.alert(msg);
    if (request.status == "401" || request.status == "403") {
-      setTimeout(' window.location.href = "http://localhost/lms/web/login.php"; ', 100);
+      //setTimeout(' window.location.href = "http://localhost/lms/web/login.php"; ', 100);
    }
 }
 
@@ -82,7 +87,8 @@ function showMyInfoDetail() {
 }
 
 function apply_pagination(totalPages, callBackFunction) {
-   var myPagination = new Pagination({
+   myPagination = null;
+   myPagination = new Pagination({
       // Where to render this component
       container: $("#pagerDIV"),
 

@@ -16,14 +16,13 @@
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
       <!-- My scripts and css -->
       <script type="text/javascript" src="../asserts/js/modalLms.js"></script>
-      <script type="text/javascript" src="../asserts/js/libs/moment.js"></script>
       <script type="text/javascript" src="../asserts/js/cookie.js"> </script>
       <link rel="stylesheet" type="text/css" href="../asserts/css/page.css" />
-      <link rel="stylesheet" type="text/css" href="../asserts/css/yearpicker.css" />
-      <link rel='stylesheet' type="text/css" href='../asserts/lib/main.css' />
-      <script type="text/javascript" src='../asserts/lib/main.js'></script>
       <script type="text/javascript" src="../asserts/js/myAjax.js"> </script>
-      <script type="text/javascript" src='js/applyLeave.js'></script>
+      <script type="text/javascript" src='js/viewLeaveRequest.js'></script>
+      <script type="text/javascript" src='js/leaveRequestDetails.js'></script>
+      <link rel="stylesheet" href="../asserts/lib/spage/pagination.css">
+      <script src="../asserts/lib/spage/pagination.js"></script>
    </head>
 
    <body>
@@ -41,10 +40,12 @@
       <?php
       include "../asserts/footer.php";
       include "../admin/viewEmp.php";
-      
+      include "viewLeaveRequest.php";
     ?>
       <script>
-      $(document).ready(function() {});
+      $(document).ready(function() {
+         myLeaveRequestForApprove();
+      });
       </script>
    </body>
 

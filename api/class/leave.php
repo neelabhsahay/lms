@@ -581,10 +581,12 @@
        public $firstName;
        public $lastName;
        public $leaveRqtState;
+       public $onlyOpened;
        public $startIndex;
        public $rowCounts;
        public $getCount;
        public $totalCount;
+       public $email;
     
       
         // constructor
@@ -742,11 +744,17 @@
             }
 
             if(!empty($this->approver)){
-               array_push($con_array, " lvrq.approver = :approver " );    
+               array_push($con_array, " lvrq.approver = :approverId " );    
             }
+
             if(!empty($this->leaveId)){
                 array_push($con_array, " lvrq.leaveId = :leaveId " );
             }
+
+            if(!empty($this->onlyOpened)){
+                array_push($con_array, " lvrq.status = 'Pending'" );
+            }
+
             if( count($con_array) > 0 ) {
                 $clause = "AND ( ";
                 foreach ($con_array as $cons) {
@@ -762,7 +770,7 @@
             if(!empty($this->startIndex) && !empty($this->rowCounts) ) {
                 $set_limit = "LIMIT " . $this->rowCounts . " OFFSET " . $this->startIndex;
             } elseif ( !empty($this->startIndex) ) {
-                $set_limit = "LIMIT 10,  " . $this->startIndex;
+                $set_limit = "LIMIT 10 OFFSET " . $this->startIndex;
             } elseif ( !empty($this->rowCounts) ) {
                 $set_limit = "LIMIT " . $this->rowCounts . " OFFSET 0";
             } else {
@@ -773,6 +781,7 @@
                 $query = "SELECT
                              e.firstName  as firstName,
                              e.lastName  as lastName,
+                             e.email  as email,
                              l.leaveType as leaveType,
                              lvrq.* FROM employees as e JOIN " . $this->table_name . " 
                              as lvrq ON
@@ -796,20 +805,32 @@
     
         // Read all Leaves status record
         public function getAll(){
-
             if( !empty($this->getCount)) {
                 $countquery = $this->getReadQuery( true);
 
-                $stmt = $this->conn->prepare($countquery);
+                $stmtCount = $this->conn->prepare($countquery);
+
+                if(!empty($this->empId)){
+                    $this->empId=htmlspecialchars(strip_tags($this->empId));
+                    $stmtCount->bindParam(':empId', $this->empId);
+                }
+                if(!empty($this->leaveId)){
+                    $this->leaveId=htmlspecialchars(strip_tags($this->leaveId));
+                    $stmtCount->bindParam(':leaveId', $this->leaveId);
+                }
+                if(!empty($this->approver)){
+                    $this->approver=htmlspecialchars(strip_tags($this->approver));
+                    $stmtCount->bindParam(':approverId', $this->approver);
+                }
              
                 // execute the query
-                $stmt->execute();
+                $stmtCount->execute();
                 // get number of rows
-                $num = $stmt->rowCount();
+                $num = $stmtCount->rowCount();
     
                 if($num > 0 ){
-                    $result = $stmt->fetch(PDO::FETCH_ASSOC);                    
-                    $this->totalCount        = $result['cont'];
+                    $result = $stmtCount->fetch(PDO::FETCH_ASSOC);                    
+                    $this->totalCount  = $result['cont'];
                 }
             }
      
@@ -826,8 +847,8 @@
                 $stmt->bindParam(':leaveId', $this->leaveId);
             }
             if(!empty($this->approver)){
-                $this->approver=htmlspecialchars(strip_tags($this->aprover));
-                $stmt->bindParam(':approver', $this->approver);
+                $this->approver=htmlspecialchars(strip_tags($this->approver));
+                $stmt->bindParam(':approverId', $this->approver);
             }
             $stmt->execute();
             return $stmt;
@@ -938,6 +959,7 @@
             $query = "SELECT
                          e.firstName  as firstName,
                          e.lastName  as lastName,
+                         e.email  as email,
                          l.leaveType as leaveType,
                          lvrq.* FROM employees as e JOIN " . $this->table_name . " 
                          as lvrq ON
@@ -976,6 +998,7 @@
                     $this->modifiedOn    = $result['modifiedOn'];
                     $this->firstName     = $result['firstName'];
                     $this->lastName      = $result['lastName'];
+                    $this->email         = $result['email'];
                     $this->leaveType     = $result['leaveType'];
                     $this->leaveRqtState = $result['leaveRqtState'];
     
@@ -1023,6 +1046,4 @@
             return false;
         }
     }
-
-  
 ?>

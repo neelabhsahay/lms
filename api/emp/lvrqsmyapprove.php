@@ -40,12 +40,10 @@
             $decoded = JWT::decode($jwt, $key, array('HS256'));
             
             $lvRequest->reqId = $data->reqId;
-            $lvRequest->empId = $data->empId;
-            $lvRequest->leaveId = $data->leaveId;
-            $lvRequest->approver = $data->approver;
-            $lvRequest->onlyOpened = $data->onlyOpened;
+            $lvRequest->approver = $decoded->data->empId;
             $lvRequest->getCount = $data->getCount;
-
+            $lvRequest->onlyOpened = $data->onlyOpened;
+            
             if( !empty($lvRequest->reqId)) {     
                 if( $lvRequest->getSingle() ) {
                     
@@ -66,11 +64,12 @@
                         "reason"      => $lvRequest->reason,
                         "status"      => $lvRequest->status,
                         "approver"    => $lvRequest->approver,
+                        "leaveRqtState"=> $lvRequest->leaveRqtState,
                         "modifiedOn"  => $lvRequest->modifiedOn,
                         "leaveType"   => $lvRequest->leaveType,
                         "firstName"   => $lvRequest->firstName,
                         "lastName"    => $lvRequest->lastName,
-                        "email"       => $lvRequest->email
+                        "email"    => $lvRequest->email
                     );
             
                     array_push($employeeArr["body"], $e);
@@ -82,9 +81,6 @@
                     );
                 }
             } else {
-                $lvRequest->getCount = $data->getCount;
-                $lvRequest->startIndex = $data->startIndex;
-                $lvRequest->rowCounts = $data->rowCounts;
                 $stmt = $lvRequest->getAll();
                 $itemCount = $stmt->rowCount();
     
@@ -93,26 +89,27 @@
                     $employeeArr = array();
                     $employeeArr["body"] = array();
                     $employeeArr["itemCount"] = $itemCount;
-                    $employeeArr['totalCount'] = $lvRequest->totalCount;
+                    $employeeArr["totalCount"] = $lvRequest->totalCount;
             
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                         $e = array(
-                            "reqId"        => $row['reqId'],
-                            "leaveId"      => $row['leaveId'],
-                            "empId"        => $row['empId'],
-                            "appliedBy"    => $row['appliedBy'],
-                            "appliedDate"  => $row['appliedDate'],
-                            "leaveDays"    => $row['leaveDays'],
-                            "startDate"    => $row['startDate'],
-                            "endDate"      => $row['endDate'],
-                            "reason"       => $row['reason'],
-                            "status"       => $row['status'],
-                            "approver"     => $row['approver'],
-                            "modifiedOn"   => $row['modifiedOn'],
-                            "firstName"    => $row['firstName'],
-                            "leaveType"    => $row['leaveType'],
-                            "lastName"     => $row['lastName'],
-                            "email"        => $row['email'],
+                            "reqId"       => $row['reqId'],
+                            "leaveId"     => $row['leaveId'],
+                            "empId"       => $row['empId'],
+                            "appliedBy"   => $row['appliedBy'],
+                            "appliedDate" => $row['appliedDate'],
+                            "leaveDays"   => $row['leaveDays'],
+                            "startDate"   => $row['startDate'],
+                            "endDate"     => $row['endDate'],
+                            "reason"      => $row['reason'],
+                            "status"      => $row['status'],
+                            "approver"    => $row['approver'],
+                            "leaveRqtState"=> $row['leaveRqtState'],
+                            "modifiedOn"  => $row['modifiedOn'],
+                            "leaveType"   => $row['leaveType'],
+                            "firstName"   => $row['firstName'],
+                            "lastName"    => $row['lastName'],
+                            "email"       => $row['email']
                         );
             
                         array_push($employeeArr["body"], $e);

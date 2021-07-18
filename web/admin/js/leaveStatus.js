@@ -1,6 +1,3 @@
-var totalEmpCount = 10;
-var totalItemPerPage = 5;
-
 function insertLeaveStatusAjax(leaveInfo) {
    var jwt = getCookie('jwt');
    leaveInfo['jwt'] = jwt;

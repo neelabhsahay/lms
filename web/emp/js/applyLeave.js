@@ -80,6 +80,9 @@ function loadCalendar() {
       datesSet: function(dateInfo) {
          calendar.removeAllEvents();
          myLeaveRequestInRange(calendar, dateInfo.startStr, dateInfo.endStr);
+      },
+      eventClick: function(eventInfo) {
+         viewLeaveRequest(eventInfo.event.id);
       }
    });
 
@@ -214,7 +217,3 @@ function myLeaveRequestInRange(calendar, rangeStart, rangeEnd) {
    };
    myLeaveRequestInRangeAJAX(jsonInput, createCalEvents, true, calendar);
 }
-
-/*
- * Leave Request List
- */

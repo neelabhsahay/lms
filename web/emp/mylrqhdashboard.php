@@ -18,9 +18,11 @@
       <script type="text/javascript" src="../asserts/js/modalLms.js"></script>
       <script type="text/javascript" src="../asserts/js/cookie.js"> </script>
       <link rel="stylesheet" type="text/css" href="../asserts/css/page.css" />
-
       <script type="text/javascript" src="../asserts/js/myAjax.js"> </script>
       <script type="text/javascript" src='js/viewLeaveRequest.js'></script>
+      <script type="text/javascript" src='js/leaveRequestDetails.js'></script>
+      <link rel="stylesheet" href="../asserts/lib/spage/pagination.css">
+      <script src="../asserts/lib/spage/pagination.js"></script>
    </head>
 
    <body>
@@ -37,7 +39,6 @@
       </div>
       <?php
       include "../asserts/footer.php";
-      include "applyLeave.php";
       include "../admin/viewEmp.php";
     ?>
       <script>

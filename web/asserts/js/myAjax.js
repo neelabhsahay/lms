@@ -216,7 +216,7 @@ function myLeaveRequestAJAX(jsonInput, callBackFunc, skipFailure404) {
       dataType: 'json',
       data: JSON.stringify(jsonInput),
       success: function(response) {
-         callBackFunc(response["body"]);
+         callBackFunc(response["body"], response["totalCount"]);
       },
       error: function(request, message, error) {
          if (skipFailure404 && request.status == "404") {
@@ -227,6 +227,30 @@ function myLeaveRequestAJAX(jsonInput, callBackFunc, skipFailure404) {
       }
    });
 }
+
+// Get all Products to display
+function myLeaveRequestForApproveAJAX(jsonInput, callBackFunc, skipFailure404) {
+   var jwt = getCookie('jwt');
+   jsonInput['jwt'] = jwt;
+   // Call Web API to get a list of Products
+   $.ajax({
+      url: 'http://localhost/lms/api/emp/lvrqsmyapprove.php',
+      type: 'POST',
+      dataType: 'json',
+      data: JSON.stringify(jsonInput),
+      success: function(response) {
+         callBackFunc(response["body"], response["totalCount"]);
+      },
+      error: function(request, message, error) {
+         if (skipFailure404 && request.status == "404") {
+            callBackFunc("");
+         } else {
+            handleException(request, message, error);
+         }
+      }
+   });
+}
+
 
 // Get all Products to display
 function empLeaveRequestAJAX(jsonInput, callBackFunc, skipFailure404) {
@@ -247,6 +271,25 @@ function empLeaveRequestAJAX(jsonInput, callBackFunc, skipFailure404) {
          } else {
             handleException(request, message, error);
          }
+      }
+   });
+}
+
+function approveLeaveRequestAJAX(jsonInput, callBackFunc, skipFailure404) {
+   var jwt = getCookie('jwt');
+   jsonInput['jwt'] = jwt;
+   // Call Web API to get a list of Products
+   $.ajax({
+      url: 'http://localhost/lms/api/emp/approvereject.php',
+      type: 'POST',
+      dataType: 'json',
+      data: JSON.stringify(jsonInput),
+      success: function(response) {
+         callBackFunc(response["message"], response["status"],
+            response['data']);
+      },
+      error: function(request, message, error) {
+         handleException(request, message, error);
       }
    });
 }

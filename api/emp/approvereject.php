@@ -49,9 +49,12 @@
             ) {
                 // set response code
                 http_response_code(200);
-             
-                // display message: user was created
-                echo json_encode(array("message" => "Leave Request record was updated."));
+
+                $insertResponse = array();
+                $insertResponse["message"] =  "Leave Request record is approved/rejected.";
+                $insertResponse["status"] = "passed";
+                $insertResponse["data"] = array();
+                echo json_encode($insertResponse);
 
             } else {
                 // set response code
@@ -59,6 +62,11 @@
              
                 // show error message
                 echo json_encode(array("message" => "Unable to update Leave Request."));
+                $insertResponse = array();
+                $insertResponse["message"] =  "Unable to approve/reject Leave Request.";
+                $insertResponse["status"] = "failed";
+                $insertResponse["data"] = array();
+                echo json_encode($insertResponse);
             }
 
         } catch (Exception $e){

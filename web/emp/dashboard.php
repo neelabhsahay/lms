@@ -29,6 +29,7 @@
   <script type="text/javascript" src='../asserts/lib/main.js'></script>
   <script type="text/javascript" src="../asserts/js/myAjax.js"> </script>
   <script type="text/javascript" src='js/applyLeave.js'></script>
+  <script type="text/javascript" src='js/leaveRequestDetails.js'></script>
 </head>
 <body>
     <div class="card_body">
@@ -45,7 +46,8 @@
     <?php
       include "../asserts/footer.php";
       include "../admin/viewEmp.php";
-      include "applyLeave.php"
+      include "applyLeave.php";
+      include "viewLeaveRequest.php";
     ?>
 <script>
     $(document).ready(function () {

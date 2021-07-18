@@ -1,6 +1,3 @@
-var totalEmpCount = 10;
-var totalItemPerPage = 5;
-
 function insertEmpAjax(empInfo) {
    var jwt = getCookie('jwt');
    empInfo['jwt'] = jwt;

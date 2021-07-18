@@ -42,16 +42,19 @@
             $lvRequest->reqId = $data->reqId;
             $lvRequest->empId = $decoded->data->empId;
             $lvRequest->leaveId = $data->leaveId;
+            $lvRequest->getCount = $data->getCount;
             if( !empty($lvRequest->reqId)) {     
                 if( $lvRequest->getSingle() ) {
                     
                     $employeeArr = array();
                     $employeeArr["body"] = array();
                     $employeeArr["itemCount"] = 1;
+                    $employeeArr["totalCount"] = 1;
             
                     $e = array(
                         "reqId"       => $lvRequest->reqId,
                         "leaveId"     => $lvRequest->leaveId,
+                        "leaveType"   => $lvRequest->leaveType,
                         "empId"       => $lvRequest->empId,
                         "appliedBy"   => $lvRequest->appliedBy,
                         "appliedDate" => $lvRequest->appliedDate,
@@ -82,11 +85,13 @@
                     $employeeArr = array();
                     $employeeArr["body"] = array();
                     $employeeArr["itemCount"] = $itemCount;
+                    $employeeArr["totalCount"] = $lvRequest->totalCount;
             
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                         $e = array(
                             "reqId"       => $row['reqId'],
                             "leaveId"     => $row['leaveId'],
+                            "leaveType"   => $row['leaveType'],
                             "empId"       => $row['empId'],
                             "appliedBy"   => $row['appliedBy'],
                             "appliedDate" => $row['appliedDate'],

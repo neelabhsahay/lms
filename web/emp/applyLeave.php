@@ -6,8 +6,8 @@
       <div class="col-md-4 border-right">
        <div class="d-flex flex-column align-items-center text-center p-3 py-5">
         <img class="rounded-circle mt-5" src="http://localhost/lms/web/asserts/img/user.jpg">
-        <span id="name" class="font-weight-bold">Amelly</span>
-        <span id="email" class="text-black-50">amelly12@bbb.com</span>
+        <span id="name" class="font-weight-bold">Aashvi Sahay</span>
+        <span id="email" class="text-black-50">aashvi@ashvi.com</span>
         <span> </span>
      </div>
   </div>
