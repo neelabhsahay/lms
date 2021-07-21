@@ -1,24 +1,25 @@
 <div id="viewEmpModal" class="modal-form">
     <div class="modal-form-content">
+        <span class="modal-form-close" onclick="closeDisplayForm('viewEmpModal', 'viewEmpForm')">&times;</span>
         <div class="container">
-            <span class="modal-form-close" onclick="closeDisplayForm('viewEmpModal', 'viewEmpForm')">&times;</span>
+            
             <div class="container rounded bg-white mt-5 mb-5">
-                <div class="row">
-                    <form  action=" " method="post"  id="viewEmpForm">
+                <form  action=" " method="post"  id="viewEmpForm">
+                    <div class="row">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="text-right">Employee Profile</h4>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-3 border-right">
                             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                                <img class="rounded-circle mt-5" src="http://localhost/lms/web/asserts/img/user.jpg">
+                                <img class="rounded-circle mt-5" src="http://localhost/lms/web/assets/img/user.jpg">
                                 <span id="viewName" class="font-weight-bold">Aashvi Sahay</span>
                                 <span id="viewEmail" class="text-black-50">aashvi@ashivi.com</span>
                                 <span> </span></div>
                         </div>
-                        
                         <div class="col-md-5 border-right">
-                            <div class="p-3 py-5">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h4 class="text-right">Employee Profile</h4>
-                                </div>
-                                <div class="row mt-2">
+                                <div class="row mt-3">
                                     <div class="col-md-6">
                                         <label class="labels">Name</label>
                                         <input name="firstName" type="text" class="form-control" placeholder="first name" readonly="true">
@@ -47,7 +48,7 @@
                                         <input name="empRole" type="text" class="form-control" readonly="true">
                                     </div>
                                 </div>
-                                <div class="row mt-2">
+                                <div class="row mt-3">
                                     <div class="col-md-6">
                                         <label class="labels">Date of Birth</label>
                                         <input name="dateOfBirth" type="date" class="form-control" readonly="true">
@@ -67,15 +68,9 @@
                                         <input name="empId" id='empId' type="text" class="form-control" readonly="true" >
                                     </div>
                                 </div>
-                            </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="p-3 py-5">
-                                <div class="d-flex justify-content-between align-items-center experience">
-                                    <span>Edit Official</span>
-                                    <span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Official</span>
-                                </div>
-                                <br>
+                            <div class="row mt-3">
                                 <div class="col-md-12">
                                     <label class="labels">Employee Type </label>
                                     <select name="empType" class="form-control"  type="select" readonly="true">
@@ -85,7 +80,9 @@
                                         <option value="INT">Intern</option>
                                         <option value="CNT">Contractor</option>
                                     </select>
-                                </div> <br>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
                                 <div class="col-md-12">
                                     <label class="labels">Employee Status</label>
                                     <select name="empStatus" class="form-control"  type="select" readonly="true">
@@ -93,6 +90,8 @@
                                         <option value="INA">In-Active</option>
                                     </select>
                                 </div>
+                            </div>
+                            <div class="row mt-3">
                                 <div class="col-md-12">
                                     <label class="labels">Date of Joining</label>
                                     <input name="dateOfJoin" type="date" class="form-control" value="" readonly="true">
@@ -103,8 +102,8 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

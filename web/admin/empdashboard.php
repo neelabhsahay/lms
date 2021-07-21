@@ -5,41 +5,36 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Employee Board</title>
-  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script type= "text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script type= "text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script type= "text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <link rel="preconnect" href="https://fonts.gstatic.com">
+ <!-- My scripts and css -->
 
-  <link rel= "stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-  <link rel= "stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css">
-  <link rel= "stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css"/>
- 
- <script type= "text/javascript" src= "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
- <script type= "text/javascript" src= "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
- <script type= "text/javascript" src= "https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
+ <!-- External Libs -->
+ <script type="text/javascript" src="../assets/extn/jqy/jquery-3.6.0.min.js"></script>
+ <script type="text/javascript" src="../assets/extn/4.5.3/js/bootstrap.bundle.min.js"></script>
+ <script type="text/javascript" src="../assets/extn/bd/js/bootstrap-dialog.min.js"></script>
+ <script type="text/javascript" src="../assets/lib/spage/pagination.js"></script>
 
+ <link rel="stylesheet" type="text/css" href="../assets/extn/4.5.3/css/bootstrap.min.css" >
+ <link rel="stylesheet" type="text/css" href="../assets/extn/bd/css/bootstrap-dialog.min.css" >
+ <link rel="stylesheet" href="../assets/css/material-design-iconic-font.min.css">
+ <link rel="stylesheet" href="../assets/lib/spage/pagination.css">
+   
+      <!-- My own scripts -->
+  <script type="text/javascript" src="../assets/js/modalLms.js"></script>
+  <script type="text/javascript" src="../assets/js/cookie.js" > </script>
+  
+  <link rel="stylesheet" type="text/css" href="../assets/css/page.css" />
+  <link rel='stylesheet' type="text/css" href='../assets/lib/main.css'/>
+  
+  
+  <script type="text/javascript" src="../assets/js/myAjax.js"> </script>
+  <script type="text/javascript" src='js/employee.js'></script>
 
-  <!-- My scripts and css -->
-
-<script type="test/javascript" src="../asserts/js/yearpicker.js"></script>
-<script type="text/javascript" src="../asserts/js/cookie.js" > </script>
-<script type="text/javascript" src="../asserts/js/myAjax.js" > </script>
-<script type="text/javascript" src="js/employee.js"></script>
-
-<link rel="stylesheet" type="text/css" href="../asserts/css/page.css" />
-<link rel="stylesheet" type="text/css" href="../asserts/css/yearpicker.css" />
-
- <!-- Material Design Iconic Font CSS -->
-  <link rel="stylesheet" href="../asserts/css/material-design-iconic-font.min.css">
-  <link rel="stylesheet" href="../asserts/lib/spage/pagination.css">
-  <script src="../asserts/lib/spage/pagination.js"></script>
 </head>
 <body>
     <div class="card_body">
         <?php
-            include "../asserts/header.php";
-            include "../asserts/sidebar.php";
+            include "../assets/header.php";
+            include "../assets/sidebar.php";
         ?>
         <div>
           <?php
@@ -49,7 +44,7 @@
     </div>
 
     <?php
-      include "../asserts/footer.php";
+      include "../assets/footer.php";
       include "insertEmp.php";
       include "updateEmp.php";
       include "viewEmp.php";
@@ -59,7 +54,6 @@
         loadListEmp();
     });
 </script>
-<script type="text/javascript" src="../asserts/js/modalLms.js"></script>
 </body>
 
 </html>

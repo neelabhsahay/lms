@@ -294,6 +294,25 @@ function approveLeaveRequestAJAX(jsonInput, callBackFunc, skipFailure404) {
    });
 }
 
+function rejectLeaveRequestAJAX(jsonInput, callBackFunc, skipFailure404) {
+   var jwt = getCookie('jwt');
+   jsonInput['jwt'] = jwt;
+   // Call Web API to get a list of Products
+   $.ajax({
+      url: 'http://localhost/lms/api/emp/revokelvrqs.php',
+      type: 'POST',
+      dataType: 'json',
+      data: JSON.stringify(jsonInput),
+      success: function(response) {
+         callBackFunc(response["message"], response["status"],
+            response['data']);
+      },
+      error: function(request, message, error) {
+         handleException(request, message, error);
+      }
+   });
+}
+
 /*
  * USER SPECFIC
  */

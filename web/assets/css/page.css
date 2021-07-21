@@ -84,10 +84,6 @@ body {
    text-align: top;
 }
 
-p,
-a {
-   font-size: 1rem;
-}
 
 a {
    color: #4d4ae8;
@@ -135,14 +131,13 @@ a {
 
 .sidebar {
    position: absolute;
-   width: 170px;
+   width: 160px;
    height: 88%;
    z-index: 1;
    /* Stay on top */
    top: 90px;
    /* Stay at the top */
    left: 20px;
-   background: #F0F0F0;
    border-bottom-left-radius: 15px;
 }
 
@@ -151,7 +146,7 @@ a {
    color: black;
    padding: 16px;
    text-decoration: none;
-   font-size: 1.6rem;
+   font-size: 1rem;
 }
 
 .sidebar a.active {
@@ -163,6 +158,14 @@ a {
 }
 
 .sidebar a:hover:not(.active) {
+   background: rgba(000, 125, 125, .7);
+   background: linear-gradient(90deg, rgba(000, 125, 255, .7) 0, rgba(125, 125, 255, .7) 58%);
+   -webkit-backdrop-filter: blur(10px);
+   color: black;
+   border-radius: 10px;
+}
+
+.sidebar button:hover:not(.active) {
    background: rgba(000, 125, 125, .7);
    background: linear-gradient(90deg, rgba(000, 125, 255, .7) 0, rgba(125, 125, 255, .7) 58%);
    -webkit-backdrop-filter: blur(10px);
@@ -197,6 +200,51 @@ div.content {
       text-align: center;
       float: none;
    }
+}
+
+.btn-toggle {
+   display: inline-flex;
+   align-items: center;
+   padding: .25rem .5rem;
+   font-weight: 600;
+   color: rgba(0, 0, 0, .65);
+   background-color: transparent;
+   border: 0;
+}
+
+.btn-toggle:hover,
+.btn-toggle:focus {
+   color: rgba(0, 0, 0, .85);
+   background-color: #d2f4ea;
+}
+
+.btn-toggle::before {
+   width: 1.25em;
+   line-height: 0;
+   content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+   transition: transform .35s ease;
+   transform-origin: .5em 50%;
+}
+
+.btn-toggle[aria-expanded="true"] {
+   color: rgba(0, 0, 0, .85);
+}
+
+.btn-toggle[aria-expanded="true"]::before {
+   transform: rotate(90deg);
+}
+
+.btn-toggle-nav a {
+   display: inline-flex;
+   padding: .1875rem .5rem;
+   margin-top: .125rem;
+   margin-left: 1.25rem;
+   text-decoration: none;
+}
+
+.btn-toggle-nav a:hover,
+.btn-toggle-nav a:focus {
+   background-color: #d2f4ea;
 }
 
 /*
@@ -296,7 +344,7 @@ $light-bg=#777;
    padding-top: 100px;
    /* Location of the box */
    left: 0;
-   top: 40px;
+   top: 80px;
    width: 100%;
    /* Full width */
    height: 100%;
@@ -350,7 +398,7 @@ $light-bg=#777;
 
 
 .dropdown-menu a {
-   font-size: 1.6rem;
+   font-size: 1rem;
 }
 
 .dropdown-menu a:hover:not(.active) {
@@ -403,52 +451,6 @@ $light-bg=#777;
    border: solid 1px #BA68C8
 }
 
-/*
- * Search options result
- */
-.searchResult {
-   display: none;
-   width: 100%;
-   line-height: 1;
-   color: #555;
-   background-color: #fff;
-   background-image: none;
-   border: 1px solid #ccc;
-   border-radius: 4px;
-   z-index: 9999;
-}
-
-.seachResultItem {
-   width: 100%;
-   height: 34px;
-   font-size: 2rem;
-   border-bottom: 1px solid #ccc;
-}
-
-.seachResultItem:hover:not(.active) {
-   background: rgba(000, 125, 125, .7);
-   background: linear-gradient(90deg, rgba(000, 125, 255, .7) 0, rgba(125, 125, 255, .7) 58%);
-   -webkit-backdrop-filter: blur(10px);
-   cursor: pointer;
-   align-text: right;
-}
-
-.seachResultItem a {
-   z-index: 1;
-   /* Stay on top */
-}
-
-.seachResultItem a:hover:not(.active) {
-   color: black;
-
-}
-
-.floatAboveEverything {
-   z-index: 1000; // or any value higher than your other elements
-   position: sticky;
-}
-
-
 #calendar {
    max-width: 1100px;
    margin: 0 auto;
@@ -456,15 +458,13 @@ $light-bg=#777;
    width: 600px;
 }
 
-.modal-form-calender {
-
+.modal-form-calendar {
    position: fixed;
    /* Stay in place */
-
    padding-top: 100px;
    /* Location of the box */
    left: 0;
-   top: 40px;
+   top: 80px;
    width: 100%;
    /* Full width */
    height: 100%;
@@ -492,6 +492,23 @@ textarea {
 
 .leave_box a {
    font-size: 40px;
+}
+
+.list-form-content {
+   background-color: #fefefe;
+   top: 80px;
+   margin: auto;
+   padding: 20px;
+   border: 1px solid #888;
+   width: 100%;
+   height: 100%;
+   border-radius: 15px;
+}
+
+.legent-header {
+   background-color: rgba(000, 125, 125, .7);
+   background-color: linear-gradient(90deg, rgba(000, 125, 255, .7) 0, rgba(125, 125, 255, .7) 58%);
+   -webkit-backdrop-filter: blur(10px);
 }
 
 .pagination a:hover:not(.active) {

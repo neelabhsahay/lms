@@ -1,24 +1,11 @@
 <div class="container">
-    <div class="well form-horizontal">
-        <legend><center><h2><b>Leave for Approve</b></h2></center></legend><br>
-
-        <!-- Text input-->
-
-         <div class="form-group"> 
-            <div class="col-md-3 selectContainer">
-                <div class="input-group">
-                </div>
-            </div>
-            <div class="col-md-9 selectContainer">
-                <div class="input-group">
-                </div>
-            </div>
-        </div>
+    <div class="list-form-content form-horizontal">
+        <legend><center><h3><b>Leave for Approve</b></h3></center></legend><br>
         <div class="form-group"> 
             <div class="col-md-12 selectContainer">
                 <div class="input-group">
-                    <table id="leaveRequestApproverTable" class="table table-bordered table-condensed table-striped">
-                       <thead>
+                    <table id="leaveRequestApproverTable" class="table table-bordered table-condensed table-striped table-sm">
+                       <thead class="thead-dark">
                         <tr>
                           <th>Requester</th>
                           <th>Leave Type</th>

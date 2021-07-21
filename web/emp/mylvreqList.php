@@ -1,7 +1,7 @@
 <div class="container">
-    <div class="well form-horizontal">
+    <div class="list-form-content form-horizontal">
         <!-- Form Name -->
-        <legend><center><h2><b>Leaves Request History</b></h2></center></legend><br>
+        <legend><center><h3><b>Leaves Request History</b></h3></center></legend><br>
          <div class="form-group"> 
             <div class="col-md-3 selectContainer">
                 <div class="input-group">
@@ -15,8 +15,8 @@
         <div class="form-group"> 
             <div class="col-md-12 selectContainer">
                 <div class="input-group">
-                    <table id="leaveRequestHistoryTable" class="table table-bordered table-condensed table-striped">
-                       <thead>
+                    <table id="leaveRequestHistoryTable" class="table table-bordered table-condensed table-striped table-sm">
+                       <thead class="thead-dark">
                         <tr>
                           <th>Leave Type</th>
                           <th>Start Date</th>

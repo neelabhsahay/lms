@@ -1,26 +1,16 @@
-<div id="myLeaveModal" class="modal-form-calender">
+<div id="myLeaveModal" class="modal-form-calendar">
     <div class="modal-form-content">
         <div class="container">
             <div class="container rounded bg-white mt-5 mb-5">
-                <div class="row">
-                    <div class="col-md-2 border-right" style="height:100%">
-                        <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                            <img class="rounded-circle mt-5" src="http://localhost/lms/web/asserts/img/user.jpg">
-                            <span class="font-weight-bold"> Amelly</span>
-                            <span class="text-black-50"> amelly12@bbb.com</span>
-                            <span> </span>
-                        </div>
-                    </div>
-                    
+                <div class="row">  
                     <div class="col-md-8  border-right">
                         <div class='mycalendar' id="calendar"></div>
                     </div>
-                    
                     <div class="col-md-2">
                         <div class="p-3 py-5">
                             <div class="d-flex justify-content-between align-items-center experience">
                                 <br>
-                                <span>My Leaves</span>
+                                <span><h3>My Leaves</h3></span>
                             </div>
                             <br>
                             <div class="col-md-12 leave_box border-bottom" id="leaveCont1">

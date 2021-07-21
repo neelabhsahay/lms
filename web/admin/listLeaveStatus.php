@@ -1,13 +1,8 @@
 <div class="container">
-    <div class="well form-horizontal">
+    <div class="list-form-content">
         <fieldset>
-
-        <!-- Form Name -->
-        <legend><center><h2><b>Leave Status</b></h2></center></legend><br>
-
-        <!-- Text input-->
-
-         <div class="form-group"> 
+        <div class="legent-header border-bottom"><center><h2><b>Leave Status</b></h2></center></div><br>
+         <div class="row mb-4"> 
          	<div class="col-md-3 selectContainer">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
@@ -15,16 +10,16 @@
                 </div>
             </div>
             <div class="col-md-9 selectContainer">
-                <div class="input-group">
+                <div class="col-md-12">
                     <button class="btn btn-primary float-right" type="submit" onclick="displayLeaveStatus()">Add Leave Status</button>
                 </div>
             </div>
         </div>
-        <div class="form-group"> 
+        <div class="row mb-4"> 
             <div class="col-md-12 selectContainer">
                 <div class="input-group">
-                    <table id="lvStTable" class="table table-bordered table-condensed table-striped">
-                       <thead>
+                    <table id="lvStTable" class="table table-bordered table-condensed table-striped table-sm">
+                       <thead class="thead-dark">
                         <tr>
                           <th>Employee Name</th>
                           <th>Leave Type</th>
@@ -38,11 +33,10 @@
                     </table>
                 </div>
             </div>
-           
-        </div>
-        <!--        Start Pagination -->
-        <div class="pagination-container" id="pagerDIV">
-        </div>
+            <!--        Start Pagination -->
+            <div class="col-md-12 pagination-container" id="pagerDIV">
+            </div>
+    </div>
 </fieldset>
 </div>
 </div>

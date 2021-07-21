@@ -7,40 +7,60 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Employee Board</title>
       <link rel="preconnect" type="text/css" href="https://fonts.gstatic.com">
-      <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-      <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
-      <!-- My scripts and css -->
-      <script type="text/javascript" src="../asserts/js/modalLms.js"></script>
-      <script type="text/javascript" src="../asserts/js/cookie.js"> </script>
-      <link rel="stylesheet" type="text/css" href="../asserts/css/page.css" />
-      <script type="text/javascript" src="../asserts/js/myAjax.js"> </script>
+
+
+      <!-- My and local scripts and css -->
+      <!-- External Libs -->
+      <script type="text/javascript" src="../assets/extn/jqy/jquery-3.6.0.min.js"></script>
+      <script type="text/javascript" src="../assets/extn/4.5.3/js/bootstrap.bundle.min.js"></script>
+      <script type="text/javascript" src="../assets/extn/bd/js/bootstrap-dialog.min.js"></script>
+      <script type="text/javascript" src="../assets/lib/spage/pagination.js"></script>
+
+      <link rel="stylesheet" type="text/css" href="../assets/extn/4.5.3/css/bootstrap.min.css" >
+      <link rel="stylesheet" type="text/css" href="../assets/extn/bd/css/bootstrap-dialog.min.css" >
+      <link rel="stylesheet" href="../assets/lib/spage/pagination.css">
+      
+
+      <!-- My own scripts -->
+
+
+      <link rel="stylesheet" type="text/css" href="../assets/css/page.css" />
+
+      <script type="text/javascript" src="../assets/js/modalLms.js"></script>
+      <script type="text/javascript" src="../assets/js/cookie.js"> </script>
+      <script type="text/javascript" src="../assets/js/myAjax.js"> </script>
       <script type="text/javascript" src='js/viewLeaveRequest.js'></script>
       <script type="text/javascript" src='js/leaveRequestDetails.js'></script>
-      <link rel="stylesheet" href="../asserts/lib/spage/pagination.css">
-      <script src="../asserts/lib/spage/pagination.js"></script>
+
    </head>
 
    <body>
       <div class="card_body">
-         <?php
-            include "../asserts/header.php";
-            include "../asserts/empSidebar.php";
-        ?>
-         <div class="container-fluid">
+         <div class="row">
+         <div class="col-md-12">
             <?php
-             include "myleaveApproveList.php"
-          ?>
+            include "../assets/header.php";
+            ?>
+         </div>
+         </div>
+         <div class="row">
+            <div class="col-md-1">
+            <?php
+            include "../assets/empSidebar.php";
+            ?>
+         </div>
+         <div class="col-md-12">
+            <?php
+            include "myleaveApproveList.php"
+            ?>
          </div>
       </div>
+   </div>
       <?php
-      include "../asserts/footer.php";
+      
       include "../admin/viewEmp.php";
       include "viewLeaveRequest.php";
+      include "../assets/footer.php";
     ?>
       <script>
       $(document).ready(function() {
@@ -48,5 +68,4 @@
       });
       </script>
    </body>
-
 </html>

@@ -21,12 +21,12 @@ function showLoginPage() {
 function confirmAndExecute(functionName, dataObj, msg) {
    var message = 'Do you want to ' + msg + '?';
    BootstrapDialog.confirm({
-      title: 'STATUS',
+      title: 'CONFIRMATION',
       message: message,
       type: BootstrapDialog.TYPE_PRIMARY,
       size: BootstrapDialog.SIZE_SMALL,
-      btnCancelLabel: 'Cancel',
-      btnOKLabel: 'Submit', //
+      btnCancelLabel: 'No',
+      btnOKLabel: 'Yes', //
       btnOKClass: 'btn-success',
       cssClass: "status-message",
       callback: function(result) {

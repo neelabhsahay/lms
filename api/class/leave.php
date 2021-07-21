@@ -562,6 +562,7 @@
        private $table_name = "emp_leaves_request";
     
        // object properties
+       public $error;
        public $reqId;
        public $leaveId;
        public $empId;
@@ -646,19 +647,43 @@
                 $stmt->bindParam(':status', $this->status);
             }
 
-            // begin a transaction
-            $this->conn->beginTransaction();
-            // try the insert, if something goes wrong, rollback.
-            if ($stmt->execute() === FALSE) {
-               $this->conn->rollback();
-               return false;
-            } else {
-               $this->reqId = $this->conn->lastInsertId();
-               $this->conn->commit();
-               return true;
+            // update the leave status table
+ 
+            try {
+                // begin a transaction
+                $this->conn->beginTransaction();
+                // try the insert, if something goes wrong, rollback.
+                if ($stmt->execute() === FALSE) {
+                   $this->conn->rollback();
+                   return false;
+                } else {
+                   $this->reqId = $this->conn->lastInsertId();
+                   $querytLvSt = "UPDATE emp_leaves_status SET 
+                                  leaveUsed = leaveUsed + :leaveDays 
+                                  WHERE empId = :empId AND leaveId = :leaveId 
+                                  AND year = :year";
+                   $stmt = $this->conn->prepare($querytLvSt);  
+                   $stmt->bindParam(':empId', $this->empId);
+                   $stmt->bindParam(':leaveId', $this->leaveId);
+                   $stmt->bindParam(':year', $this->year);
+                   $stmt->bindParam(':leaveDays', $this->leaveDays);
+
+                   if ($stmt->execute() === FALSE) {
+                       $this->conn->rollback();
+                       $this->reqId = null;
+                       return false;
+                    } else {
+                       $this->conn->commit();
+                       return true;
+                    }
+                }
+            } catch (Exception $e){
+                $this->conn->rollback();
+                throw $e;
             }
             return false;
         }
+           
 
         // create new LeaveRequest record
         public function update(){
@@ -871,6 +896,7 @@
             $query = "SELECT l.leaveType as leaveType, lr.* FROM leaves as l JOIN " . $this->table_name . " 
                      as lr ON
                      l.leaveId = lr.leaveId
+                     AND lr.leaveRqtState = 'Applied'
                      AND
                      {$matchRange}
                      {$match_empId}
@@ -1012,19 +1038,19 @@
         // create new LeaveRequest record
         public function approveReject(){
             // insert query
-            if($this->status =='Approved' ) {
+            if($this->status =='Rejected' ) {
                 $query = "UPDATE " . $this->table_name . " as lr  
                       LEFT JOIN emp_leaves_status as ls  ON
                       ( ls.leaveId = lr.leaveId 
                         AND ls.empId = lr.empId 
                         AND ls.year = lr.year ) 
-                        SET leaveUsed = leaveUsed + lr.leaveDays,
-                        lr.status = 'Approved'
+                        SET leaveUsed = leaveUsed - lr.leaveDays,
+                        lr.status = 'Rejected'
                         WHERE lr.reqId = :reqId AND lr.status = 'Pending'
                         AND lr.leaveRqtState = 'Applied'";
-            } else if($this->status =='Rejected' ) {
+            } else if($this->status =='Approved' ) {
                 $query = "UPDATE " . $this->table_name . "
-                        SET status = 'Rejected'
+                        SET status = 'Approved'
                         WHERE reqId = :reqId";
             } else {
                 return false;
@@ -1033,14 +1059,48 @@
             $stmt = $this->conn->prepare($query);
      
             // sanitize
-            $this->status=htmlspecialchars(strip_tags($this->status));
             $this->reqId=htmlspecialchars(strip_tags($this->reqId));
      
             // bind the values
-            $stmt->bindParam(':status', $this->status);    
             $stmt->bindParam(':reqId', $this->reqId);
      
             if($stmt->execute()){
+                return true;
+            }
+            return false;
+        }
+
+        // This return false it 
+        public function revoke(){
+            // insert query
+            if($this->leaveRqtState =='Revoke' ) {
+                $query = "UPDATE " . $this->table_name . " as lr  
+                      LEFT JOIN emp_leaves_status as ls  ON
+                      ( ls.leaveId = lr.leaveId 
+                        AND ls.empId = lr.empId 
+                        AND ls.year = lr.year ) 
+                        SET ls.leaveUsed = ls.leaveUsed - lr.leaveDays,
+                        lr.leaveRqtState = 'Revoke'
+                        WHERE lr.reqId = :reqId AND lr.leaveRqtState = 'Applied'
+                        AND ( ( lr.startDate > now() AND lr.status = 'Approved' )
+                        OR lr.status = 'Pending')";
+            }
+            // prepare the query
+            $stmt = $this->conn->prepare($query);
+     
+            // sanitize
+            $this->leaveRqtState=htmlspecialchars(strip_tags($this->leaveRqtState));
+            $this->reqId=htmlspecialchars(strip_tags($this->reqId));
+     
+            // bind the values  
+            $stmt->bindParam(':reqId', $this->reqId);
+
+            $stmt->execute();
+
+            $num = $stmt->rowCount();
+     
+            // cannot revoke the s
+            if($num > 0 ){
                 return true;
             }
             return false;

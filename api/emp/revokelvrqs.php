@@ -39,30 +39,39 @@
             $decoded = JWT::decode($jwt, $key, array('HS256'));
 
             // set product property values
-            $lvRequest->reqId       = $data->reqId;
-            $lvRequest->status      = $data->status;
+            $lvRequest->reqId         = $data->reqId;
+            $lvRequest->leaveRqtState = $data->leaveRqtState;
 
             // create the leave request
-            if( !empty($lvRequest->reqId) &&
-                !empty($lvRequest->status) &&
-                $lvRequest->approveReject()
-            ) {
-                // set response code
-                http_response_code(200);
-
-                $insertResponse = array();
-                $insertResponse["message"] =  "Leave Request record is approved/rejected.";
-                $insertResponse["status"] = "passed";
-                $insertResponse["data"] = array();
-                echo json_encode($insertResponse);
-
+            if( !empty($lvRequest->reqId)                
+              ) {
+                $retVal = $lvRequest->revoke();
+                if( $retVal ) {
+                    // set response code
+                    http_response_code(200);
+    
+                    $insertResponse = array();
+                    $insertResponse["message"] =  "Leave Request record is revoked.";
+                    $insertResponse["status"] = "passed";
+                    $insertResponse["data"] = array();
+                    echo json_encode($insertResponse);
+                } else {
+                    // set response code
+                    http_response_code(200);
+    
+                    $insertResponse = array();
+                    $insertResponse["message"] =  "Revoke of this request not allowed";
+                    $insertResponse["status"] = "failed";
+                    $insertResponse["data"] = array();
+                    echo json_encode($insertResponse);
+                }
             } else {
                 // set response code
                 http_response_code(401);
              
                 // show error message
                 $insertResponse = array();
-                $insertResponse["message"] =  "Unable to approve/reject Leave Request.";
+                $insertResponse["message"] =  "Unable to revoked Leave Request.";
                 $insertResponse["status"] = "failed";
                 $insertResponse["data"] = array();
                 echo json_encode($insertResponse);

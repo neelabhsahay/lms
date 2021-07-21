@@ -179,37 +179,27 @@ function addNewEmployee() {
 }
 
 function fillMgrSearchOutput(result) {
-   var div = document.getElementById("searchedMgr");
-
+   $("#searchOptions").empty();
    if (result.length != 0) {
-      div.style.display = "block";
-      var disp = "";
       $.each(result, function(index, emp) {
          var name = emp.firstName + " " + emp.lastName;
-         disp = disp + "<div class='seachResultItem' id='" +
-            emp.empId + "' onclick='selectMgr(this.id, this.value )' value='" + name + "'><a>" + name + "</a></div>";
+         $("#searchOptions").append("<option data-value='" + emp.empId + "' value='" + name + "'></option>");
       });
-      div.innerHTML = disp;
-   } else {
-      div.style.display = "none";
-   }
+   } else {}
 }
 
-function selectMgr(mgrId, mgrName) {
-   var mgrName = document.getElementById(mgrId).getAttribute("value");
-   document.getElementById("searchedMgr").style.display = "none";
-   document.getElementById("managerId").value = mgrId;
-   document.getElementById("managerName").value = mgrName;
-
+function selectMgr(mgrId) {
+   var mgrName = document.getElementById("managerName").value;
+   var selectedOption = $("#searchOptions option[value='" + mgrName + "']").attr('data-value');
+   document.getElementById(mgrId).value = selectedOption;
 }
 
 function searchManager(mgrStr) {
+   $("#searchOptions").empty();
    if (mgrStr.length != 0) {
       var jsonInput = {
          "key": mgrStr
       };
       searchEmployeeAJAX(jsonInput, fillMgrSearchOutput, true);
-   } else {
-      document.getElementById("searchedMgr").style.display = "none";
    }
 }

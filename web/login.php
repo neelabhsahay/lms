@@ -13,9 +13,9 @@
 
 
 <!-- My scripts and css -->
-  <script type="text/javascript" src="asserts/js/cookie.js" > </script>
+  <script type="text/javascript" src="assets/js/cookie.js" > </script>
   <script type="text/javascript" src="login.js"> </script>
-  <link rel="stylesheet" type="text/css" href="asserts/css/page.css" />
+  <link rel="stylesheet" type="text/css" href="assets/css/page.css" />
 </head>
 <body>
   <div class="card_login">
