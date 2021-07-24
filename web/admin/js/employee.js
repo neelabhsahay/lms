@@ -95,8 +95,8 @@ function empTableRow(emp) {
    row = row + "<td>" + emp.contact + "</td>";
    row = row + "<td>" + emp.email + "</td>";
    row = row + "<td >";
-   row = row + "<button value='" + emp.empId + "' class='btn btn-primary edit-item' onclick='viewEmp(this.value)'>Edit</button> " +
-      "<button value='" + emp.empId + "' class='btn btn-info view-item' onclick='showEmployeeDetail(this.value)'>View</button>";
+   row = row + "<button value='" + emp.empId + "' class='btn btn-primary edit-item btn-sm' onclick='viewEmp(this.value)'>Edit</button> " +
+      "<button value='" + emp.empId + "' class='btn btn-info view-item btn-sm' onclick='showEmployeeDetail(this.value)'>View</button>";
    row = row + "</td>";
    row = row + "</tr>";
    return row;

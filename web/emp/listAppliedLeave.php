@@ -1,5 +1,5 @@
-<div id="myLeaveModal" class="modal-form-calendar">
-    <div class="modal-form-content">
+<div id="myLeaveModal" class="container-fuild" style="height:100%">
+    <div class="list-form-content">
         <div class="container">
             <div class="container rounded bg-white mt-5 mb-5">
                 <div class="row">  

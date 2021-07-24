@@ -5,7 +5,7 @@
             
             <div class="container rounded bg-white mt-5 mb-5">
                 <form  action=" " method="post"  id="viewEmpForm">
-                    <div class="row">
+                    <div class="row legent-header">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h4 class="text-right">Employee Profile</h4>
                         </div>

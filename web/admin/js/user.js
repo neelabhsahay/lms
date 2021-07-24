@@ -21,13 +21,35 @@ function userDetail(usr) {
    });
 }
 
-function updateUserAjax(userInfo) {
+function insertUserAjax(userInfo) {
    var jwt = getCookie('jwt');
    userInfo['jwt'] = jwt;
    console.log(JSON.stringify(userInfo));
    // Call Web API to get a list of Products
    $.ajax({
       url: 'http://localhost/lms/api/admin/usrscreate.php',
+      type: 'POST',
+      dataType: 'json',
+      data: JSON.stringify(userInfo),
+
+      success: function(response) {
+         BootstrapDialog.alert("Inserted Successfully.");
+         document.getElementById("userForm").reset();
+         closeModal('insertUserModal');
+      },
+      error: function(request, message, error) {
+         handleException(request, message, error);
+      }
+   });
+}
+
+function updateUserAjax(userInfo) {
+   var jwt = getCookie('jwt');
+   userInfo['jwt'] = jwt;
+   console.log(JSON.stringify(userInfo));
+   // Call Web API to get a list of Products
+   $.ajax({
+      url: 'http://localhost/lms/api/admin/usrsupdate.php',
       type: 'POST',
       dataType: 'json',
       data: JSON.stringify(userInfo),
@@ -84,8 +106,8 @@ function usrTableRow(usr) {
    row = row + "<td>" + usr.passwordType + "</td>";
    row = row + "<td>" + usr.email + "</td>";
    row = row + "<td >";
-   row = row + "<button value='" + usr.username + "' class='btn btn-primary edit-item' onclick='viewUser(this.value)'>Edit</button> " +
-      "<button value='" + usr.username + "' class='btn btn-info view-item' onclick='viewUser(this.value)'>View</button>";
+   row = row + "<button value='" + usr.username + "' class='btn btn-primary edit-item btn-sm' onclick='viewUser(this.value)'>Edit</button> " +
+      "<button value='" + usr.username + "' class='btn btn-info view-item btn-sm' onclick='viewUser(this.value)'>View</button>";
    row = row + "</td>";
    row = row + "</tr>";
    return row;
@@ -124,13 +146,19 @@ function clearUserForm() {
 function viewUser(id) {
    clearUserForm();
    userDetail(id);
-   document.getElementById("insertUserbtn").innerHTML = "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspUPDATE <span class='glyphicon glyphicon-send'></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+   document.getElementById("insertUserbtn").value = "UPDATE";
+   document.getElementById("insertUserbtn").innerHTML = "UPDATE";
    document.getElementById("username").readOnly = true;
    displayModal("insertUserModal");
 }
 
-function insertUser() {
+function insertUpdateUser() {
    var dataObj = $("#userForm").serializeFormJSON();
-   confirmAndExecute(updateUserAjax, dataObj, "update employee");
+   if (document.getElementById("insertUserbtn").value == "UPDATE") {
+      delete dataObj["password"];
+      confirmAndExecute(updateUserAjax, dataObj, "update the user details");
+   } else {
+      confirmAndExecute(insertUserAjax, dataObj, "insert new user");
+   }
    return false;
 }

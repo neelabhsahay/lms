@@ -1,7 +1,7 @@
-<div class="container">
+<div class="container-fuild" style="height:100%">
     <div class="list-form-content">
         <fieldset>
-        <div class="legent-header border-bottom"><center><h2><b>Users</b></h2></center></div><br>
+        <div class="legent-header border-bottom"><center><h4>Users</h4></center></div><br>
          <div class="row mb-4"> 
          	<div class="col-md-3 selectContainer">
                 <div class="input-group">

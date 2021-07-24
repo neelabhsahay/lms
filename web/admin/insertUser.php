@@ -1,12 +1,14 @@
 <div id="insertUserModal" class="modal-form">
-    <div class="modal-form-content">
-        <div class="container">
-    <span id="insertLeaveClose" onclick="closeDisplayForm('insertUserModal', 'userForm')" class="modal-form-close">&times;</span>
-    <form action=" " method="post"  id="userForm" onsubmit="return insertUser()">
+   <div class="modal-form-content">
+<span id="insertLeaveClose" onclick="closeDisplayForm('insertUserModal', 'userForm')" class="modal-form-close float-right">&times;</span>
+   <div class="container">
+    
+    <form action=" " method="post"  id="userForm" onsubmit="return insertUpdateUser()">
         <fieldset>
 
         <!-- Form Name -->
-        <legend class="legent-header border-bottom"><center><h2><b id="userheader">User Details</b></h2></center></legend><br>
+        <legend class="legent-header border-bottom"><center><h4>User Details</h4></center>
+        </legend><br>
 
         <!-- Text input-->
 
@@ -59,8 +61,11 @@
         
         <!-- Button -->
         <div class="row mb-4">
-          <div class="col-md-4"><button type="submit" id="insertUserbtn" class="btn btn-primary profile-button" >SUBMIT</button>
-           </div>
+         <div class="col-md-12">
+         <div class="mt-5 text-center">
+          <button type="submit" id="insertUserbtn" class="btn btn-primary profile-button" >SUBMIT</button>
+        </div>
+        </div>
         </div>
 
 </fieldset>

@@ -85,7 +85,7 @@ function lvStTableRow(lvst) {
    row = row + "<td>" + lvst.leaveUsed + "</td>";
    row = row + "<td >";
    row = row + "<button value='" + lvst.leaveId + "+" + lvst.empId + "+" + lvst.year + "'";
-   row = row + "class='btn btn-primary edit-item' onclick='viewLeaveStatus(this.value)'>Edit</button>";
+   row = row + "class='btn btn-primary edit-item btn-sm' onclick='viewLeaveStatus(this.value)'>Edit</button>";
    row = row + "</td>";
    row = row + "</tr>";
 

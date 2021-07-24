@@ -42,13 +42,13 @@
             ?>
          </div>
          </div>
-         <div class="row">
-            <div class="col-md-1">
+         <div class="row no-gutters" style="height:90%;">
+            <div class="col-md-2">
             <?php
             include "../assets/empSidebar.php";
             ?>
          </div>
-         <div class="col-md-12">
+         <div class="col-md-10">
             <?php
             include "mylvreqList.php"
             ?>

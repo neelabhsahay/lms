@@ -1,7 +1,7 @@
-<div class="container">
+<div class="container-fuild" style="height:100%">
     <div class="list-form-content form-horizontal">
         <!-- Form Name -->
-        <legend><center><h3><b>Leaves Request History</b></h3></center></legend><br>
+        <legend class="legent-header border-bottom"><center><h4>Leaves Request History</h4></center></legend><br>
          <div class="form-group"> 
             <div class="col-md-3 selectContainer">
                 <div class="input-group">

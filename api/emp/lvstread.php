@@ -49,13 +49,12 @@
             
             $stmt = $lvStatus->getAll();
             $itemCount = $stmt->rowCount();
-
+            
+            $lvStatusArr = array();
+            $lvStatusArr["body"] = array();
+            $lvStatusArr["itemCount"] = $itemCount;
 
             if($itemCount > 0){
-                
-                $lvStatusArr = array();
-                $lvStatusArr["body"] = array();
-                $lvStatusArr["itemCount"] = $itemCount;
                 $lvStatusArr['totalCount'] = $lvStatus->totalCount;
         
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -76,10 +75,9 @@
                 }
                 echo json_encode($lvStatusArr);
             } else{
-                http_response_code(404);
-                echo json_encode(
-                    array("message" => "No record found.")
-                );
+                http_response_code(200);
+                $lvStatusArr["totalCount"] = 0;
+                echo json_encode($lvStatusArr);
             }
         }catch (Exception $e){
             // set response code

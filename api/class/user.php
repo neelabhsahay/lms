@@ -459,7 +459,7 @@
             $query = "UPDATE " . $this->table_name . "
                         SET
                         empId = :empId
-                        {$accountType_set}
+                        {$email_set}
                         {$accountType_set}
                         {$passwordType_set}
                         {$password_set}
@@ -473,6 +473,7 @@
          
             // bind the values from the form
             $stmt->bindParam(':empId', $this->empId);
+            $stmt->bindParam(':username', $this->username);
 
             // hash the password before saving to database
             if(!empty($this->password)){
@@ -496,8 +497,7 @@
                 $stmt->bindParam(':accountType', $this->accountType);
             }
          
-            // unique ID of record to be edited
-            $stmt->bindParam(':username', $this->username);
+
          
             // execute the query
             if($stmt->execute()){

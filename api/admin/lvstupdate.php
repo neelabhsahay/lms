@@ -45,7 +45,7 @@
             $lvStatus->leaveCarried = $data->leaveCarried;
             $lvStatus->leaveInYear  = $data->leaveInYear;
             $lvStatus->leaveUsed    = $data->leaveUsed;
-            $lvStatus->modifiedBy   = $data->modifiedBy;
+            $lvStatus->modifiedBy   = $decoded->data->empId;
             
             // create the user
             if( !empty($lvStatus->leaveId) &&
@@ -65,7 +65,8 @@
                 $e = array(
                     "leaveId" => $lvStatus->leaveId,
                     "empId"   => $lvStatus->empId,
-                    "year"    => $lvStatus->year
+                    "year"    => $lvStatus->year,
+                    "modifiedBy" => $lvStatus->modifiedBy
                 ); 
                 array_push($insertResponse["data"], $e);
                 echo json_encode($insertResponse); 

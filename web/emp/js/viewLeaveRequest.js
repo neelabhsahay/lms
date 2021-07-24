@@ -57,9 +57,9 @@ function approverLeaveRequestRow(leaveRequest) {
    row = row + "<td>" + leaveRequest.leaveDays + "</td>";
    row = row + "<td>" + leaveRequest.leaveRqtState + "</td>";
    row = row + "<td >";
-   row = row + "<button value='" + leaveRequest.reqId + "' class='btn btn-success edit-item' onclick='approveLeaveRequest(this.value, true)'>Approve</button> ";
-   row = row + "<button value='" + leaveRequest.reqId + "' class='btn btn-danger edit-item' onclick='approveLeaveRequest(this.value, false)'>Reject</button> ";
-   row = row + "<button value='" + leaveRequest.reqId + "' class='btn btn-warning view-item' onclick='viewLeaveRequest(this.value)'>View</button>";
+   row = row + "<button value='" + leaveRequest.reqId + "' class='btn btn-success edit-item btn-sm' onclick='approveLeaveRequest(this.value, true)'>Approve</button> ";
+   row = row + "<button value='" + leaveRequest.reqId + "' class='btn btn-danger edit-item btn-sm' onclick='approveLeaveRequest(this.value, false)'>Reject</button> ";
+   row = row + "<button value='" + leaveRequest.reqId + "' class='btn btn-warning view-item btn-sm' onclick='viewLeaveRequest(this.value)'>View</button>";
    row = row + "</td>";
    row = row + "</tr>";
    return row;
@@ -147,7 +147,7 @@ function myLeaveRequestRow(leaveRequest) {
    row = row + "<td>" + leaveRequest.status + "</td>";
    row = row + "<td>" + leaveRequest.leaveRqtState + "</td>";
    row = row + "<td >";
-   row = row + "<button value='" + leaveRequest.reqId + "' class='btn btn-primary edit-item' onclick='approveLeaveRequest(this.value)'>Revoke</button> ";
+   row = row + "<button value='" + leaveRequest.reqId + "' class='btn btn-primary edit-item btn-sm' onclick='approveLeaveRequest(this.value)'>Revoke</button> ";
    row = row + "</td>";
    row = row + "</tr>";
    return row;

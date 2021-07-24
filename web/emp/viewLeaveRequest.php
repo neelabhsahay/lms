@@ -44,6 +44,16 @@
                       <input name='leaveType' class="form-control" placeholder="Select Leave Type" readonly="true">
                     </div>
                   </div>
+                  <div class="row mt-3">
+                    <div class="col-md-6">
+                      <label class="col-form-label">Leave Request Status</label>
+                      <input name="status" type="text" class="form-control" readonly="true" >
+                    </div>
+                    <div class="col-md-6">
+                      <label class="col-form-label">Leave Status</label>
+                      <input name='leaveRqtState' type="text" class="form-control" readonly="true">
+                    </div>
+                  </div>
                   <div class="mt-5 text-center"  >
                     <label class="col-form-label">Reason of Leave</label>
                     <textarea id="reason" name="reason" class="form-control" maxlength="400" readonly="true"></textarea>

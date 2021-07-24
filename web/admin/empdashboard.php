@@ -32,16 +32,26 @@
 </head>
 <body>
     <div class="card_body">
-        <?php
+         <div class="row" >
+         <div class="col-md-12">
+            <?php
             include "../assets/header.php";
+            ?>
+         </div>
+         </div>
+         <div class="row no-gutters" style="height:90%;">
+            <div class="col-md-2">
+            <?php
             include "../assets/sidebar.php";
-        ?>
-        <div>
-          <?php
-            include "listEmp.php";
-        ?>
-        </div>
-    </div>
+            ?>
+         </div>
+         <div class="col-md-10">
+            <?php
+            include "listEmp.php"
+            ?>
+         </div>
+      </div>
+   </div>
 
     <?php
       include "../assets/footer.php";

@@ -309,9 +309,6 @@
             // insert query
             $query = "UPDATE " . $this->table_name . "
                       SET
-                      empId = :empId,
-                      leaveId = :leaveId,
-                      year = :year,
                       leaveCarried = :leaveCarried,
                       leaveInYear = :leaveInYear,
                       leaveUsed = :leaveUsed,

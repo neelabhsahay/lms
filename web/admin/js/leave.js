@@ -68,8 +68,8 @@ function leaveTableRow(leave) {
    row = row + "<td>" + leave.leaveProvMax + "</td>";
    row = row + "<td>" + leave.modifiedOn + "</td>";
    row = row + "<td >";
-   row = row + "<button value='" + leave.leaveId + "' class='btn btn-primary edit-item' onclick='viewLeave(this.value)'>Edit</button> " +
-      "<button value='" + leave.leaveId + "' class='btn btn-info view-item' onclick='viewLeave(this.value)'>View</button>";
+   row = row + "<button value='" + leave.leaveId + "' class='btn btn-primary edit-item btn-sm' onclick='viewLeave(this.value)'>Edit</button> " +
+      "<button value='" + leave.leaveId + "' class='btn btn-info view-item btn-sm' onclick='viewLeave(this.value)'>View</button>";
    row = row + "</td>";
    row = row + "</tr>";
    return row;

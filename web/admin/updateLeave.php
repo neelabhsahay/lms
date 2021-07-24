@@ -7,7 +7,7 @@
         <fieldset>
 
         <!-- Form Name -->
-        <legend class="legent-header border-bottom"><center><h2><b>Update Leave</b></h2></center></legend><br>
+        <legend class="legent-header border-bottom"><center><h4>Update Leave</h4></center></legend><br>
 
         <!-- Text input-->
 
@@ -37,9 +37,11 @@
         
         <!-- Button -->
         <div class="row mb-4">
-          <div class="col-md-12">
-            <button type="submit" class="btn btn-primary profile-button" >UPDATE</button>
-           </div>
+         <div class="col-md-12">
+         <div class="mt-5 text-center">
+          <button type="submit" class="btn btn-primary profile-button" >UPDATE</button>
+        </div>
+        </div>
         </div>
 
 </fieldset>

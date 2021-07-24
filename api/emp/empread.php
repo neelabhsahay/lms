@@ -81,12 +81,12 @@
                 $emp->rowCounts = $data->rowCounts;
                 $stmt = $emp->getAll();
                 $itemCount = $stmt->rowCount();
+
+                $employeeArr = array();
+                $employeeArr["body"] = array();
+                $employeeArr["itemCount"] = $itemCount;
     
                 if($itemCount > 0){
-                    
-                    $employeeArr = array();
-                    $employeeArr["body"] = array();
-                    $employeeArr["itemCount"] = $itemCount;
                     $employeeArr['totalCount'] = $emp->totalCount;
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                         $e = array( 
@@ -111,10 +111,8 @@
                     }
                     echo json_encode($employeeArr);
                 } else{
-                    http_response_code(404);
-                    echo json_encode(
-                        array("message" => "No record found.")
-                    );
+                    $employeeArr['totalCount'] = 0;
+                    echo json_encode($employeeArr);
                 }
             }            
         }catch (Exception $e){

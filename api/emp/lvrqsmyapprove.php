@@ -116,10 +116,12 @@
                     }
                     echo json_encode($employeeArr);
                 } else{
-                    http_response_code(404);
-                    echo json_encode(
-                        array("message" => "No record found.")
-                    );
+                    http_response_code(200);
+                    $employeeArr = array();
+                    $employeeArr["body"] = array();
+                    $employeeArr["itemCount"] = 0;
+                    $employeeArr["totalCount"] = 0;
+                    echo json_encode($employeeArr);
                 }
             }
         }catch (Exception $e){
