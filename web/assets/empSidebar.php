@@ -31,3 +31,14 @@
             </li>
         </ul>
     </nav>
+    <script>
+    $( document ).ready(function() {
+           var url = window.location.href; //get current page url
+             $("#sidebar ul li ul a").each(function() {
+                if (url == (this.href)) {
+                    $(this).parent().addClass("active");
+                    $(this).parent().parent().addClass("show"); //add active class to matched LIst item
+                }
+            });
+        });
+    </script>

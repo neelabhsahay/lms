@@ -4,7 +4,7 @@
             <img class="rounded-circle " src="http://localhost/lms/web/assets/img/user.jpg" width="60" height="60">
             <span id="viewName" >Hi, Aashvi</span>
             <span class="text-black-50" type="button">My Info </span>
-      </div>
+            </div>
         </div>
         <ul class="list-unstyled components">
             <p>MENUS</p>
@@ -46,3 +46,14 @@
             </li>
         </ul>
     </nav>
+    <script>
+    $( document ).ready(function() {
+           var url = window.location.href; //get current page url
+             $("#sidebar ul li ul a").each(function() {
+                if (url == (this.href)) {
+                    $(this).parent().addClass("active");
+                    $(this).parent().parent().addClass("show"); //add active class to matched LIst item
+                }
+            });
+        });
+    </script>
