@@ -4,6 +4,6 @@
      Aashvi Enterprise
   </a>
     <span >
-      <img src="../assets/img/logout.svg" width="20" height="20" alt="" type="button">
+      <img src="../assets/img/logout.svg" width="20" height="20" alt="" type="button" onclick="showLoginPage()" data-toggle="tooltip" data-placement="top" title="Logout">
      </span>
 </nav>
