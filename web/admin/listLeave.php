@@ -21,7 +21,7 @@
             <div class="col-md-12 selectContainer">
                 <div class="input-group">
                     <table id="leaveTable" class="table table-bordered table-condensed table-striped table-sm">
-                       <thead class="thead-dark">
+                       <thead class="thead-dark-hdr">
                         <tr>
                           <th>Leave Id</th>
                           <th>Leave Type</th>

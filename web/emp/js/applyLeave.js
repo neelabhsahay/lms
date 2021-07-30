@@ -71,9 +71,9 @@ function loadCalendar() {
       businessHours: true, // display business hours
       editable: true,
       selectable: true,
-      dateClick: function(info) {
-         selectLeaveOneDay(info.dateStr);
-      },
+      //dateClick: function(info) {
+      //  selectLeaveOneDay(info.dateStr);
+      //},
       select: function(info) {
          selectLeaveDays(info.startStr, info.endStr);
       },
@@ -83,6 +83,9 @@ function loadCalendar() {
       },
       eventClick: function(eventInfo) {
          viewLeaveRequest(eventInfo.event.id);
+      },
+      selectOverlap: function(event) {
+         return event.rendering === 'background';
       }
    });
 
@@ -182,7 +185,9 @@ function createCalEvent(data, calendar) {
       "start": data['startDate'],
       "end": data['endDate'],
       "title": data['leaveType'],
-      "status": data['status']
+      "status": data['status'],
+      "allDay": true,
+      "display": 'background'
    }
    addEventOnCalendar(eventJason, calendar);
 }

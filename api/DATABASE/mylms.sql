@@ -23,6 +23,7 @@ SET time_zone = "+05:30";
 CREATE TABLE `login` (
   `empId` varchar(30) NOT NULL,
   `username` varchar(50) NOT NULL,
+  `email` varchar(40) NOT NULL,
   `password` varchar(200) NOT NULL,
   `passwordType` ENUM('TP', 'PR') NOT NULL DEFAULT 'TP',
   `accountType` ENUM('EMP', 'ADM', 'SUP') NOT NULL DEFAULT 'EMP',
@@ -65,8 +66,41 @@ CREATE TABLE `employees` (
   `modifiedOn` TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
+-- 
+-- Table strcuture for table 'employee_address'
+--
+
+CREATE TABLE `employee_address` (
+   `empId` varchar(30) NOT NULL,
+   `modifiedBy` varchar(30) NOT NULL,
+   `modifiedOn` TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1; 
+
+-- 
+-- Table strcuture for table 'employee_bank'
+--
+
+CREATE TABLE `employee_bank` (
+   `empId` varchar(30) NOT NULL,
+   `modifiedBy` varchar(30) NOT NULL,
+   `modifiedOn` TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1; 
+
+-- 
+-- Table strcuture for table 'employee_personal'
+--
+
+CREATE TABLE `employee_personal` (
+   `empId` varchar(30) NOT NULL,
+   `aadhaar` BIGINT(30) NULL,
+   `pan` varchar(30) NULL,
+   `dateOfBirth` date NOT NULL,
+   `modifiedBy` varchar(30) NOT NULL,
+   `modifiedOn` TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1; 
+
+-- --------------------------------------------------------
 -- Table structure for table `employee_family`
 --
 
@@ -193,7 +227,22 @@ ALTER TABLE `emp_leaves_request`
 ALTER TABLE `emp_leaves_request`
    ADD CONSTRAINT FK_LeaveRequest FOREIGN KEY (leaveId) REFERENCES leaves (leaveId)
    ON DELETE CASCADE ON UPDATE RESTRICT;
+ALTER TABLE `emp_leaves_request`
+   ADD CONSTRAINT FK_ApproverRequest FOREIGN KEY (approver) REFERENCES employees (empId)
+   ON DELETE CASCADE ON UPDATE RESTRICT;
+ALTER TABLE `emp_leaves_request`
+   ADD CONSTRAINT FK_AppliedByRequest FOREIGN KEY (appliedBy) REFERENCES employees (empId)
+   ON DELETE CASCADE ON UPDATE RESTRICT;
 
+--
+-- PRIMARY KEY & FOREIGN KEY for employee_address
+--
+ALTER TABLE `employee_address`
+  ADD PRIMARY KEY (`empId`);
+
+ALTER TABLE 'employee_address'
+  ADD CONSTRAINT FK_EmpAddress FOREIGN KEY (empId) REFERENCES employees (empId)
+  ON DELETE CASCADE ON UPDATE RESTRICT;
 --
 -- AUTO_INCREMENT for table `employee_family`
 --
@@ -206,4 +255,24 @@ ALTER TABLE `employee_family`
 ALTER TABLE `employee_family`
    ADD CONSTRAINT FK_EmpFamily FOREIGN KEY (empId) REFERENCES employees (empId)
    ON DELETE CASCADE ON UPDATE RESTRICT;
+
+--
+-- PRIMARY KEY & FOREIGN KEY for employee_address
+--
+ALTER TABLE `employee_bank`
+  ADD PRIMARY KEY (`empId`);
+  
+ALTER TABLE 'employee_bank'
+  ADD CONSTRAINT FK_EmpAddress FOREIGN KEY (empId) REFERENCES employees (empId)
+  ON DELETE CASCADE ON UPDATE RESTRICT;
+
+--
+-- PRIMARY KEY & FOREIGN KEY for employee_personal
+--
+ALTER TABLE `employee_personal`
+  ADD PRIMARY KEY (`empId`);
+
+ALTER TABLE 'employee_personal'
+  ADD CONSTRAINT FK_EmpAddress FOREIGN KEY (empId) REFERENCES employees (empId)
+  ON DELETE CASCADE ON UPDATE RESTRICT;
 

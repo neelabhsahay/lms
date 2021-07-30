@@ -5,7 +5,7 @@
             <div class="col-md-12 selectContainer">
                 <div class="input-group">
                     <table id="leaveRequestApproverTable" class="table table-bordered table-condensed table-striped table-sm">
-                       <thead class="thead-dark">
+                       <thead class="thead-dark-hdr">
                         <tr>
                           <th>Requester</th>
                           <th>Leave Type</th>

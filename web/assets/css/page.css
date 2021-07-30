@@ -199,7 +199,7 @@ $light-bg=#777;
    display: none;
    position: fixed;
    /* Stay in place */
-   z-index: 1;
+   z-index: 4;
    /* Sit on top */
    padding-top: 100px;
    /* Location of the box */
@@ -220,7 +220,7 @@ $light-bg=#777;
 
 .modal-dialog {
    /* position: fixed;  Stay in place */
-   z-index: 1;
+   z-index: 4;
    /* Sit on top */
    padding-top: 100px;
    /* Location of the box */
@@ -367,7 +367,10 @@ textarea {
    background-color: #ddd;
 }
 
-
+.thead-dark-hdr {
+   background-color: #005086;
+   color: white;
+}
 
 .navbar {
    background: #fff;

@@ -45,10 +45,15 @@ function updateEmpLeaveRequest(jsonInput, callBackFunc, skipFailure404) {
 
 function leaveListAJAX(jsonInput, callBackFunc, skipFailure404) {
    var jwt = getCookie('jwt');
+   //let url = "http://127.0.0.1:8000/getleave/";
+   //if (("leaveId" in jsonInput) == true) {
+   //   url = url + jsonInput['leaveId'];
+   //}
+   let url = 'http://localhost/lms/api/emp/leaveread.php';
    jsonInput['jwt'] = jwt;
    // Call Web API to get a list of Products
    $.ajax({
-      url: 'http://localhost/lms/api/emp/leaveread.php',
+      url: url,
       type: 'POST',
       dataType: 'json',
       data: JSON.stringify(jsonInput),
