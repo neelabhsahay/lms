@@ -1,47 +1,15 @@
-function insertEmpAjax(empInfo) {
-   var jwt = getCookie('jwt');
-   empInfo['jwt'] = jwt;
-   console.log(JSON.stringify(empInfo));
-   // Call Web API to get a list of Products
-   $.ajax({
-      url: 'http://localhost/lms/api/admin/empcreate.php',
-      type: 'POST',
-      dataType: 'json',
-      data: JSON.stringify(empInfo),
-
-      success: function(response) {
-         BootstrapDialog.alert("Inserted Successfully.");
-         document.getElementById("empForm").reset();
-         loadListEmp();
-         closeModal("insertEmpModal");
-      },
-      error: function(request, message, error) {
-         handleException(request, message, error);
-      }
-   });
+function insertEmpCb(message, status, data) {
+   BootstrapDialog.alert("Inserted Successfully.");
+   document.getElementById("empForm").reset();
+   loadListEmp();
+   closeModal("insertEmpModal");
 }
 
-function updateEmpAjax(empInfo) {
-   var jwt = getCookie('jwt');
-   empInfo['jwt'] = jwt;
-   console.log(JSON.stringify(empInfo));
-   // Call Web API to get a list of Products
-   $.ajax({
-      url: 'http://localhost/lms/api/admin/empupdate.php',
-      type: 'POST',
-      dataType: 'json',
-      data: JSON.stringify(empInfo),
-
-      success: function(leaves) {
-         BootstrapDialog.alert("Updated Successfully.");
-         document.getElementById("upEmpForm").reset();
-         loadListEmp();
-         closeModal("updateEmpModal");
-      },
-      error: function(request, message, error) {
-         handleException(request, message, error);
-      }
-   });
+function updateEmpCb(message, status, data) {
+   BootstrapDialog.alert("Updated Successfully.");
+   document.getElementById("upEmpForm").reset();
+   loadListEmp();
+   closeModal("updateEmpModal");
 }
 
 function empInfos(emps, totalCount) {
@@ -154,13 +122,13 @@ function viewEmp(id) {
 
 function insertEmp() {
    var dataObj = $("#empForm").serializeFormJSON();
-   confirmAndExecute(insertEmpAjax, dataObj, "insert employee");
+   confirmAndExecute(insertEmpAJAX, dataObj, insertEmpCb, "insert employee");
    return false;
 }
 
 function updateEmp() {
    var dataObj = $("#upEmpForm").serializeFormJSON();
-   confirmAndExecute(updateEmpAjax, dataObj, "update employee");
+   confirmAndExecute(updateEmpAJAX, dataObj, updateEmpCb, "update employee");
    return false;
 }
 

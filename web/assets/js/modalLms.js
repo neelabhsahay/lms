@@ -18,7 +18,7 @@ function showLoginPage() {
    setTimeout(' window.location.href = "http://localhost/lms/web/login.php"; ', 100);
 }
 
-function confirmAndExecute(functionName, dataObj, msg) {
+function confirmAndExecute(functionName, dataObj, cb_function, msg) {
    var message = 'Do you want to ' + msg + '?';
    BootstrapDialog.confirm({
       title: 'CONFIRMATION',
@@ -33,7 +33,7 @@ function confirmAndExecute(functionName, dataObj, msg) {
          if (result) {
             isConfirmed = true;
             console.log(isConfirmed);
-            functionName(dataObj);
+            functionName(dataObj, cb_function, false);
          } else {
             isConfirmed = false;
             console.log(isConfirmed);

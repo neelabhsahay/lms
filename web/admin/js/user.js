@@ -1,68 +1,16 @@
 // Get all Products to display
-function userDetail(usr) {
-   var jwt = getCookie('jwt');
 
-   // Call Web API to get a list of Products
-   $.ajax({
-      url: 'http://localhost/lms/api/emp/usrssigread.php',
-      type: 'POST',
-      dataType: 'json',
-      data: JSON.stringify({
-         "username": usr,
-         "jwt": jwt
-      }),
 
-      success: function(usr) {
-         fillUserForm(usr["body"][0]);
-      },
-      error: function(request, message, error) {
-         handleException(request, message, error);
-      }
-   });
+function insertUserCb(message, status, data) {
+   BootstrapDialog.alert("Inserted Successfully.");
+   document.getElementById("userForm").reset();
+   closeModal('insertUserModal');
 }
 
-function insertUserAjax(userInfo) {
-   var jwt = getCookie('jwt');
-   userInfo['jwt'] = jwt;
-   console.log(JSON.stringify(userInfo));
-   // Call Web API to get a list of Products
-   $.ajax({
-      url: 'http://localhost/lms/api/admin/usrscreate.php',
-      type: 'POST',
-      dataType: 'json',
-      data: JSON.stringify(userInfo),
-
-      success: function(response) {
-         BootstrapDialog.alert("Inserted Successfully.");
-         document.getElementById("userForm").reset();
-         closeModal('insertUserModal');
-      },
-      error: function(request, message, error) {
-         handleException(request, message, error);
-      }
-   });
-}
-
-function updateUserAjax(userInfo) {
-   var jwt = getCookie('jwt');
-   userInfo['jwt'] = jwt;
-   console.log(JSON.stringify(userInfo));
-   // Call Web API to get a list of Products
-   $.ajax({
-      url: 'http://localhost/lms/api/admin/usrsupdate.php',
-      type: 'POST',
-      dataType: 'json',
-      data: JSON.stringify(userInfo),
-
-      success: function(response) {
-         BootstrapDialog.alert("Inserted Successfully.");
-         document.getElementById("userForm").reset();
-         closeModal('insertUserModal');
-      },
-      error: function(request, message, error) {
-         handleException(request, message, error);
-      }
-   });
+function updateUserCb(message, status, data) {
+   BootstrapDialog.alert("Inserted Successfully.");
+   document.getElementById("userForm").reset();
+   closeModal('insertUserModal');
 }
 
 // Display all Products returned from Web API call
@@ -145,20 +93,29 @@ function clearUserForm() {
 
 function viewUser(id) {
    clearUserForm();
-   userDetail(id);
+   var jsonInput = {
+      "username": id
+   };
+   userDetailAJAX(jsonInput, userDetailCb, false);
+
+}
+
+function userDetailCb(resBody, totalCount) {
+   fillUserForm(resBody[0]);
    document.getElementById("insertUserbtn").value = "UPDATE";
    document.getElementById("insertUserbtn").innerHTML = "UPDATE";
    document.getElementById("username").readOnly = true;
    displayModal("insertUserModal");
+
 }
 
 function insertUpdateUser() {
    var dataObj = $("#userForm").serializeFormJSON();
    if (document.getElementById("insertUserbtn").value == "UPDATE") {
       delete dataObj["password"];
-      confirmAndExecute(updateUserAjax, dataObj, "update the user details");
+      confirmAndExecute(updateUserAJAX, dataObj, updateUserCb, "update the user details");
    } else {
-      confirmAndExecute(insertUserAjax, dataObj, "insert new user");
+      confirmAndExecute(insertUserAJAX, dataObj, insertUserCb, "insert new user");
    }
    return false;
 }

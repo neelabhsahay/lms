@@ -1,46 +1,16 @@
-function insertLeaveAjax(leaveInfo) {
-   var jwt = getCookie('jwt');
-   leaveInfo['jwt'] = jwt;
-   //BootstrapDialog.alert(JSON.stringify(leaveInfo));
-   // Call Web API to get a list of Products
-   $.ajax({
-      url: 'http://localhost/lms/api/admin/leavecreate.php',
-      type: 'POST',
-      dataType: 'json',
-      data: JSON.stringify(leaveInfo),
-
-      success: function(leaves) {
-         BootstrapDialog.alert("Inserted Successfully.");
-         document.getElementById("leaveForm").reset();
-         loadListLeave();
-         closeModal("insertLeaveModal");
-      },
-      error: function(request, message, error) {
-         handleException(request, message, error);
-      }
-   });
+function insertLeaveCb(message, status, data) {
+   BootstrapDialog.alert("Inserted Successfully.");
+   document.getElementById("leaveForm").reset();
+   loadListLeave();
+   closeModal("insertLeaveModal");
 }
 
-function updateLeaveAjax(leaveInfo) {
-   var jwt = getCookie('jwt');
-   leaveInfo['jwt'] = jwt;
-   console.log(JSON.stringify(leaveInfo));
-   // Call Web API to get a list of Products
-   $.ajax({
-      url: 'http://localhost/lms/api/admin/leaveupdate.php',
-      type: 'POST',
-      dataType: 'json',
-      data: JSON.stringify(leaveInfo),
 
-      success: function(leaves) {
-         BootstrapDialog.alert("Updated Successfully.");
-         loadListLeave();
-         closeModal("updateLeaveModal");
-      },
-      error: function(request, message, error) {
-         handleException(request, message, error);
-      }
-   });
+
+function updateLeaveCb(message, status, data) {
+   BootstrapDialog.alert("Updated Successfully.");
+   loadListLeave();
+   closeModal("updateLeaveModal");
 }
 
 function leaveInfo(leaves) {
@@ -100,12 +70,12 @@ function viewLeave(id) {
 
 function insertLeave() {
    var dataObj = $("#leaveForm").serializeFormJSON();
-   confirmAndExecute(insertLeaveAjax, dataObj, "insert leave");
+   confirmAndExecute(insertLeaveAJAX, dataObj, insertLeaveCb, "insert leave");
    return false;
 }
 
 function updateLeave() {
    var dataObj = $("#upLeaveForm").serializeFormJSON();
-   confirmAndExecute(updateLeaveAjax, dataObj, "update leave");
+   confirmAndExecute(updateLeaveAJAX, dataObj, updateLeaveCb, "update leave");
    return false;
 }

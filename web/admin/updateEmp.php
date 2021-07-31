@@ -55,16 +55,7 @@
                                         <input name="location" type="text" class="form-control" placeholder="enter location" value="">
                                     </div>
                                 </div>
-                                <div class="row mt-3">
-                                    <div class="col-md-6">
-                                        <label class="labels">Manager</label>
-                                        <input id="upMgrId" name="manager" type="text" class="form-control" placeholder="manager id" readonly="true">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="labels">Employee ID</label>
-                                        <input name="empId" type="text" class="form-control" value="" placeholder="enter employee id" readonly="true">
-                                    </div>
-                                </div>
+
 
                         </div>
                         <div class="col-md-4">
@@ -88,8 +79,6 @@
                                         <option value="INA">In-Active</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="row mt-3">
                                 <div class="col-md-12">
                                     <label class="labels">Date of Joining</label>
                                     <input name="dateOfJoin" type="date" class="form-control" value="">
@@ -98,7 +87,15 @@
                                     <label class="labels">Depertment</label>
                                     <input name="departmentId" type="text" class="form-control" placeholder="enter depertment" value="">
                                 </div>
-                            </div>
+                                    <div class="col-md-6">
+                                        <label class="labels">Manager</label>
+                                        <input id="upMgrId" name="manager" type="text" class="form-control" placeholder="manager id" readonly="true">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="labels">Employee ID</label>
+                                        <input name="empId" type="text" class="form-control" value="" placeholder="enter employee id" readonly="true">
+                                    </div>
+                                </div>
                         </div>
                     </div>
                     <div class="row">

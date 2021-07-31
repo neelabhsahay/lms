@@ -1,43 +1,13 @@
-function insertLeaveStatusAjax(leaveInfo) {
-   var jwt = getCookie('jwt');
-   leaveInfo['jwt'] = jwt;
-   console.log(JSON.stringify(leaveInfo));
-   // Call Web API to get a list of Products
-   $.ajax({
-      url: 'http://localhost/lms/api/admin/lvstcreate.php',
-      type: 'POST',
-      dataType: 'json',
-      data: JSON.stringify(leaveInfo),
-
-      success: function(leaves) {
-         BootstrapDialog.alert("Inserted Successfully.");
-         closeModal("insertLeaveStatusModal");
-         loadListLeaveStatus();
-      },
-      error: function(request, message, error) {
-         handleException(request, message, error);
-      }
-   });
+function insertLeaveStatusCb(message, status, data) {
+   BootstrapDialog.alert("Inserted Successfully.");
+   closeModal("insertLeaveStatusModal");
+   loadListLeaveStatus();
 }
 
-function updateLeaveStatusAjax(leaveInfo) {
-   var jwt = getCookie('jwt');
-   leaveInfo['jwt'] = jwt;
-   console.log(JSON.stringify(leaveInfo));
-   // Call Web API to get a list of Products
-   $.ajax({
-      url: 'http://localhost/lms/api/admin/lvstupdate.php',
-      type: 'POST',
-      dataType: 'json',
-      data: JSON.stringify(leaveInfo),
-
-      success: function(leaves) {
-         BootstrapDialog.alert("Inserted Successfully.");
-      },
-      error: function(request, message, error) {
-         handleException(request, message, error);
-      }
-   });
+function updateLeaveStatusCb(message, status, data) {
+   BootstrapDialog.alert("Updation Successfully.");
+   closeModal("updateLeaveStatusModal");
+   loadListLeaveStatus();
 }
 
 /*
@@ -133,7 +103,8 @@ function viewLeaveStatus(keys) {
 
 function updateLeaveStatus() {
    var dataObj = $("#upLeaveStatusForm").serializeFormJSON();
-   confirmAndExecute(updateLeaveStatusAjax, dataObj, "update leave status");
+   confirmAndExecute(updateLeaveStatusAJAX, dataObj, updateLeaveStatusCb,
+      "update leave status");
    return false;
 }
 
@@ -145,7 +116,8 @@ function updateLeaveStatus() {
 
 function insertLeaveStatus() {
    var dataObj = $("#leaveStatusForm").serializeFormJSON();
-   confirmAndExecute(insertLeaveStatusAjax, dataObj, "insert leave status");
+   confirmAndExecute(insertLeaveStatusAJAX, dataObj, insertLeaveStatusCb,
+      "insert leave status");
    return false;
 }
 

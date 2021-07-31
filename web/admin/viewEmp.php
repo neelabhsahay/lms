@@ -37,7 +37,6 @@
                                     <div class="col-md-12">
                                         <label class="labels">Manager Name</label>
                                         <input id="managerName" name="managerName" type="text" class="form-control" readonly="true">
-                                        <label id="searchedMgr" class="searchResult"></label>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="labels">Phone Number</label>
@@ -58,16 +57,7 @@
                                         <input name="location" type="text" class="form-control" readonly="true">
                                     </div>
                                 </div>
-                                <div class="row mt-3">
-                                    <div class="col-md-6">
-                                        <label class="labels">Manager</label>
-                                        <input name="manager" id='managerId' type="text" class="form-control" placeholder="manager id" readonly="true" >
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="labels">Employee ID</label>
-                                        <input name="empId" id='empId' type="text" class="form-control" readonly="true" >
-                                    </div>
-                                </div>
+
                         </div>
                         <div class="col-md-4">
                             <div class="row mt-3">
@@ -90,8 +80,6 @@
                                         <option value="INA">In-Active</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="row mt-3">
                                 <div class="col-md-12">
                                     <label class="labels">Date of Joining</label>
                                     <input name="dateOfJoin" type="date" class="form-control" value="" readonly="true">
@@ -100,7 +88,15 @@
                                     <label class="labels">Depertment</label>
                                     <input name="departmentId" type="text" class="form-control" placeholder="enter depertment"value="" readonly="true">
                                 </div>
-                            </div>
+                                    <div class="col-md-6">
+                                        <label class="labels">Manager</label>
+                                        <input name="manager" id='managerId' type="text" class="form-control" placeholder="manager id" readonly="true" >
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="labels">Employee ID</label>
+                                        <input name="empId" id='empId' type="text" class="form-control" readonly="true" >
+                                    </div>
+                                </div>
                         </div>
                     </div>
                 </form>

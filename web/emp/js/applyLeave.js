@@ -153,7 +153,7 @@ function sucessfullyAppliedLeave(message, status, data) {
 }
 
 function insertLeaveRequest(dataObj) {
-   insertMyLeaveRequest(dataObj, sucessfullyAppliedLeave, false);
+   insertMyLeaveRequestAJAX(dataObj, sucessfullyAppliedLeave, false);
 }
 
 function applyForLeave() {
