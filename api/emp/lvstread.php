@@ -20,6 +20,8 @@
 
     // get posted data
     $data = json_decode(file_get_contents("php://input"));
+    parse_str(parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY), $queryStr);
+    $query = json_decode(json_encode($queryStr));
     
     // get database connection
     $database = new Database();
@@ -43,9 +45,9 @@
             $lvStatus->leaveId = $data->leaveId;
             $lvStatus->empId = $data->empId;
             $lvStatus->year = $data->year;
-            $lvStatus->getCount = $data->getCount;
-            $lvStatus->startIndex = $data->startIndex;
-            $lvStatus->rowCounts = $data->rowCounts;
+            $lvStatus->getCount = $query->getCount;
+            $lvStatus->startIndex = $query->skip;
+            $lvStatus->rowCounts = $query->limit;
             
             $stmt = $lvStatus->getAll();
             $itemCount = $stmt->rowCount();

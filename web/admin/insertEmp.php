@@ -31,10 +31,9 @@
                                     </div>
                                     <div class="col-md-12">
                                         <label class="labels">Manager Name</label>
-                                        <input id="managerName" list="searchOptions" name="managerName" onchange="selectMgr('managerId')" type="text"  autocomplete="off" class="form-control" placeholder="enter manger name" onkeyup="searchManager(this.value)">
-                                        <datalist id="searchOptions" >
-                                        </datalist>
-                                        
+                                        <input id="managerName" list="searchOptions" name="managerName" onchange="selectEmployee('managerId', 'managerName')" type="text"  autocomplete="off" class="form-control" placeholder="enter employee name" onkeyup="searchEmployee(this.value)">
+                    <datalist id="searchOptions" >
+                    </datalist>
                                     </div>
                                 </div>
                                 <div class="row mt-6">

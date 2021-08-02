@@ -14,9 +14,10 @@
                     <li> <a href="http://localhost/lms/web/admin/leavedashboard.php">Leave</a> </li>
                     <li> <a href="http://localhost/lms/web/admin/leavestatusdasboard.php">Leave Status</a> </li>
                     <li> <a href="http://localhost/lms/web/admin/userdashboard.php">User</a> </li>
+                    <li> <a href="#">Holiday</a> </li>
                 </ul>
             </li>
-            <li> <a href="#inventorySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" aria-controls="#inventorySubmenu">Inventory</a> 
+            <li> <a href="#inventorySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" aria-controls="#inventorySubmenu">Inventory</a>
                <ul class="collapse list-unstyled" id="inventorySubmenu" data-parent="#sidebar">
                     <li> <a href="#">Add</a> </li>
                     <li> <a href="#">History</a> </li>

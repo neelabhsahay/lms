@@ -20,15 +20,15 @@
 
     // get posted data
     $data = json_decode(file_get_contents("php://input"));
-    
+    parse_str(parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY), $queryStr);
+    $query = json_decode(json_encode($queryStr));
+
     // get database connection
     $database = new Database();
     $db = $database->getConnection();
      
     // instantiate user object
     $emp = new Employee($db);
-
-
  
     // get jwt
     $jwt=isset($data->jwt) ? $data->jwt : "";
@@ -76,9 +76,9 @@
                     );
                 }
             } else {
-                $emp->getCount = $data->getCount;
-                $emp->startIndex = $data->startIndex;
-                $emp->rowCounts = $data->rowCounts;
+                $emp->getCount = $query->getCount;
+                $emp->startIndex = $query->skip;
+                $emp->rowCounts = $query->limit;
                 $stmt = $emp->getAll();
                 $itemCount = $stmt->rowCount();
 
@@ -132,5 +132,4 @@
         // tell the user access denied
         echo json_encode(array("message" => "Access denied."));
     }
-    
 ?>        

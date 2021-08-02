@@ -132,7 +132,7 @@ function updateEmp() {
    return false;
 }
 
-function searchEmployee(empStr) {
+function searchEmployeeInList(empStr) {
    if (empStr.length != 0) {
       var jsonInput = {
          "key": empStr
@@ -144,30 +144,4 @@ function searchEmployee(empStr) {
 function addNewEmployee() {
    displayModal('empProfilebtn');
    displayModal('insertEmpModal');
-}
-
-function fillMgrSearchOutput(result) {
-   $("#searchOptions").empty();
-   if (result.length != 0) {
-      $.each(result, function(index, emp) {
-         var name = emp.firstName + " " + emp.lastName;
-         $("#searchOptions").append("<option data-value='" + emp.empId + "' value='" + name + "'></option>");
-      });
-   } else {}
-}
-
-function selectMgr(mgrId) {
-   var mgrName = document.getElementById("managerName").value;
-   var selectedOption = $("#searchOptions option[value='" + mgrName + "']").attr('data-value');
-   document.getElementById(mgrId).value = selectedOption;
-}
-
-function searchManager(mgrStr) {
-   $("#searchOptions").empty();
-   if (mgrStr.length != 0) {
-      var jsonInput = {
-         "key": mgrStr
-      };
-      searchEmployeeAJAX(jsonInput, fillMgrSearchOutput, true);
-   }
 }

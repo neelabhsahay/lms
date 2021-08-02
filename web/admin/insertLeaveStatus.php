@@ -10,8 +10,9 @@
             <label class="col-md-3 control-label">Employee Name</label>
             <div class="col-md-3 control-label">
                 <div class="input-group">
-                    <input id="lvstEmployeeName" name="employeeName" placeholder="Employee Name" class="form-control" type="text" onkeyup="searchEmpForLeave(this.value)">
-                    
+                    <input id="lvstEmployeeName" list="searchOptions" name="employeeName" onchange="selectEmployee('lvstEmpId', 'lvstEmployeeName')" type="text"  autocomplete="off" class="form-control" placeholder="enter employee name" onkeyup="searchEmployee(this.value)">
+                    <datalist id="searchOptions" >
+                    </datalist>
                 </div>
             </div>
             <label class="col-md-3 control-label" >Leave Type</label> 

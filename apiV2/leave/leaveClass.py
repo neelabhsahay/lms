@@ -6,6 +6,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from config.db import Base
+from libs.utils import makeJSONGetResponse, makeJSONInsertResponse
 
 
 class LeaveDb(Base):
@@ -80,7 +81,7 @@ def insertLeave(db: Session, leave: LeaveCreate):
         db.rollback()
         error = str(e.__dict__['orig'])
         return makeJSONInsertResponse("failed", "Unable to insert Leave",
-                                      "error", error)
+                                      "reason", error)
     else:
         db.refresh(leaveDb)
         return makeJSONInsertResponse("passed", "Leave record was inserted.",
@@ -98,12 +99,12 @@ def updateLeave(db: Session, db_leave: LeaveDb, updates: LeaveUpdate):
         db.rollback()
         error = str(e.__dict__['orig'])
         return makeJSONInsertResponse("failed", "Unable to update Leave",
-                                      "error", error)
+                                      "reason", error)
     else:
         db.refresh(db_leave)
         return makeJSONInsertResponse("passed",
                                       "Leave record was updated.",
-                                      "empId", leave.leaveId)
+                                      "leaveId", leave.leaveId)
 
 
 def deleteLeave(db: Session, leaveId: str):
@@ -113,4 +114,4 @@ def deleteLeave(db: Session, leaveId: str):
         raise exc.NoResultFound
     return makeJSONInsertResponse("passed",
                                   "Employee record was deleted.",
-                                  "empId", empId)
+                                  "leaveId", leaveId)

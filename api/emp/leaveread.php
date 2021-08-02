@@ -20,6 +20,8 @@
 
     // get posted data
     $data = json_decode(file_get_contents("php://input"));
+    parse_str(parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY), $queryStr);
+    $query = json_decode(json_encode($queryStr));
     
     // get database connection
     $database = new Database();

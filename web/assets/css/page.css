@@ -391,6 +391,11 @@ textarea {
    border-bottom: 1px dashed #ddd
 }
 
+.sidebar-row {
+   background: #005086;
+   border-bottom-left-radius: 15px;
+}
+
 #sidebar {
    min-width: 250px;
    max-width: 250px;

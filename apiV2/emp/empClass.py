@@ -1,6 +1,6 @@
 
 from sqlalchemy import Boolean, Column, ForeignKey, BigInteger, String, Enum, \
- DateTime
+ DateTime, or_, func
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship, Session
 from pydantic import BaseModel
@@ -9,7 +9,7 @@ from datetime import datetime, date
 from enum import Enum as PyEnum
 
 from config.db import Base
-from libs.utils import makeJSONGetResponse
+from libs.utils import makeJSONGetResponse, makeJSONInsertResponse
 
 
 class EmployeeDb(Base):
@@ -95,17 +95,41 @@ class EmployeeOut(BaseModel):
     totalCount: int
 
 
+def search(db: Session, key: str, getCount: bool = False,
+           skip: int = 0, limit: int = 10):
+    look_for = '{}%'.format(key)
+    emps = db.query(EmployeeDb).filter(or_(EmployeeDb.firstName.ilike(
+        look_for), EmployeeDb.lastName.ilike(
+        look_for))).offset(skip).limit(limit).all()
+    return makeJSONGetResponse(emps, 1)
+
+
+def getEmpDb(db: Session, empId: str):
+    return db.query(EmployeeDb).filter(EmployeeDb.empId == empId).first()
+
+
 def getEmp(db: Session, empId: str):
-    emp = db.query(EmployeeDb).filter(EmployeeDb.empId == empId).first()
+    emp = getEmpDb(db, empId=empId)
     if emp is None:
         return None
     else:
         return makeJSONGetResponse(emp, 1)
 
 
-def getEmps(db: Session, skip: int = 0, limit: int = 100):
+def getEmps(db: Session, getCount: bool = False,
+            skip: int = 0, limit: int = 100):
     emps = db.query(EmployeeDb).offset(skip).limit(limit).all()
-    return makeJSONGetResponse(emps, 1)
+
+    # query = db.query(EmployeeDb, func.count(EmployeeDb.empId).over().label('total'))
+    # query = query.order_by(EmployeeDb.empId.asc())
+    # query = query.offset(skip)
+    # query = query.limit(limit)
+    if getCount:
+        count = db.query(EmployeeDb).count()
+    else:
+        count = 1
+
+    return makeJSONGetResponse(emps, count)
 
 
 def insertEmp(db: Session, employee: EmployeeCreate):
@@ -124,7 +148,7 @@ def insertEmp(db: Session, employee: EmployeeCreate):
         db.rollback()
         error = str(e.__dict__['orig'])
         return makeJSONInsertResponse("failed", "Unable to insert Employee",
-                                      "error", error)
+                                      "reason", error)
     else:
         db.refresh(employeeDb)
         return makeJSONInsertResponse("passed",
@@ -143,12 +167,12 @@ def updateEmp(db: Session, db_emp: EmployeeDb, updates: EmployeeUpdate):
         db.rollback()
         error = str(e.__dict__['orig'])
         return makeJSONInsertResponse("failed", "Unable to insert Employee",
-                                      "error", error)
+                                      "reason", error)
     else:
         db.refresh(db_emp)
         return makeJSONInsertResponse("passed",
                                       "Employee record was inserted.",
-                                      "empId", emp.empId)
+                                      "empId", db_emp.empId)
 
 
 def deleteEmp(db: Session, empId: str):

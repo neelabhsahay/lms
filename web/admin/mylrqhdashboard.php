@@ -42,7 +42,7 @@
          </div>
          </div>
          <div class="row no-gutters" style="height:90%;">
-            <div class="col-md-2">
+            <div class="col-md-2 sidebar-row">
             <?php
             include "../assets/sidebar.php";
             ?>

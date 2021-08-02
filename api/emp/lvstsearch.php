@@ -20,6 +20,8 @@
 
     // get posted data
     $data = json_decode(file_get_contents("php://input"));
+    parse_str(parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY), $queryStr);
+    $query = json_decode(json_encode($queryStr));
     
     // get database connection
     $database = new Database();
@@ -38,6 +40,9 @@
         try {
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
+            $lvStatus->getCount =$query->getCount;
+            $lvStatus->startIndex =$query->skip;
+            $lvStatus->rowCounts =$query->limit;
             $lvStatus->key = $data->key;
             $stmt = $lvStatus->search();
             $itemCount = $stmt->rowCount();

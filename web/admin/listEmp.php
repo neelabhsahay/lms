@@ -5,7 +5,7 @@
             <div class="col-md-3 selectContainer">
                 <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-                    <input name="searchEmp" onkeyup="searchEmployee(this.value)" placeholder="Search for names.."  class="form-control"  type="text">
+                    <input name="searchEmp" onkeyup="searchEmployeeInList(this.value)" placeholder="Search for names.."  class="form-control"  type="text">
                 </div>
             </div>
             <div class="col-md-9 selectContainer">

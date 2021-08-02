@@ -121,42 +121,6 @@ function insertLeaveStatus() {
    return false;
 }
 
-function fillEmpSearchOutput(result) {
-   var div = document.getElementById("searchedEmp");
-
-   if (result.length != 0) {
-      div.style.display = "block";
-      var disp = "";
-      $.each(result, function(index, emp) {
-         var name = emp.firstName + " " + emp.lastName;
-         disp = disp + "<div class='seachResultItem' id='" +
-            emp.empId + "'onclick='selectEmployee(this.id, this.value )' value='" + name + "'><a>" + name + "</a></div>";
-      });
-      div.innerHTML = disp;
-   } else {
-      div.style.display = "none";
-   }
-}
-
-function selectEmployee(mgrId, mgrName) {
-   var mgrName = document.getElementById(mgrId).getAttribute("value");
-   document.getElementById("searchedEmp").style.display = "none";
-   document.getElementById("lvstEmpId").value = mgrId;
-   document.getElementById("lvstEmployeeName").value = mgrName;
-
-}
-
-function searchEmpForLeave(empStr) {
-   if (empStr.length != 0) {
-      var jsonInput = {
-         "key": empStr
-      };
-      searchEmployeeAJAX(jsonInput, fillEmpSearchOutput, true);
-   } else {
-      document.getElementById("searchedEmp").style.display = "none";
-   }
-}
-
 
 function updateLeavePresent(leaveList) {
    var x = document.getElementById("lvstLeaveId");

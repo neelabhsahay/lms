@@ -20,6 +20,8 @@
 
     // get posted data
     $data = json_decode(file_get_contents("php://input"));
+    parse_str(parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY), $queryStr);
+    $query = json_decode(json_encode($queryStr));
     
     // get database connection
     $database = new Database();
@@ -42,7 +44,7 @@
             $lvRequest->reqId = $data->reqId;
             $lvRequest->empId = $decoded->data->empId;
             $lvRequest->leaveId = $data->leaveId;
-            $lvRequest->getCount = $data->getCount;
+            $lvRequest->getCount = $query->getCount;
             if( !empty($lvRequest->reqId)) {     
                 if( $lvRequest->getSingle() ) {
                     
@@ -77,6 +79,8 @@
                     );
                 }
             } else {
+                $lvRequest->startIndex = $query->skip;
+                $lvRequest->rowCounts = $query->limit;
                 $stmt = $lvRequest->getAll();
                 $itemCount = $stmt->rowCount();
     

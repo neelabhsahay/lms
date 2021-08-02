@@ -1,8 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Security
+from fastapi.security import HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from typing import Optional, List
 from config.db import get_db
 from . import userClass
+from auth.auth_handler import security
 
 
 router = APIRouter(
@@ -14,23 +16,34 @@ router = APIRouter(
 
 
 @router.post("/create/")
-def createUserApp(user: userClass.UserCreate):
-    hashed_password = bcrypt.hashpw(user.password.encode('utf-8'),
-                                    bcrypt.gensalt())
-    return "Welcome!"
+def createUserApp(user: userClass.UserCreate,
+                  db: Session = Depends(get_db),
+                  token: HTTPAuthorizationCredentials = Security(security)):
+    existing_user = userClass.getUserDb(db, username=user.username)
+    if existing_user is not None:
+        raise HTTPException(status_code=403, detail="Username already exist.")
+    return userClass.insertUser(db, user=user)
 
 
 @router.put("/update/{username}")
-def updateUserApp(user: userClass.UserCreate):
-    return "Welcome!"
+def updateUserApp(username: str, user: userClass.UserUpdate,
+                  db: Session = Depends(get_db),
+                  token: HTTPAuthorizationCredentials = Security(security)):
+    existing_user = userClass.getUserDb(db, username=username)
+    if existing_user is None:
+        raise HTTPException(status_code=404, detail="Username not found")
+    return userClass.updateUser(db, db_user=existing_user, updates=user)
 
 
 @router.get("/get/", response_model=userClass.UserOut)
 @router.get("/get/{username}", response_model=userClass.UserOut)
-def getUserApp(username: Optional[str] = None, skip: int = 0, limit: int = 100,
-               db: Session = Depends(get_db)):
+def getUserApp(username: Optional[str] = None, getCount: bool = False,
+               skip: int = 0, limit: int = 100,
+               db: Session = Depends(get_db),
+               token: HTTPAuthorizationCredentials = Security(security)):
     if(username is None):
-        users = userClass.getUsers(db, skip=skip, limit=limit)
+        users = userClass.getUsers(db, getCount=getCount,
+                                   skip=skip, limit=limit)
     else:
         users = userClass.getUser(db, username=username)
     return users

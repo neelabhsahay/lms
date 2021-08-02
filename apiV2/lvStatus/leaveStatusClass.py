@@ -1,7 +1,8 @@
 from typing import Optional, List
 from pydantic import BaseModel, Field
 from datetime import datetime, date
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, Float
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, Float, \
+or_
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship, Session
 
@@ -86,20 +87,42 @@ def getLeaveStatusResponse(lvStatus):
         return getLeaveStatusObj(lvStatus)
 
 
+def getLeaveStatusDb(db: Session, key: LeaveStatusKey):
+    return db.query(LeaveStatusDb).filter(
+                    LeaveStatusDb.leaveId == key.leaveId,
+                    LeaveStatusDb.empId == key.empId,
+                    LeaveStatusDb.year == key.year).first()
+
+
 def getLeaveStatus(db: Session, key: LeaveStatusKey):
-    leaveSt = db.query(LeaveStatusDb).filter(
-                       LeaveStatusDb.leaveId == key.leaveId,
-                       LeaveStatusDb.empId == key.empId,
-                       LeaveStatusDb.year == key.year).first()
+    leaveSt = getLeaveStatusDb(db, key=key)
     if leaveSt is None:
         return None
     else:
         return makeJSONGetResponse(getLeaveStatusResponse(leaveSt), 1)
 
 
-def getLeavesStatus(db: Session, skip: int = 0, limit: int = 100):
+def search(db: Session, key: str, getCount: bool = False,
+           skip: int = 0, limit: int = 10):
+    look_for = '%{}%'.format(key)
+    leavesSt = db.query(LeaveStatusDb).filter(
+        LeaveStatusDb.empId.ilike(look_for)).offset(skip).limit(limit).all()
+    if getCount:
+        count = db.query(LeaveStatusDb).filter(
+            LeaveStatusDb.empId.ilike(look_for)).count()
+    else:
+        count = 1
+    return makeJSONGetResponse(getLeaveStatusResponse(leavesSt), count)
+
+
+def getLeavesStatus(db: Session, getCount: bool = False,
+                    skip: int = 0, limit: int = 100):
     leavesSt = db.query(LeaveStatusDb).offset(skip).limit(limit).all()
-    return makeJSONGetResponse(getLeaveStatusResponse(leavesSt), 1)
+    if getCount:
+        count = db.query(LeaveStatusDb).count()
+    else:
+        count = 1
+    return makeJSONGetResponse(getLeaveStatusResponse(leavesSt), count)
 
 
 def insertLeaveStatus(db: Session, leaveStatus: LeaveStatusCreate):
@@ -111,7 +134,7 @@ def insertLeaveStatus(db: Session, leaveStatus: LeaveStatusCreate):
         db.rollback()
         error = str(e.__dict__['orig'])
         return makeJSONInsertResponse("failed", "Unable to insert leavestatus",
-                                      "error", error)
+                                      "reason", error)
     else:
         db.refresh(leaveStatusDb)
         return makeJSONInsertResponse("passed",
@@ -134,7 +157,7 @@ def updateLeaveStatus(db: Session, db_lvst: LeaveStatusDb,
         error = str(e.__dict__['orig'])
         return makeJSONInsertResponse("failed",
                                       "Unable to update leave status record",
-                                      "error", error)
+                                      "reason", error)
     else:
         db.refresh(db_lvst)
         return makeJSONInsertResponse("passed",

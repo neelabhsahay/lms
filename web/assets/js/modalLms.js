@@ -1,5 +1,5 @@
 var totalEmpCount = 10;
-var totalItemPerPage = 10;
+var totalItemPerPage = 5;
 
 var myPagination;
 
@@ -84,6 +84,32 @@ function fillMyInfoForm(emp) {
 function showMyInfoDetail() {
    var jsonInput = {};
    myInfoDetailAJAX(jsonInput, fillMyInfoForm, false);
+}
+
+function fillEmployeeSearchOutput(result) {
+   $("#searchOptions").empty();
+   if (result.length != 0) {
+      $.each(result, function(index, emp) {
+         var name = emp.firstName + " " + emp.lastName;
+         $("#searchOptions").append("<option data-value='" + emp.empId + "' value='" + name + "'></option>");
+      });
+   } else {}
+}
+
+function selectEmployee(empIdId, empNameId) {
+   var empName = document.getElementById(empNameId).value;
+   var selectedOption = $("#searchOptions option[value='" + empName + "']").attr('data-value');
+   document.getElementById(empIdId).value = selectedOption;
+}
+
+function searchEmployee(empStr) {
+   $("#searchOptions").empty();
+   if (empStr.length != 0) {
+      var jsonInput = {
+         "key": empStr
+      };
+      searchEmployeeAJAX(jsonInput, fillEmployeeSearchOutput, true);
+   }
 }
 
 function apply_pagination(totalPages, callBackFunction) {

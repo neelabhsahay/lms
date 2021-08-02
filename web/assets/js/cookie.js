@@ -24,6 +24,23 @@ function getCookie(cname) {
    return "";
 }
 
+function createListURL(urlIn, jsonInput) {
+   var url = new URL(urlIn);
+   if (("startIndex" in jsonInput) == true) {
+      url.searchParams.append('skip', jsonInput['startIndex']);
+      delete jsonInput['startIndex'];
+   }
+   if (("rowCounts" in jsonInput) == true) {
+      url.searchParams.append('limit', jsonInput['rowCounts']);
+      delete jsonInput['rowCounts'];
+   }
+   if (("getCount" in jsonInput) == true) {
+      url.searchParams.append('getCount', jsonInput['getCount']);
+      delete jsonInput['getCount'];
+   }
+   return url;
+}
+
 (function($) {
    $.fn.serializeFormJSON = function() {
       var o = {};

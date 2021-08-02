@@ -20,6 +20,7 @@
                     <li> <a href="http://localhost/lms/web/emp/dashboard.php">Apply</a> </li>
                     <li> <a href="http://localhost/lms/web/emp/mylrqhdashboard.php">History</a> </li>
                     <li> <a href="http://localhost/lms/web/emp/approvedashboard.php">Approve</a> </li>
+                    <li> <a href="#">Holiday</a> </li>
                 </ul>
             </li>
             <li> <a href="#stationarySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" aria-controls="#stationarySubmenu">Stationary</a> 
