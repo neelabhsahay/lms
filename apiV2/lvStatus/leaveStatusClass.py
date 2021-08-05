@@ -111,7 +111,7 @@ def search(db: Session, key: str, getCount: bool = False,
         count = db.query(LeaveStatusDb).filter(
             LeaveStatusDb.empId.ilike(look_for)).count()
     else:
-        count = 1
+        count = 0
     return makeJSONGetResponse(getLeaveStatusResponse(leavesSt), count)
 
 
@@ -121,7 +121,20 @@ def getLeavesStatus(db: Session, getCount: bool = False,
     if getCount:
         count = db.query(LeaveStatusDb).count()
     else:
-        count = 1
+        count = 0
+    return makeJSONGetResponse(getLeaveStatusResponse(leavesSt), count)
+
+
+def getEmpLeaveStatus(db: Session, empId: str,
+                      getCount: bool = False,
+                      skip: int = 0, limit: int = 100):
+    leavesSt = db.query(LeaveStatusDb).filter(
+        LeaveStatusDb.empId == empId).offset(skip).limit(limit).all()
+    if getCount:
+        count = db.query(LeaveStatusDb).filter(
+          LeaveStatusDb.empId == empId).count()
+    else:
+        count = 0
     return makeJSONGetResponse(getLeaveStatusResponse(leavesSt), count)
 
 

@@ -1,47 +1,3 @@
-// jQuery codes
-
-// Get all Products to display
-function loginToApp(username, password) {
-
-   // Call Web API to get a list of Products
-   $.ajax({
-      url: 'http://localhost/lms/api/login.php',
-      type: 'POST',
-      contentType: 'application/json',
-      dataType: 'json',
-      data: JSON.stringify({
-         "username": username,
-         "password": password
-      }),
-      success: function(result) {
-         admitToApp(result);
-      },
-      error: function(request, message, error) {
-         handleException(request, message, error);
-      }
-   });
-}
-
-// Handle exceptions from AJAX calls
-function handleException(request, message, error) {
-   var msg = "";
-
-   msg += "Code: " + request.status + "\n";
-   msg += "Text: " + request.statusText + "\n";
-   if (request.responseJSON != null) {
-      msg += "Message" + request.responseJSON.message + "\n";
-   }
-   BootstrapDialog.alert(msg);
-   if (request.status == "401") {
-      setTimeout(' window.location.href = "http://localhost/lms/web/login.php"; ', 100);
-   } else {
-      alert(msg);
-   }
-}
-
-
-
-
 function validateLoginForm() {
    var myForm = document.getElementById('login_form');
    var user = myForm["username"].value;
@@ -53,13 +9,13 @@ function validateLoginForm() {
 }
 
 
-function admitToApp(result) {
-   if (result["success"] == "1") {
-      setCookie("jwt", result.jwt, 1);
-      if (result.accountType == "ADM") {
-         setTimeout(' window.location.href = "admin/empdashboard.php"; ', 2000);
+function admitToApp(message, status, data) {
+   if (status == "1") {
+      setCookie("jwt", data['jwt'], 1);
+      if (data['accountType'] == "ADM") {
+         setTimeout(' window.location.href = "admin/empdashboard.php"; ', 200);
       } else {
-         setTimeout(' window.location.href = "emp/dashboard.php"; ', 2000);
+         setTimeout(' window.location.href = "emp/dashboard.php"; ', 200);
       }
    } else {
       alert("Error");
@@ -73,9 +29,10 @@ function loginUser() {
    }
    setCookie("jwt", "", 1);
    var myForm = document.getElementById('login_form');
-   var user = myForm["username"].value;
-   var pass = myForm["password"].value;
-
-   loginToApp(user, pass);
+   var jsonInput = {
+      "username": myForm["username"].value,
+      "password": myForm["password"].value
+   }
+   loginToAppAJAX(jsonInput, admitToApp, false);
    return false;
 }

@@ -95,13 +95,26 @@ class EmployeeOut(BaseModel):
     totalCount: int
 
 
+class EmployeeFilter(BaseModel):
+    empType: Optional[EmpType] = None
+    empStatus: Optional[EmpStatus] = None
+    departmentId: Optional[str] = None
+    manager: Optional[str] = None
+    division: Optional[str] = None
+    costCenter: Optional[str] = None
+    empRole: Optional[str] = None
+    location: Optional[str] = None
+
+
 def search(db: Session, key: str, getCount: bool = False,
            skip: int = 0, limit: int = 10):
     look_for = '{}%'.format(key)
-    emps = db.query(EmployeeDb).filter(or_(EmployeeDb.firstName.ilike(
+    query = db.query(EmployeeDb).filter(or_(EmployeeDb.firstName.ilike(
         look_for), EmployeeDb.lastName.ilike(
-        look_for))).offset(skip).limit(limit).all()
-    return makeJSONGetResponse(emps, 1)
+        look_for))).offset(skip).limit(limit)
+    emps = query.all()
+    count = query.count()
+    return makeJSONGetResponse(emps, count)
 
 
 def getEmpDb(db: Session, empId: str):
@@ -127,9 +140,19 @@ def getEmps(db: Session, getCount: bool = False,
     if getCount:
         count = db.query(EmployeeDb).count()
     else:
-        count = 1
+        count = 0
 
     return makeJSONGetResponse(emps, count)
+
+
+def filter(db: Session, filters: EmployeeFilter,
+           getCount: bool = False,
+           skip: int = 0, limit: int = 100):
+    query = db.query(EmployeeDb)
+    for attr, value in filters.dict(exclude_unset=True).items():
+        query = query.filter(getattr(EmployeeDb, attr) == value)
+    emps = query.offset(skip).limit(limit).all()
+    return makeJSONGetResponse(emps, 1)
 
 
 def insertEmp(db: Session, employee: EmployeeCreate):

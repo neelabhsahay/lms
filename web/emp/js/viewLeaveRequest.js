@@ -21,7 +21,8 @@ function myLeaveRequestForApproveByIndex(pageNumber) {
 }
 
 function myLeaveRequestsForApprove(leaveRequests, totalCount) {
-   if (totalCount !== null) {
+   totalPage = 0
+   if (totalCount !== 0) {
       totalEmpCount = totalCount;
       totalPage = Math.ceil(totalEmpCount / totalItemPerPage);
    }
@@ -32,18 +33,14 @@ function myLeaveRequestsForApprove(leaveRequests, totalCount) {
 function myLeaveRequestsForApproveNextPage(leaveRequests, totalCount) {
    $.each(leaveRequests, function(index, leaveRequest) {
       // Add a row to the table
-      approverLeaveRequest(leaveRequest);
+      // First check if a <tbody> tag exists, add one if not
+      if ($("#listTable tbody").length == 0) {
+         $("#listTable").append("<tbody></tbody>");
+      }
+      // Append row to <table>
+      $("#listTable tbody").append(
+         approverLeaveRequestRow(leaveRequest));
    });
-}
-
-function approverLeaveRequest(leaveRequest) {
-   // First check if a <tbody> tag exists, add one if not
-   if ($("#leaveRequestApproverTable tbody").length == 0) {
-      $("#leaveRequestApproverTable").append("<tbody></tbody>");
-   }
-   // Append row to <table>
-   $("#leaveRequestApproverTable tbody").append(
-      approverLeaveRequestRow(leaveRequest));
 }
 
 // Build a <tr> for a row of table data
@@ -81,11 +78,11 @@ function approveLeaveRequest(reqId, approve) {
       "reqId": reqId,
       "status": status
    };
-   confirmAndExecute(approveRejectLeaveRequest, dataObj, actionStr);
+   confirmAndExecute(approveRejectLeaveRequest, dataObj, "", actionStr);
 }
 
 function approverLeaveRequestTableRow() {
-   $("#leaveRequestApproverTable tbody").remove();
+   $("#listTable tbody").remove();
 }
 
 /*
@@ -109,11 +106,12 @@ function myLeaveRequestHistoryByIndex(pageNumber) {
       'startIndex': startIndex,
       'rowCounts': totalItemPerPage
    };
-   myLeaveRequestAJAX(jsonInput, myLeaveRequests, true);
+   myLeaveRequestAJAX(jsonInput, myLeaveRequestsNextPage, true);
 }
 
 function myLeaveRequests(leaveRequests, totalCount) {
-   if (totalCount !== null) {
+   totalPage = 0
+   if (totalCount !== 0) {
       totalEmpCount = totalCount;
       totalPage = Math.ceil(totalEmpCount / totalItemPerPage);
    }
@@ -124,18 +122,14 @@ function myLeaveRequests(leaveRequests, totalCount) {
 function myLeaveRequestsNextPage(leaveRequests, totalCount) {
    $.each(leaveRequests, function(index, leaveRequest) {
       // Add a row to the table
-      myLeaveRequest(leaveRequest);
+      // First check if a <tbody> tag exists, add one if not
+      if ($("#listTable tbody").length == 0) {
+         $("#listTable").append("<tbody></tbody>");
+      }
+      // Append row to <table>
+      $("#listTable tbody").append(
+         myLeaveRequestRow(leaveRequest));
    });
-}
-
-function myLeaveRequest(leaveRequest) {
-   // First check if a <tbody> tag exists, add one if not
-   if ($("#leaveRequestHistoryTable tbody").length == 0) {
-      $("#leaveRequestHistoryTable").append("<tbody></tbody>");
-   }
-   // Append row to <table>
-   $("#leaveRequestHistoryTable tbody").append(
-      myLeaveRequestRow(leaveRequest));
 }
 
 // Build a <tr> for a row of table data
@@ -154,5 +148,5 @@ function myLeaveRequestRow(leaveRequest) {
 }
 
 function myLeaveRequestTableRow() {
-   $("#leaveRequestHistoryTable tbody").remove();
+   $("#listTable tbody").remove();
 }

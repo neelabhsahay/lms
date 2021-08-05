@@ -16,19 +16,16 @@ function updateLeaveCb(message, status, data) {
 function leaveInfo(leaves) {
    $.each(leaves, function(index, leave) {
       // Add a row to the Product table
-      leaveAddRow(leave);
+      // First check if a <tbody> tag exists, add one if not
+      if ($("#listTable tbody").length == 0) {
+         $("#listTable").append("<tbody></tbody>");
+      }
+      // Append row to <table>
+      $("#listTable tbody").append(
+         leaveTableRow(leave));
    });
 }
-// Add Product row to <table>
-function leaveAddRow(leave) {
-   // First check if a <tbody> tag exists, add one if not
-   if ($("#leaveTable tbody").length == 0) {
-      $("#leaveTable").append("<tbody></tbody>");
-   }
-   // Append row to <table>
-   $("#leaveTable tbody").append(
-      leaveTableRow(leave));
-}
+
 // Build a <tr> for a row of table data
 function leaveTableRow(leave) {
    var row = "<tr>";
@@ -46,7 +43,7 @@ function leaveTableRow(leave) {
 }
 
 function clearLeaveTableRow() {
-   $("#leaveTable tbody").remove();
+   $("#listTable tbody").remove();
 }
 
 

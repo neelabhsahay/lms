@@ -52,8 +52,12 @@ class LeaveOut(BaseModel):
     totalCount: int
 
 
+def getLeaveDb(db: Session, leaveId: str):
+    return db.query(LeaveDb).filter(LeaveDb.leaveId == leaveId).first()
+
+
 def getLeave(db: Session, leaveId: str):
-    leave = db.query(LeaveDb).filter(LeaveDb.leaveId == leaveId).first()
+    leave = getLeaveDb(db, leaveId=leaveId)
     if leave is None:
         return None
     else:

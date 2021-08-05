@@ -92,6 +92,18 @@ class LeaveRequestOut(BaseModel):
     totalCount: int
 
 
+class LeaveRequestRange(BaseModel):
+    rangeStart: datetime
+    rangeEnd: datetime
+
+
+class LeaveRequestFilter(BaseModel):
+    status: Optional[LeaveRequestStatus] = None
+    leaveRqtState: Optional[LeaveRequestState] = None
+    empId: Optional[str] = None
+    onlyOpened: Optional[bool] = None
+
+
 def getLeaveRequestObj(lvDb: LeaveRequestDb):
     approverName = lvDb.approverDetails.firstName + ' ' + \
                    lvDb.approverDetails.lastName
@@ -118,14 +130,49 @@ def getLeaveRequests(db: Session, getCount: bool = False,
     if getCount:
         count = db.query(LeaveRequestDb).count()
     else:
-        count = 1
+        count = 0
     leaveRqList = list()
     for leaveRq in leaveRqDb:
         leaveRqList.append(getLeaveRequestObj(leaveRq))
     return makeJSONGetResponse(leaveRqList, count)
 
 
-def getLeaveForApprove(db: Session, approver: str, getCount: bool = False,
+def getLeaveRequestsFilter(db: Session, filters: LeaveRequestFilter,
+                           getCount: bool = False,
+                           skip: int = 0, limit: int = 100):
+    query = db.query(LeaveRequestDb)
+    for attr, value in filters.dict(exclude_unset=True).items():
+        if attr == 'onlyOpened':
+            query = query.filter(
+                    getattr(LeaveRequestDb, 'status') == 'Pending')
+            query = query.filter(
+                    getattr(LeaveRequestDb, 'leaveRqtState') == 'Applied')
+        else:
+            query = query.filter(getattr(LeaveRequestDb, attr) == value)
+    leaveRqDb = query.offset(skip).limit(limit).all()
+
+    if getCount:
+        countQuery = db.query(LeaveRequestDb)
+        for attr, value in filters.dict(exclude_unset=True).items():
+            if attr == 'onlyOpened':
+                countQuery = countQuery.filter(
+                    getattr(LeaveRequestDb, 'status') == 'Pending')
+                countQuery = countQuery.filter(
+                    getattr(LeaveRequestDb, 'leaveRqtState') == 'Applied')
+            else:
+                countQuery = countQuery.filter(
+                    getattr(LeaveRequestDb, attr) == value)
+        count = countQuery.count()
+    else:
+        count = 0
+    leaveRqList = list()
+    for leaveRq in leaveRqDb:
+        leaveRqList.append(getLeaveRequestObj(leaveRq))
+    return makeJSONGetResponse(leaveRqList, count)
+
+
+def getLeaveForApprove(db: Session, approver: str, filters: LeaveRequestFilter,
+                       getCount: bool = False,
                        skip: int = 0, limit: int = 100):
     leaveRqDb = db.query(LeaveRequestDb).filter(
         LeaveRequestDb.approver == approver).offset(skip).limit(limit).all()
@@ -133,11 +180,39 @@ def getLeaveForApprove(db: Session, approver: str, getCount: bool = False,
         count = db.query(LeaveRequestDb).filter(
             LeaveRequestDb.approver == approver).count()
     else:
-        count = 1
+        count = 0
+    query = db.query(LeaveRequestDb)
+    query = query.filter(getattr(LeaveRequestDb, 'approver') == approver)
+    for attr, value in filters.dict(exclude_unset=True).items():
+        if attr == 'onlyOpened':
+            query = query.filter(
+                    getattr(LeaveRequestDb, 'status') == 'Pending')
+            query = query.filter(
+                    getattr(LeaveRequestDb, 'leaveRqtState') == 'Applied')
+        else:
+            query = query.filter(getattr(LeaveRequestDb, attr) == value)
+    leaveRqDb = query.offset(skip).limit(limit).all()
+
+    if getCount:
+        countQuery = db.query(LeaveRequestDb)
+        countQuery = countQuery.filter(
+            getattr(LeaveRequestDb, 'approver') == approver)
+        for attr, value in filters.dict(exclude_unset=True).items():
+            if attr == 'onlyOpened':
+                countQuery = countQuery.filter(
+                    getattr(LeaveRequestDb, 'status') == 'Pending')
+                countQuery = countQuery.filter(
+                    getattr(LeaveRequestDb, 'leaveRqtState') == 'Applied')
+            else:
+                countQuery = countQuery.filter(
+                    getattr(LeaveRequestDb, attr) == value)
+        count = countQuery.count()
+    else:
+        count = 0
     leaveRqList = list()
     for leaveRq in leaveRqDb:
         leaveRqList.append(getLeaveRequestObj(leaveRq))
-    return makeJSONGetResponse(leaveRqList, 1)
+    return makeJSONGetResponse(leaveRqList, count)
 
 
 def getLeaveFromEmployee(db: Session, empId: str, getCount: bool = False,
@@ -148,11 +223,24 @@ def getLeaveFromEmployee(db: Session, empId: str, getCount: bool = False,
         count = db.query(LeaveRequestDb).filter(
             LeaveRequestDb.empId == empId).count()
     else:
-        count = 1
+        count = 0
     leaveRqList = list()
     for leaveRq in leaveRqDb:
         leaveRqList.append(getLeaveRequestObj(leaveRq))
     return makeJSONGetResponse(leaveRqList, count)
+
+
+def getMyLeaveRqInRange(db: Session, empId: str,
+                        rangeDt: LeaveRequestRange,
+                        skip: int = 0, limit: int = 100):
+    leaveRqDb = db.query(LeaveRequestDb).filter(
+        LeaveRequestDb.empId == empId,
+        LeaveRequestDb.startDate < rangeDt.rangeEnd,
+        LeaveRequestDb.endDate >= rangeDt.rangeStart).offset(skip).limit(limit).all()
+    leaveRqList = list()
+    for leaveRq in leaveRqDb:
+        leaveRqList.append(getLeaveRequestObj(leaveRq))
+    return makeJSONGetResponse(leaveRqList, 1)
 
 
 def insertLeaveRequest(db: Session, lvRqst: LeaveRequestCreate):
@@ -199,7 +287,7 @@ def insertLeaveRequest(db: Session, lvRqst: LeaveRequestCreate):
 
 
 def approveLeaveRequest(db: Session, lvRqst: LeaveRequestApprove):
-    db_leaveRq = leaveRequestClass.getLeaveRequestDb(db, reqId=lvRqst.reqId)
+    db_leaveRq = getLeaveRequestDb(db, reqId=lvRqst.reqId)
     if db_leaveRq is None:
         return None
     else:

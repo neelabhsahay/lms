@@ -83,7 +83,6 @@ body {
    margin-right: auto;
    border-top: 1px solid rgba(000, 125, 125, .7);
    bottom: 0;
-   text-align: top;
 }
 
 
@@ -149,7 +148,6 @@ div.content {
 /*
  * Main dashbaord
  */
-$light-bg=#777;
 
 .card_dashboard-list {
    @include clear();
@@ -161,7 +159,6 @@ $light-bg=#777;
    color: black;
    padding: 10px;
    position: relative;
-   border: 1px solid $light-bg;
    overflow-x: auto;
    border-radius: 1rem;
    width: 100%;
@@ -492,7 +489,7 @@ a.download:hover {
    padding: 15px
 }
 
-@media(maz-width:768px) {
+@media(max-width:768px) {
    #sidebar {
       margin-left: -250px
    }

@@ -162,7 +162,7 @@ function applyForLeave() {
    const now = new Date();
    dataObj['appliedDate'] = now;
    dataObj['status'] = 'Pending';
-   confirmAndExecute(insertLeaveRequest, dataObj, "apply for leave ");
+   confirmAndExecute(insertLeaveRequest, dataObj, "", "apply for leave ");
    return false;
 }
 

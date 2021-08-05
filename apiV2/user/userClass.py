@@ -88,7 +88,7 @@ def getUsers(db: Session, getCount: bool = False,
     if getCount:
         count = db.query(UserDb).count()
     else:
-        count = 1
+        count = 0
     return makeJSONGetResponse(users, count)
 
 

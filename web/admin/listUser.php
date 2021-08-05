@@ -18,7 +18,7 @@
         <div class="row mb-4"> 
             <div class="col-md-12 selectContainer">
                 <div class="input-group">
-                    <table id="usrTable" class="table table-bordered table-condensed table-striped table-sm">
+                    <table id="listTable" class="table table-bordered table-condensed table-striped table-sm">
                        <thead class="thead-dark-hdr">
                         <tr>
                           <th>Emp Id</th>

@@ -16,7 +16,7 @@ function updateLeaveStatusCb(message, status, data) {
  */
 function lvStInfo(lvsts, totalCount) {
    totalPage = 0;
-   if (totalCount !== null) {
+   if (totalCount !== 0) {
       totalEmpCount = totalCount;
       totalPage = Math.ceil(totalEmpCount / totalItemPerPage);
    }
@@ -37,17 +37,18 @@ function lvStInfoNextPage(lvsts, totalCount) {
 // Add Product row to <table>
 function lvStAddRow(lvst) {
    // First check if a <tbody> tag exists, add one if not
-   if ($("#lvStTable tbody").length == 0) {
-      $("#lvStTable").append("<tbody></tbody>");
+   if ($("#listTable tbody").length == 0) {
+      $("#listTable").append("<tbody></tbody>");
    }
    // Append row to <table>
-   $("#lvStTable tbody").append(
+   $("#listTable tbody").append(
       lvStTableRow(lvst));
 }
+
 // Build a <tr> for a row of table data
 function lvStTableRow(lvst) {
    var row = "<tr>";
-   row = row + "<td>" + lvst.employeeName + "</td>";
+   row = row + "<td>" + lvst.firstName + " " + lvst.lastName + "</td>";
    row = row + "<td>" + lvst.leaveType + "</td>";
    row = row + "<td>" + lvst.year + "</td>";
    row = row + "<td>" + lvst.leaveCarried + "</td>";
@@ -63,7 +64,7 @@ function lvStTableRow(lvst) {
 }
 
 function clearLeaveStatusTableRow() {
-   $("#lvStTable tbody").remove();
+   $("#listTable tbody").remove();
 }
 
 function loadListLeaveStatus() {

@@ -9,6 +9,7 @@ from emp.app import router as empRouter
 from leave.app import router as leaveRouter
 from lvStatus.app import router as lvStatusRouter
 from lvRequest.app import router as lvRequestRouter
+from holiday.app import router as holidayRouter
 from login import router as loginRouter
 
 Base.metadata.create_all(bind=engine)
@@ -34,6 +35,7 @@ app.include_router(empRouter)
 app.include_router(leaveRouter)
 app.include_router(lvStatusRouter)
 app.include_router(lvRequestRouter)
+app.include_router(holidayRouter)
 app.include_router(loginRouter)
 
 

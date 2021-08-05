@@ -138,7 +138,7 @@ CREATE TABLE `leaves` (
 CREATE TABLE `emp_leaves_status` (
   `empId` varchar(30) NOT NULL,
   `leaveId` varchar(20) NOT NULL,
-  `year` int(6) NOT NULL DEFAULT 2000,
+  `year` YEAR(4) NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `leaveCarried` DECIMAL(20, 2) NOT NULL DEFAULT '0.00',
   `leaveInYear` DECIMAL(20, 2) NOT NULL DEFAULT '0.00',
   `leaveUsed` DECIMAL(20, 2) NOT NULL DEFAULT '0.00',
@@ -169,8 +169,17 @@ CREATE TABLE `emp_leaves_request` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Indexes for dumped tables
+-- Table structure for table 'holiday'
 --
+
+CREATE TABLE `holidays` (
+  `holidayId` int(11) NOT NULL,
+  `holidayName` varchar(100) NOT NULL,
+  `holidayDate` date NOT NULL,
+  `year` YEAR(4) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifiedOn` TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 --
 -- Indexes for table `admins`
@@ -275,4 +284,12 @@ ALTER TABLE `employee_personal`
 ALTER TABLE 'employee_personal'
   ADD CONSTRAINT FK_EmpAddress FOREIGN KEY (empId) REFERENCES employees (empId)
   ON DELETE CASCADE ON UPDATE RESTRICT;
+
+--
+-- AUTO_INCREMENT for table `holiday`
+--
+ALTER TABLE `holidays`
+  ADD PRIMARY KEY (`holidayId`);
+ALTER TABLE `holidays`
+  MODIFY `holidayId` int(11) NOT NULL AUTO_INCREMENT;
 

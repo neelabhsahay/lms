@@ -120,7 +120,7 @@
     
         // Read all Leaves record
         public function getAll(){
-
+            $this->totalCount = 0;
             if( !empty($this->getCount)) {
                 $countquery = "SELECT * FROM " . $this->table_name . " ORDER BY leaveId DESC";
 
@@ -250,7 +250,8 @@
        public $leaveUsed;
        public $modifiedBy;
        public $modifiedOn;
-       public $employeeName;
+       public $firstName;
+       public $lastName;
        public $leaveType;
        public $key;
        public $startIndex;
@@ -391,7 +392,8 @@
                          {$set_limit}";
             } else {
                 $query = "SELECT
-                         e.firstName as employeeName,
+                         e.firstName as firstName,
+                         e.lastName as lastName,
                          l.leaveType as leaveType,
                          lvst.* FROM employees as e JOIN " . $this->table_name . " 
                          as lvst ON
@@ -406,6 +408,7 @@
     
         // Read all Leaves status record
         public function getAll(){
+            $this->totalCount = 0;
             if( !empty($this->getCount)) {
                 $countquery = $this->getReadQuery( true);
 
@@ -463,7 +466,8 @@
                 $this->key=htmlspecialchars(strip_tags($this->key));
                 $key = $this->key;
                 $query = "SELECT
-                         e.firstName as employeeName,
+                         e.firstName as firstName,
+                         e.lastName as lastName,
                          l.leaveType as leaveType,
                          lvst.* FROM employees as e JOIN "   . $this->table_name . " 
                          as lvst ON
@@ -827,6 +831,7 @@
     
         // Read all Leaves status record
         public function getAll(){
+            $this->totalCount = 0;
             if( !empty($this->getCount)) {
                 $countquery = $this->getReadQuery( true);
 

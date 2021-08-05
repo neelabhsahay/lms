@@ -15,7 +15,7 @@ function updateUserCb(message, status, data) {
 
 // Display all Products returned from Web API call
 function usrListSuccess(usersInfo, totalCount) {
-   if (totalCount !== null) {
+   if (totalCount !== 0) {
       totalEmpCount = totalCount;
       totalPage = Math.ceil(totalEmpCount / totalItemPerPage);
    }
@@ -38,11 +38,11 @@ function usrInfo(usrs) {
 // Add Product row to <table>
 function usrAddRow(usr) {
    // First check if a <tbody> tag exists, add one if not
-   if ($("#usrTable tbody").length == 0) {
-      $("#usrTable").append("<tbody></tbody>");
+   if ($("#listTable tbody").length == 0) {
+      $("#listTable").append("<tbody></tbody>");
    }
    // Append row to <table>
-   $("#usrTable tbody").append(
+   $("#listTable tbody").append(
       usrTableRow(usr));
 }
 // Build a <tr> for a row of table data
@@ -62,7 +62,7 @@ function usrTableRow(usr) {
 }
 
 function clearUsrTableRow() {
-   $("#usrTable tbody").remove();
+   $("#listTable tbody").remove();
 }
 
 function loadListUser() {

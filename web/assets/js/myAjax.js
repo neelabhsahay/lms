@@ -1,10 +1,15 @@
+var siteURl = 'http://127.0.0.1:8000/';
+
 function insertEmpAJAX(jsonInput, callBackFunc, skipFailure404) {
-   //var jwt = getCookie('jwt');
+   var jwt = getCookie('jwt');
    //jsonInput['jwt'] = jwt;
    // Call Web API to get a list of Products
    $.ajax({
-      url: 'http://127.0.0.1:8000/emp/create/',
+      url: siteURl + 'emp/create/',
       type: 'POST',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
       contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
@@ -20,12 +25,14 @@ function insertEmpAJAX(jsonInput, callBackFunc, skipFailure404) {
 }
 
 function updateEmpAJAX(jsonInput, callBackFunc, skipFailure404) {
-   //var jwt = getCookie('jwt');
-   //jsonInput['jwt'] = jwt;
+   var jwt = getCookie('jwt');
    // Call Web API to get a list of Products
    $.ajax({
-      url: 'http://127.0.0.1:8000/emp/update/' + jsonInput['empId'],
+      url: siteURl + 'emp/update/' + jsonInput['empId'],
       type: 'PUT',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
       contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
@@ -41,12 +48,14 @@ function updateEmpAJAX(jsonInput, callBackFunc, skipFailure404) {
 }
 
 function insertLeaveAJAX(jsonInput, callBackFunc, skipFailure404) {
-   //var jwt = getCookie('jwt');
-   //jsonInput['jwt'] = jwt;
+   var jwt = getCookie('jwt');
    // Call Web API to get a list of Products
    $.ajax({
-      url: 'http://127.0.0.1:8000/leave/create/',
+      url: siteURl + 'leave/create/',
       type: 'POST',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
       contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
@@ -61,12 +70,14 @@ function insertLeaveAJAX(jsonInput, callBackFunc, skipFailure404) {
 }
 
 function updateLeaveAJAX(jsonInput, callBackFunc, skipFailure404) {
-   //var jwt = getCookie('jwt');
-   //jsonInput['jwt'] = jwt;
+   var jwt = getCookie('jwt');
    // Call Web API to get a list of Products
    $.ajax({
-      url: 'http://127.0.0.1:8000/leave/update/' + jsonInput['leaveId'],
+      url: siteURl + 'leave/update/' + jsonInput['leaveId'],
       type: 'PUT',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
       contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
@@ -81,12 +92,14 @@ function updateLeaveAJAX(jsonInput, callBackFunc, skipFailure404) {
 }
 
 function insertLeaveStatusAJAX(jsonInput, callBackFunc, skipFailure404) {
-   //var jwt = getCookie('jwt');
-   //jsonInput['jwt'] = jwt;
+   var jwt = getCookie('jwt');
    // Call Web API to get a list of Products
    $.ajax({
-      url: 'http://127.0.0.1:8000/lvst/create/',
+      url: siteURl + 'lvst/create/',
       type: 'POST',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
       contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
@@ -101,12 +114,14 @@ function insertLeaveStatusAJAX(jsonInput, callBackFunc, skipFailure404) {
 }
 
 function updateLeaveStatusAJAX(jsonInput, callBackFunc, skipFailure404) {
-   //var jwt = getCookie('jwt');
-   //jsonInput['jwt'] = jwt;
+   var jwt = getCookie('jwt');
    // Call Web API to get a list of Products
    $.ajax({
-      url: 'http://127.0.0.1:8000/lvst/update/',
+      url: siteURl + 'lvst/update/',
       type: 'PUT',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
       contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
@@ -121,12 +136,14 @@ function updateLeaveStatusAJAX(jsonInput, callBackFunc, skipFailure404) {
 }
 
 function insertUserAJAX(jsonInput, callBackFunc, skipFailure404) {
-   //var jwt = getCookie('jwt');
-   //jsonInput['jwt'] = jwt;
+   var jwt = getCookie('jwt');
    // Call Web API to get a list of Products
    $.ajax({
-      url: 'http://127.0.0.1:8000/user/create/',
+      url: siteURl + 'user/create/',
       type: 'POST',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
       contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
@@ -142,12 +159,14 @@ function insertUserAJAX(jsonInput, callBackFunc, skipFailure404) {
 }
 
 function updateUserAJAX(jsonInput, callBackFunc, skipFailure404) {
-   //var jwt = getCookie('jwt');
-   //jsonInput['jwt'] = jwt;
+   var jwt = getCookie('jwt');
    // Call Web API to get a list of Products
    $.ajax({
-      url: 'http://127.0.0.1:8000/user/update/' + jsonInput['username'],
-      type: 'POST',
+      url: siteURl + 'user/update/' + jsonInput['username'],
+      type: 'PUT',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
       contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
@@ -164,11 +183,13 @@ function updateUserAJAX(jsonInput, callBackFunc, skipFailure404) {
 
 function insertMyLeaveRequestAJAX(jsonInput, callBackFunc, skipFailure404) {
    var jwt = getCookie('jwt');
-   jsonInput['jwt'] = jwt;
    // Call Web API to get a list of Products
    $.ajax({
-      url: 'http://localhost/lms/api/emp/lvrqsmycreate.php',
+      url: siteURl + 'lvrq/me/',
       type: 'POST',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
       contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
@@ -183,12 +204,14 @@ function insertMyLeaveRequestAJAX(jsonInput, callBackFunc, skipFailure404) {
 }
 
 function updateEmpLeaveRequestAJAX(jsonInput, callBackFunc, skipFailure404) {
-   //var jwt = getCookie('jwt');
-   //jsonInput['jwt'] = jwt;
+   var jwt = getCookie('jwt');
    // Call Web API to get a list of Products
    $.ajax({
-      url: 'http://127.0.0.1:8000/lvrq/update/',
+      url: siteURl + 'lvrq/update/',
       type: 'POST',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
       contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
@@ -206,25 +229,74 @@ function updateEmpLeaveRequestAJAX(jsonInput, callBackFunc, skipFailure404) {
    });
 }
 
+function insertHolidayAJAX(jsonInput, callBackFunc, skipFailure404) {
+   var jwt = getCookie('jwt');
+   // Call Web API to get a list of Products
+   $.ajax({
+      url: siteURl + 'holiday/create/',
+      type: 'POST',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
+      dataType: 'json',
+      contentType: "application/json; charset=utf-8",
+      data: JSON.stringify(jsonInput),
+
+      success: function(response) {
+         callBackFunc(response["message"], response["status"],
+            response['data']);
+      },
+      error: function(request, message, error) {
+         handleException(request, message, error);
+      }
+   });
+}
+
+function updateHolidayAJAX(jsonInput, callBackFunc, skipFailure404) {
+   var jwt = getCookie('jwt');
+   // Call Web API to get a list of Products
+   $.ajax({
+      url: siteURl + 'holiday/update/' + jsonInput['holidayId'],
+      type: 'PUT',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
+      dataType: 'json',
+      contentType: "application/json; charset=utf-8",
+      data: JSON.stringify(jsonInput),
+
+      success: function(response) {
+         callBackFunc(response["message"], response["status"],
+            response['data']);
+      },
+      error: function(request, message, error) {
+         handleException(request, message, error);
+      }
+   });
+}
+
 /*
  *  Read Section
  */
 
 function leaveListAJAX(jsonInput, listCallBackFunc, skipFailure404) {
-   //var jwt = getCookie('jwt');
-   let urlStr = "http://127.0.0.1:8000/leave / get/";
+   var jwt = getCookie('jwt');
+   let urlStr = siteURl + 'leave/get/';
    if (("leaveId" in jsonInput) == true) {
       urlStr = urlStr + jsonInput['leaveId'];
       delete jsonInput['leaveId'];
    }
    let url = createListURL(urlStr,
       jsonInput);
-   //jsonInput['jwt'] = jwt;
    // Call Web API to get a list of Products
    $.ajax({
       url: url,
       type: 'GET',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
+      contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
       success: function(response) {
          listCallBackFunc(response["body"]);
@@ -241,21 +313,23 @@ function leaveListAJAX(jsonInput, listCallBackFunc, skipFailure404) {
 
 // Get all Products to display
 function getEmployeeAJAX(jsonInput, listCallBackFunc, skipFailure404) {
-   let urlStr = "http://127.0.0.1:8000/emp/get/";
+   let urlStr = siteURl + 'emp/get/';
    if (("empId" in jsonInput) == true) {
       urlStr = urlStr + jsonInput['empId'];
       delete jsonInput['empId'];
    }
    let url = createListURL(urlStr,
       jsonInput);
-   console.log(url);
-   //var jwt = getCookie('jwt');
-   //jsonInput['jwt'] = jwt;
+   var jwt = getCookie('jwt');
    // Call Web API to get a list of Products
    $.ajax({
       url: url,
       type: 'GET',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
+      contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
       success: function(response) {
          listCallBackFunc(response["body"], response["totalCount"]);
@@ -273,16 +347,19 @@ function getEmployeeAJAX(jsonInput, listCallBackFunc, skipFailure404) {
 
 // Get all Products to display
 function searchEmployeeAJAX(jsonInput, listCallBackFunc, skipFailure404) {
-   let url = createListURL('http://127.0.0.1:8000/emp/search/' + jsonInput['key'],
+   let url = createListURL(siteURl + 'emp/search/' + jsonInput['key'],
       jsonInput);
    delete jsonInput['key'];
-   //var jwt = getCookie('jwt');
-   //jsonInput['jwt'] = jwt;
+   var jwt = getCookie('jwt');
    // Call Web API to get a list of Products
    $.ajax({
       url: url,
       type: 'GET',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
+      contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
 
       success: function(response) {
@@ -299,15 +376,18 @@ function searchEmployeeAJAX(jsonInput, listCallBackFunc, skipFailure404) {
 }
 
 function leaveStatusListAJAX(jsonInput, listCallBackFunc, skipFailure404) {
-   let url = createListURL('http://localhost/lms/api/emp/lvstread.php',
+   let url = createListURL(siteURl + 'lvst/get/',
       jsonInput);
    var jwt = getCookie('jwt');
-   jsonInput['jwt'] = jwt;
    // Call Web API to get a list of Products
    $.ajax({
       url: url,
-      type: 'POST',
+      type: 'GET',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
+      contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
       success: function(response) {
          listCallBackFunc(response["body"], response["totalCount"]);
@@ -324,15 +404,18 @@ function leaveStatusListAJAX(jsonInput, listCallBackFunc, skipFailure404) {
 
 // Get all Products to display
 function myInfoDetailAJAX(jsonInput, listCallBackFunc, skipFailure404) {
-   let url = createListURL('http://localhost/lms/api/emp/empmyread.php',
+   let url = createListURL(siteURl + 'emp/me/',
       jsonInput);
    var jwt = getCookie('jwt');
-   jsonInput['jwt'] = jwt;
    // Call Web API to get a list of Products
    $.ajax({
       url: url,
-      type: 'POST',
+      type: 'GET',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
+      contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
       success: function(response) {
          listCallBackFunc(response["body"]);
@@ -349,15 +432,18 @@ function myInfoDetailAJAX(jsonInput, listCallBackFunc, skipFailure404) {
 
 // Get all Products to display
 function myLeaveStatusAJAX(jsonInput, listCallBackFunc, skipFailure404) {
-   let url = createListURL('http://localhost/lms/api/emp/lvstmyread.php',
+   let url = createListURL(siteURl + 'lvst/me/',
       jsonInput);
    var jwt = getCookie('jwt');
-   jsonInput['jwt'] = jwt;
    // Call Web API to get a list of Products
    $.ajax({
       url: url,
-      type: 'POST',
+      type: 'GET',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
+      contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
       success: function(response) {
          listCallBackFunc(response["body"]);
@@ -375,15 +461,18 @@ function myLeaveStatusAJAX(jsonInput, listCallBackFunc, skipFailure404) {
 // Get all Products to display
 function myLeaveRequestInRangeAJAX(jsonInput, listCallBackFunc, skipFailure404,
    passThroughData) {
-   let url = createListURL('http://localhost/lms/api/emp/lvrqsrange.php',
+   let url = createListURL(siteURl + 'lvrq/range/',
       jsonInput);
    var jwt = getCookie('jwt');
-   jsonInput['jwt'] = jwt;
    // Call Web API to get a list of Products
    $.ajax({
       url: url,
       type: 'POST',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
+      contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
       success: function(response) {
          listCallBackFunc(response["body"], passThroughData);
@@ -400,15 +489,17 @@ function myLeaveRequestInRangeAJAX(jsonInput, listCallBackFunc, skipFailure404,
 
 // Get all Products to display
 function myLeaveRequestAJAX(jsonInput, listCallBackFunc, skipFailure404) {
-   let url = createListURL('http://localhost/lms/api/emp/lvrqsmyhistory.php',
-      jsonInput);
+   let url = createListURL(siteURl + 'lvrq/me/', jsonInput);
    var jwt = getCookie('jwt');
-   jsonInput['jwt'] = jwt;
    // Call Web API to get a list of Products
    $.ajax({
       url: url,
-      type: 'POST',
+      type: 'GET',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
+      contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
       success: function(response) {
          listCallBackFunc(response["body"], response["totalCount"]);
@@ -425,15 +516,17 @@ function myLeaveRequestAJAX(jsonInput, listCallBackFunc, skipFailure404) {
 
 // Get all Products to display
 function myLeaveRequestForApproveAJAX(jsonInput, listCallBackFunc, skipFailure404) {
-   let url = createListURL('http://localhost/lms/api/emp/lvrqsmyapprove.php',
-      jsonInput);
+   let url = createListURL(siteURl + 'lvrq/meapprove/', jsonInput);
    var jwt = getCookie('jwt');
-   jsonInput['jwt'] = jwt;
    // Call Web API to get a list of Products
    $.ajax({
       url: url,
       type: 'POST',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
+      contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
       success: function(response) {
          listCallBackFunc(response["body"], response["totalCount"]);
@@ -451,19 +544,22 @@ function myLeaveRequestForApproveAJAX(jsonInput, listCallBackFunc, skipFailure40
 
 // Get all Products to display
 function empLeaveRequestAJAX(jsonInput, listCallBackFunc, skipFailure404) {
-   let urlStr = "http://127.0.0.1:8000/lvrq/get/";
-   if (("leaveId" in jsonInput) == true) {
-      urlStr = urlStr + jsonInput['leaveId'];
+   let urlStr = siteURl + 'lvrq/get/';
+   if (("reqId" in jsonInput) == true) {
+      urlStr = urlStr + jsonInput['reqId'];
    }
-   let url = createListURL(urlStr,
-      jsonInput);
-   //var jwt = getCookie('jwt');
-   //jsonInput['jwt'] = jwt;
+   delete jsonInput['reqId'];
+   let url = createListURL(urlStr, jsonInput);
+   var jwt = getCookie('jwt');
    // Call Web API to get a list of Products
    $.ajax({
       url: url,
       type: 'GET',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
+      contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
       success: function(response) {
          listCallBackFunc(response["body"], response["totalCount"]);
@@ -480,11 +576,13 @@ function empLeaveRequestAJAX(jsonInput, listCallBackFunc, skipFailure404) {
 
 function approveLeaveRequestAJAX(jsonInput, callBackFunc, skipFailure404) {
    var jwt = getCookie('jwt');
-   jsonInput['jwt'] = jwt;
    // Call Web API to get a list of Products
    $.ajax({
-      url: 'http://localhost/lms/api/emp/approvereject.php',
-      type: 'POST',
+      url: siteURl + 'lvrq/approve/',
+      type: 'PUT',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
       contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
@@ -500,11 +598,13 @@ function approveLeaveRequestAJAX(jsonInput, callBackFunc, skipFailure404) {
 
 function rejectLeaveRequestAJAX(jsonInput, callBackFunc, skipFailure404) {
    var jwt = getCookie('jwt');
-   jsonInput['jwt'] = jwt;
    // Call Web API to get a list of Products
    $.ajax({
-      url: 'http://localhost/lms/api/emp/revokelvrqs.php',
-      type: 'POST',
+      url: siteURl + 'lvrq/approve/',
+      type: 'PUT',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
       contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
@@ -523,15 +623,18 @@ function rejectLeaveRequestAJAX(jsonInput, callBackFunc, skipFailure404) {
  */
 // Get all Products to display
 function usrListAJAX(jsonInput, listCallBackFunc, skipFailure404) {
-   let url = createListURL('http://localhost/lms/api/emp/usrread.php',
+   let url = createListURL(siteURl + 'user/get/',
       jsonInput);
    var jwt = getCookie('jwt');
-   jsonInput['jwt'] = jwt;
    // Call Web API to get a list of Products
    $.ajax({
       url: url,
-      type: 'POST',
+      type: 'GET',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
+      contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
       success: function(response) {
          listCallBackFunc(response["body"], response["totalCount"]);
@@ -547,19 +650,76 @@ function usrListAJAX(jsonInput, listCallBackFunc, skipFailure404) {
 }
 
 function userDetailAJAX(jsonInput, listCallBackFunc, skipFailure404) {
-   let url = createListURL('http://localhost/lms/api/emp/usrssigread.php',
+   let url = createListURL(siteURl + 'user/get/' + jsonInput['username'],
       jsonInput);
+   delete jsonInput['username'];
    var jwt = getCookie('jwt');
-   jsonInput['jwt'] = jwt;
    // Call Web API to get a list of Products
    $.ajax({
       url: url,
-      type: 'POST',
+      type: 'GET',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
       dataType: 'json',
+      contentType: "application/json; charset=utf-8",
       data: JSON.stringify(jsonInput),
 
       success: function(response) {
          listCallBackFunc(response["body"], response["totalCount"]);
+      },
+      error: function(request, message, error) {
+         handleException(request, message, error);
+      }
+   });
+}
+
+function holidayListAJAX(jsonInput, listCallBackFunc, skipFailure404) {
+   var jwt = getCookie('jwt');
+   let urlStr = siteURl + 'holiday/get/';
+   if (("holidayId" in jsonInput) == true) {
+      urlStr = urlStr + jsonInput['holidayId'];
+      delete jsonInput['holidayId'];
+   } else if (("year" in jsonInput) == true) {
+      urlStr = urlStr + 'year/' + jsonInput['year'];
+      delete jsonInput['year'];
+   }
+   let url = createListURL(urlStr,
+      jsonInput);
+   // Call Web API to get a list of Products
+   $.ajax({
+      url: url,
+      type: 'GET',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
+      dataType: 'json',
+      contentType: "application/json; charset=utf-8",
+      data: JSON.stringify(jsonInput),
+      success: function(response) {
+         listCallBackFunc(response["body"], response["totalCount"]);
+      },
+      error: function(request, message, error) {
+         if (skipFailure404 && request.status == "404") {
+            listCallBackFunc("", "");
+         } else {
+            handleException(request, message, error);
+         }
+      }
+   });
+}
+
+function loginToAppAJAX(jsonInput, callBackFunc, skipFailure404) {
+   // Call Web API to get a list of Products
+   $.ajax({
+      url: siteURl + 'login/',
+      type: 'POST',
+      contentType: 'application/json',
+      dataType: 'json',
+      data: JSON.stringify(jsonInput),
+      success: function(response) {
+         callBackFunc(response["message"], response["status"],
+            response['data']);
       },
       error: function(request, message, error) {
          handleException(request, message, error);

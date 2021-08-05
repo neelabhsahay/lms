@@ -27,11 +27,15 @@ def loginApp(user: UserLogin, db: Session = Depends(get_db)):
         token = signJWT(empId=userDb.empId, username=userDb.username,
                         accountType=userDb.accountType, hrs=5)
         response["message"] = "Successful login."
-        response["success"] = "1"
-        response["jwt"] = token['access_token']
-        response["accountType"] = userDb.accountType
+        response["status"] = "1"
+        response["data"] = dict()
+        response["data"]["jwt"] = token['access_token']
+        response["data"]["accountType"] = userDb.accountType
     else:
+        response["message"] = "Login failed."
+        response["status"] = "0"
+        response["data"] = dict()
+        response["data"]["username"] = user.username
         raise HTTPException(status_code=401,
-                            detail="Login failed for username: %s" %
-                                    user.username)
+                            detail=response)
     return response

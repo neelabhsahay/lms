@@ -1,6 +1,7 @@
 import time
 from typing import Dict
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status, Security
+from fastapi.security import HTTPAuthorizationCredentials
 import jwt
 from decouple import config
 from fastapi.security import HTTPBearer
@@ -35,58 +36,81 @@ def signJWT(empId: str, username: str,
     return token_response(token)
 
 
-def decodeJWT(token: str) -> dict:
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-    expired_exception = HTTPException(
-        status_code=status.HTTP_403_UNAUTHORIZED,
-        detail="Access denied. Token Expired.",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
+def decodeJWT(Credentials: HTTPAuthorizationCredentials = Security(security)
+              ) -> dict:
+    credentials_exception = {
+        "status_code": status.HTTP_401_UNAUTHORIZED,
+        "detail": "Could not validate credentials",
+        "headers": {"WWW-Authenticate": "Bearer"},
+    }
+    expired_exception = {
+        "status_code": status.HTTP_403_FORBIDDEN,
+        "detail": "Access denied. Token Expired.",
+        "headers": {"WWW-Authenticate": "Bearer"},
+    }
+    token = Credentials.credentials
     try:
         decoded_token = jwt.decode(token, JWT_SECRET,
                                    algorithms=[JWT_ALGORITHM])
     except jwt.ExpiredSignatureError:
-        raise expired_exception
+        credentials_exception["detail"] = "Expire Signature Error"
+        raise HTTPException(**credentials_exception)
     except jwt.DecodeError:
-        raise credentials_exception
+        credentials_exception["detail"] = "Decode Error"
+        raise HTTPException(**credentials_exception)
     except jwt.InvalidSignatureError:
-        raise credentials_exception
+        credentials_exception["detail"] = "Invalid Signature Error"
+        raise HTTPException(**credentials_exception)
     except jwt.InvalidTokenError:
-        raise credentials_exception
+        credentials_exception["detail"] = "Invalid Token Error"
+        raise HTTPException(**credentials_exception)
     else:
         return decoded_token
 
 
-def getCurrentEmpId(token: str):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-    expired_exception = HTTPException(
-        status_code=status.HTTP_403_UNAUTHORIZED,
-        detail="Access denied. Token Expired.",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
+def authAdmin(Credentials: HTTPAuthorizationCredentials = Security(security)
+              ):
+    expired_exception = {
+        "status_code": status.HTTP_403_FORBIDDEN,
+        "detail": "Access denied.",
+        "headers": {"WWW-Authenticate": "Bearer"},
+    }
+    decoded_token = decodeJWT(Credentials)
+    if decoded_token['accountType'] != 'ADM':
+        raise HTTPException(**expired_exception)
+
+
+def getCurrentEmpId(Credentials: HTTPAuthorizationCredentials = Security(security)):
+    credentials_exception = {
+        "status_code": status.HTTP_401_UNAUTHORIZED,
+        "detail": "Could not validate credentials",
+        "headers": {"WWW-Authenticate": "Bearer"},
+    }
+    expired_exception = {
+        "status_code": status.HTTP_403_FORBIDDEN,
+        "detail": "Access denied. Token Expired.",
+        "headers": {"WWW-Authenticate": "Bearer"},
+    }
+    token = Credentials.credentials
     try:
-        payload = jwt.decode(token, JWT_SECRET, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
         empId: str = payload.get("empId")
         username: str = payload.get("username")
-        if decoded_token["expires"] < time.time():
-            raise expired_exception
+        if payload["expires"] < time.time():
+            raise HTTPException(**expired_exception)
         if empId is None or username is None:
-            raise credentials_exception
+            raise HTTPException(**credentials_exception)
     except jwt.ExpiredSignatureError:
-        raise expired_exception
+        credentials_exception["detail"] = "Expire Signature Error"
+        raise HTTPException(**credentials_exception)
     except jwt.DecodeError:
-        raise credentials_exception
+        credentials_exception["detail"] = "Decode Error"
+        raise HTTPException(**credentials_exception)
     except jwt.InvalidSignatureError:
-        raise credentials_exception
+        credentials_exception["detail"] = "Invalid Signature Error"
+        raise HTTPException(**credentials_exception)
     except jwt.InvalidTokenError:
-        raise credentials_exception
+        credentials_exception["detail"] = "Invalid Token Error"
+        raise HTTPException(**credentials_exception)
     else:
         return empId

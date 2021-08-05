@@ -61,9 +61,11 @@
         echo json_encode(
                 array(
                     "message" => "Successful login.",
-                    "success" => "1",
-                    "jwt" => $jwt,
-                    "accountType" => $user->accountType
+                    "status" => "1",
+                    "data" => array(
+                        "jwt" => $jwt,
+                        "accountType" => $user->accountType
+                    )
                 )
             );
      
@@ -73,7 +75,12 @@
      
         // tell the user login failed
         echo json_encode(array("message" => "Login failed.",
-                               "username" => $data->username));
+                               "status" => "0",
+                               "data" => array(
+                                   "username" => $user->username
+                               )
+                           )
+                        );
     }
 
 ?> 

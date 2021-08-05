@@ -69,7 +69,8 @@
                         "leaveUsed"    => $row['leaveUsed'],
                         "modifiedBy"   => $row['modifiedBy'],
                         "modifiedOn"   => $row['modifiedOn'],
-                        "employeeName" => $row['employeeName'],
+                        "firstName"    => $row['firstName'],
+                        "lastName"     => $row['lastName'],
                         "leaveType"    => $row['leaveType']
                     );
         

@@ -13,7 +13,7 @@ function updateEmpCb(message, status, data) {
 }
 
 function empInfos(emps, totalCount) {
-   if (totalCount !== null) {
+   if (totalCount !== 0) {
       totalEmpCount = totalCount;
       totalPage = Math.ceil(totalEmpCount / totalItemPerPage);
    }
@@ -40,14 +40,12 @@ function fillEmpSearchOutput(result) {
    }
 }
 
-// Add Product row to <table>
 function empAddRow(emp) {
-   // First check if a <tbody> tag exists, add one if not
-   if ($("#empTable tbody").length == 0) {
-      $("#empTable").append("<tbody></tbody>");
+   if ($("#listTable tbody").length == 0) {
+      $("#listTable").append("<tbody></tbody>");
    }
    // Append row to <table>
-   $("#empTable tbody").append(
+   $("#listTable tbody").append(
       empTableRow(emp));
 }
 
@@ -78,7 +76,7 @@ function showEmployeeDetail(empId) {
 }
 
 function clearEmpTableRow() {
-   $("#empTable tbody").remove();
+   $("#listTable tbody").remove();
 }
 
 function loadListEmp() {

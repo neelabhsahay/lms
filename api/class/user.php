@@ -213,6 +213,7 @@
     
         // GET ALL
         public function getAll(){
+            $this->totalCount = 0;
             if( !empty($this->getCount)) {
                 $countquery = "SELECT COUNT(*) as cont FROM " . $this->table_name . "
                  e INNER JOIN " . $this->table_name . " m ON m.empId = e.manager ORDER BY e.empId DESC";
@@ -509,7 +510,7 @@
     
          // update a employee record
         public function getAll(){
-
+            $this->totalCount = 0;
             if( !empty($this->getCount)) {
                 $countquery = "SELECT COUNT(*) as cont FROM " . $this->table_name . " ORDER BY username DESC";
 

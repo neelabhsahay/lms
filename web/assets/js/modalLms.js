@@ -56,7 +56,7 @@ function handleException(request, message, error) {
    }
    BootstrapDialog.alert(msg);
    if (request.status == "401" || request.status == "403") {
-      setTimeout(' window.location.href = "http://localhost/lms/web/login.php"; ', 100);
+      //setTimeout(' window.location.href = "http://localhost/lms/web/login.php"; ', 100);
    }
 }
 
