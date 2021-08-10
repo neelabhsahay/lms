@@ -430,6 +430,48 @@ function myInfoDetailAJAX(jsonInput, listCallBackFunc, skipFailure404) {
    });
 }
 
+function loadProfileImageAJAX(callBackFunc) {
+   var jwt = getCookie('jwt');
+   $.ajax({
+      url: siteURl + 'emp/myimage/',
+      type: 'GET',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
+      dataType: 'image/*',
+      success: function(response) {
+         callBackFunc(response);
+      },
+      error: function(request, message, error) {
+         handleException(request, message, error);
+      }
+   });
+}
+
+function uploadProfileImage(callBackFunc) {
+
+   form = new FormData();
+   var jwt = getCookie('jwt');
+   $.ajax({
+      url: siteURl + 'emp/myimage/',
+      type: 'POST',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
+      data: form,
+      cache: false,
+      contentType: false,
+      processData: false,
+      type: 'POST',
+      success: function(response) {
+         callBackFunc(response);
+      },
+      error: function(request, message, error) {
+         handleException(request, message, error);
+      }
+   });
+}
+
 // Get all Products to display
 function myLeaveStatusAJAX(jsonInput, listCallBackFunc, skipFailure404) {
    let url = createListURL(siteURl + 'lvst/me/',
@@ -596,11 +638,16 @@ function approveLeaveRequestAJAX(jsonInput, callBackFunc, skipFailure404) {
    });
 }
 
-function rejectLeaveRequestAJAX(jsonInput, callBackFunc, skipFailure404) {
+function revokeLeaveRequestAJAX(jsonInput, callBackFunc, skipFailure404) {
    var jwt = getCookie('jwt');
+   let urlStr = siteURl + 'lvrq/revoke/';
+   if (("reqId" in jsonInput) == true) {
+      urlStr = urlStr + jsonInput['reqId'];
+   }
+   delete jsonInput['reqId'];
    // Call Web API to get a list of Products
    $.ajax({
-      url: siteURl + 'lvrq/approve/',
+      url: urlStr,
       type: 'PUT',
       headers: {
          Authorization: 'Bearer ' + jwt

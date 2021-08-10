@@ -56,7 +56,7 @@ function handleException(request, message, error) {
    }
    BootstrapDialog.alert(msg);
    if (request.status == "401" || request.status == "403") {
-      //setTimeout(' window.location.href = "http://localhost/lms/web/login.php"; ', 100);
+      setTimeout(' window.location.href = "http://localhost/lms/web/login.php"; ', 100);
    }
 }
 
@@ -84,6 +84,15 @@ function fillMyInfoForm(emp) {
 function showMyInfoDetail() {
    var jsonInput = {};
    myInfoDetailAJAX(jsonInput, fillMyInfoForm, false);
+}
+
+function fillProfileImage(image) {
+   var profilePic = document.getElementById('profilePic');
+   profilePic.src = 'data:image/jpeg;base64,' + image;
+}
+
+function loadProfileImage() {
+   loadProfileImageAJAX(fillProfileImage);
 }
 
 function fillEmployeeSearchOutput(result) {

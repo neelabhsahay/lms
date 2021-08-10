@@ -1,13 +1,25 @@
     <nav id="sidebar">
         <div class="sidebar-header">
             <div class="d-flex flex-column align-items-center text-center p-1 py-1 border-bottom">
-            <img class="rounded-circle " src="http://localhost/lms/web/assets/img/user.jpg" width="60" height="60">
-            <span id="viewName" >Hi, Aashvi</span>
-            <span class="text-black-50" type="button">My Info </span>
+               <div id='ProfileDiv' class="pic-holder">
+                  <img id="profilePic" class="pic rounded-circle" src="#">
+                  <label for="newProfilePhoto" class="upload-file-block">
+                     <div class="text-center">
+                        <div class="mb-2">
+                           <img src="http://localhost/lms/web/assets/img/camera.svg">
+                        </div>
+                        <div class="text-uppercase" style="font-size: 10px;">
+                           Update <br /> Profile Photo
+                        </div>
+                     </div>
+                  </label>
+                  <Input class="uploadProfileInput" type="file" name="profile_pic" id="newProfilePhoto" accept="image/*" style="display: none;" />
+               </div>
+               <span id="viewName" >Hi, Aashvi</span>
+               <span class="text-black-50" type="button" onclick="showMyInfoDetail()">My Info </span>
             </div>
         </div>
         <ul class="list-unstyled components">
-            <p>MENUS</p>
             <li> <a data-target="#homeSubmenu" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" role="button" class="dropdown-toggle" aria-controls="homeSubmenu">Admin</a>
                 <ul class="collapse list-unstyled" id="homeSubmenu" data-parent="#sidebar">
                     <li> <a href="http://localhost/lms/web/admin/empdashboard.php">Employee</a> </li>
@@ -56,5 +68,38 @@
                     $(this).parent().parent().addClass("show"); //add active class to matched LIst item
                 }
             });
+
+            // Load image
+            loadProfileImage();
         });
+    $(document).on("change", ".uploadProfileInput", function () {
+         var triggerInput = this;
+         var currentImg = $(this).closest(".pic-holder").find(".pic").attr("src");
+         var holder = $(this).closest(".pic-holder");
+         var files = !!this.files ? this.files : [];
+         if (!files.length || !window.FileReader) {
+           return;
+         }
+         if (/^image/.test(files[0].type)) {
+           // only image file
+           var reader = new FileReader(); // instance of the FileReader
+           reader.readAsDataURL(files[0]); // read the local file
+
+           reader.onloadend = function () {
+             $(holder).addClass("uploadInProgress");
+             $(holder).find(".pic").attr("src", this.result);
+             $(holder).append(
+               '<div class="upload-loader"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div>'
+             );
+
+             // Dummy timeout; call API or AJAX below
+             setTimeout(() => {
+               $(holder).removeClass("uploadInProgress");
+               $(holder).find(".upload-loader").remove();
+               // If upload successful
+             }, 1500);
+           };
+         }
+});
+
     </script>

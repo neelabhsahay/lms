@@ -1,9 +1,22 @@
   <nav id="sidebar">
         <div class="sidebar-header">
             <div class="d-flex flex-column align-items-center text-center p-1 py-1 border-bottom">
-            <img class="rounded-circle " src="http://localhost/lms/web/assets/img/user.jpg" width="60" height="60">
-            <span id="viewName" >Hi, Aashvi</span>
-            <span class="text-black-50" type="button">My Info </span>
+            <div class="pic-holder">
+                  <img id="profilePic" class="pic rounded-circle" src="http://localhost/lms/web/assets/img/avatar.png">
+                  <label for="newProfilePhoto" class="upload-file-block">
+                     <div class="text-center">
+                        <div class="mb-2">
+                           <img src="http://localhost/lms/web/assets/img/camera.svg">
+                        </div>
+                        <div class="text-uppercase" style="font-size: 10px;">
+                           Update <br /> Profile Photo
+                        </div>
+                     </div>
+                  </label>
+                  <Input class="uploadProfileInput" type="file" name="profile_pic" id="newProfilePhoto" accept="image/*" style="display: none;" />
+               </div>
+               <span id="viewName" >Hi, Aashvi</span>
+               <span class="text-black-50" type="button" onclick="showMyInfoDetail()">My Info </span>
       </div>
         </div>
         <ul class="list-unstyled components">
@@ -41,5 +54,7 @@
                     $(this).parent().parent().addClass("show"); //add active class to matched LIst item
                 }
             });
+            // Load image
+            loadProfileImage();
         });
     </script>

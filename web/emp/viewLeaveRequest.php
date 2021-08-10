@@ -2,7 +2,7 @@
   <div class="modal-form-content">
     <span class="modal-form-close" onclick="closeDisplayForm('viewLeaveModal', 'viewLeaveForm')">&times;</span>
     <div class="container rounded bg-white ">
-      <form  action=" " method="post"  id="viewLeaveForm">
+      <form  action=" " method="post"  id="viewLeaveForm" >
           <div class="row">
               <div class="col-md-4 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
@@ -52,14 +52,15 @@
                     <div class="col-md-6">
                       <label class="col-form-label">Leave Status</label>
                       <input name='leaveRqtState' type="text" class="form-control" readonly="true">
+                      <input id='reqId' name='reqId' type="text" class="form-control" hidden="true">
                     </div>
                   </div>
                   <div class="mt-5 text-center"  >
                     <label class="col-form-label">Reason of Leave</label>
                     <textarea id="reason" name="reason" class="form-control" maxlength="400" readonly="true"></textarea>
                   </div>
-                  <div class="mt-5 text-center" id="empProfilebtn">
-                      <button class="btn btn-primary profile-button" type="submit" >Revoke Leave</button>
+                  <div class="mt-5 text-center" id="btn">
+                      <button class="btn btn-primary profile-button" type="button" onclick="submitRevokeLeaveRequest()">Revoke Leave</button>
                    </div>
                 </div>
               </div>

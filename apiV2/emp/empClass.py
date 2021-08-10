@@ -3,6 +3,7 @@ from sqlalchemy import Boolean, Column, ForeignKey, BigInteger, String, Enum, \
  DateTime, or_, func
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship, Session
+from sqlalchemy_utils import EmailType, URLType
 from pydantic import BaseModel
 from typing import Optional, List
 from datetime import datetime, date
@@ -16,7 +17,7 @@ class EmployeeDb(Base):
     __tablename__ = "employees"
 
     empId = Column(String(30), primary_key=True, index=True)
-    email = Column(String(40))
+    email = Column(EmailType)
     firstName = Column(String(50))
     middleName = Column(String(50), default='')
     lastName = Column(String(50), default='')
@@ -31,6 +32,7 @@ class EmployeeDb(Base):
     dateOfJoin = Column(DateTime)
     location = Column(String(50))
     empRole = Column(String(40))
+    url = Column(URLType)
     empType = Column(Enum('PRO', 'PER', 'TMP', 'INT', 'CNT'), default='PRO')
     empStatus = Column(Enum('ACT', 'INA'), default='ACT')
     modifiedOn = Column(DateTime, onupdate=datetime.now)
@@ -195,6 +197,23 @@ def updateEmp(db: Session, db_emp: EmployeeDb, updates: EmployeeUpdate):
         db.refresh(db_emp)
         return makeJSONInsertResponse("passed",
                                       "Employee record was inserted.",
+                                      "empId", db_emp.empId)
+
+
+def updateImage(db: Session, db_emp: EmployeeDb, url: str):
+    setattr(db_emp, 'url', url)
+    try:
+        db.add(db_emp)
+        db.commit()
+    except SQLAlchemyError as e:
+        db.rollback()
+        error = str(e.__dict__['orig'])
+        return makeJSONInsertResponse("failed", "Unable to upload image",
+                                      "reason", error)
+    else:
+        db.refresh(db_emp)
+        return makeJSONInsertResponse("passed",
+                                      "Employee image was uploaded.",
                                       "empId", db_emp.empId)
 
 

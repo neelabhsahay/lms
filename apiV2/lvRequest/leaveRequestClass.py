@@ -236,7 +236,8 @@ def getMyLeaveRqInRange(db: Session, empId: str,
     leaveRqDb = db.query(LeaveRequestDb).filter(
         LeaveRequestDb.empId == empId,
         LeaveRequestDb.startDate < rangeDt.rangeEnd,
-        LeaveRequestDb.endDate >= rangeDt.rangeStart).offset(skip).limit(limit).all()
+        LeaveRequestDb.endDate >= rangeDt.rangeStart,
+        LeaveRequestDb.leaveRqtState == 'Applied').offset(skip).limit(limit).all()
     leaveRqList = list()
     for leaveRq in leaveRqDb:
         leaveRqList.append(getLeaveRequestObj(leaveRq))

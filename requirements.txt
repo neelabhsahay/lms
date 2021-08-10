@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+SQLAlchemy
+pyjwt
+pydantic
+pydantic[email,dotenv]
+sqlalchemy-utils

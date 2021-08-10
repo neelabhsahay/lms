@@ -61,6 +61,7 @@ CREATE TABLE `employees` (
   `dateOfJoin` date NOT NULL,
   `location` varchar(50) NOT NULL,
   `empRole` varchar(40) NOT NULL,
+  `url` varchar(200),
   `empType` ENUM('PRO', 'PER', 'TMP', 'INT', 'CNT') NOT NULL DEFAULT 'PRO',
   `empStatus` ENUM('ACT', 'INA') NOT NULL DEFAULT 'ACT',
   `modifiedOn` TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -118,6 +119,9 @@ CREATE TABLE `employee_family` (
   `modifiedOn` TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1; 
 
+--
+-- Table Structure for deperment
+--
 
 --
 -- Table structure for table `leaves`

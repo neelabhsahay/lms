@@ -54,17 +54,32 @@ function approverLeaveRequestRow(leaveRequest) {
    row = row + "<td>" + leaveRequest.leaveDays + "</td>";
    row = row + "<td>" + leaveRequest.leaveRqtState + "</td>";
    row = row + "<td >";
-   row = row + "<button value='" + leaveRequest.reqId + "' class='btn btn-success edit-item btn-sm' onclick='approveLeaveRequest(this.value, true)'>Approve</button> ";
-   row = row + "<button value='" + leaveRequest.reqId + "' class='btn btn-danger edit-item btn-sm' onclick='approveLeaveRequest(this.value, false)'>Reject</button> ";
-   row = row + "<button value='" + leaveRequest.reqId + "' class='btn btn-warning view-item btn-sm' onclick='viewLeaveRequest(this.value)'>View</button>";
+   row = row + "<div class='btn-group' >";
+   row = row + "<button value='" + leaveRequest.reqId + "' class='btn btn-sm btn-success dropdown-toggle-split' onclick='approveLeaveRequest(this.value, true)'>Approve</button> ";
+   row = row + "<button class='btn btn-success dropdown-toggle btn-sm' style='padding: 15px;' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>";
+   row = row + "<span class='caret'></span><span class='sr-only'>Toggle Dropdown</span></button> ";
+   row = row + "<div class='dropdown-menu'>";
+   row = row + "<button value='" + leaveRequest.reqId + "'class='dropdown-item' onclick='approveLeaveRequest(this.value, false)'>Reject</button>";
+   row = row + "<button value='" + leaveRequest.reqId + "'class='dropdown-item' onclick='viewLeaveRequest(this.value)'>View</button>";
+   row = row + "</div>";
+   row = row + "</div>";
    row = row + "</td>";
    row = row + "</tr>";
    return row;
 }
 
 function sucessfullyApprovedLeave(message, status, data) {
-   BootstrapDialog.alert("Inserted Successfully.");
-   myLeaveRequestForApprove();
+   if (status == 'failed') {
+      var msg = "";
+      msg += "Reason: " + message + "\n";
+      msg += "Text:" + "\n";
+      msg += "    Leave Start Date: " + data.startDate + "\n";
+      msg += "          Today Date: " + data.today + "\n";
+      BootstrapDialog.alert(msg);
+   } else {
+      BootstrapDialog.alert("Inserted Successfully.");
+      myLeaveRequestForApprove();
+   }
 }
 
 function approveRejectLeaveRequest(dataObj) {
@@ -141,7 +156,7 @@ function myLeaveRequestRow(leaveRequest) {
    row = row + "<td>" + leaveRequest.status + "</td>";
    row = row + "<td>" + leaveRequest.leaveRqtState + "</td>";
    row = row + "<td >";
-   row = row + "<button value='" + leaveRequest.reqId + "' class='btn btn-primary edit-item btn-sm' onclick='approveLeaveRequest(this.value)'>Revoke</button> ";
+   row = row + "<button value='" + leaveRequest.reqId + "' class='btn btn-primary edit-item btn-sm' onclick='revokeLeaveRequest(this.value)'>Revoke</button> ";
    row = row + "</td>";
    row = row + "</tr>";
    return row;
@@ -149,4 +164,54 @@ function myLeaveRequestRow(leaveRequest) {
 
 function myLeaveRequestTableRow() {
    $("#listTable tbody").remove();
+}
+
+function sucessfullyRevokedLeave(message, status, data) {
+   if (status == 'failed') {
+      var msg = "";
+      msg += "Reason: " + message + "\n";
+      msg += "Text:" + "\n";
+      msg += "    Leave Start Date: " + data.startDate + "\n";
+      msg += "          Today Date: " + data.today + "\n";
+      BootstrapDialog.alert(msg);
+   } else {
+      BootstrapDialog.alert("Revoked Successfully.");
+      myLeaveRequestHistory();
+   }
+}
+
+
+function revokeMyLeaveRequest(dataObj, revokeCb) {
+   revokeLeaveRequestAJAX(dataObj, revokeCb, false);
+}
+
+function revokeLeaveRequest(reqId) {
+   var dataObj = {
+      "reqId": reqId,
+   };
+   confirmAndExecute(revokeMyLeaveRequest, dataObj, sucessfullyRevokedLeave, "revoke ");
+   return false;
+}
+
+function sucessfullyMyRevokedLeave(message, status, data) {
+   if (status == 'failed') {
+      var msg = "";
+      msg += "Reason: " + message + "\n";
+      msg += "Text:" + "\n";
+      msg += "    Leave Start Date: " + data.startDate + "\n";
+      msg += "          Today Date: " + data.today + "\n";
+      BootstrapDialog.alert(msg);
+   } else {
+      BootstrapDialog.alert("Revoked Successfully.");
+   }
+   closeDisplayForm('viewLeaveModal', 'viewLeaveForm');
+}
+
+function submitRevokeLeaveRequest() {
+   var dataObj = {
+      "reqId": document.getElementById('reqId').value
+   };
+   confirmAndExecute(revokeMyLeaveRequest, dataObj, sucessfullyMyRevokedLeave, "revoke ");
+   loadCalendar();
+   return false;
 }

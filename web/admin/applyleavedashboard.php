@@ -30,6 +30,7 @@
   <script type="text/javascript" src="../assets/js/myAjax.js"> </script>
   <script type="text/javascript" src='../emp/js/applyLeave.js'></script>
   <script type="text/javascript" src='../emp/js/leaveRequestDetails.js'></script>
+  <script type="text/javascript" src='../emp/js/viewLeaveRequest.js'></script>
 </head>
 <body>
     <div class="card_body">
