@@ -102,6 +102,10 @@ function loadListEmpByIndex(pageNumber) {
 
 
 function fillEmpForm(emp, totalCount) {
+   let name = document.getElementById('empNameDetail');
+   let email = document.getElementById('empEmailDetail');
+   name.textContent = emp[0].firstName + ' ' + emp[0].lastName;
+   email.textContent = emp[0].email;
    $("#upEmpForm").setFormDataFromJSON(emp[0]);
 }
 

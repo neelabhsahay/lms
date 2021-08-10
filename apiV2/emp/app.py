@@ -110,8 +110,11 @@ async def getUploadImage(empId: str,
     if os.path.exists(fileName):
         with open(fileName, "rb") as image:
             encoded_string = base64.b64encode(image.read())
-            return encoded_string
-    return {'error': "File not found " + fileName + " " + os.getcwd()}
+            return {'firstName': existing_emp.firstName,
+                    'lastName': existing_emp.lastName,
+                    'image': encoded_string}
+    return {'firstName': existing_emp.firstName,
+            'lastName': existing_emp.lastName}
 
 
 @router.post("/myimage/")
@@ -143,5 +146,9 @@ async def createUploadImage(empId: str = Depends(getCurrentEmpId),
     if os.path.exists(fileName):
         with open(fileName, "rb") as image:
             encoded_string = base64.b64encode(image.read())
-            return encoded_string
-    return {'error': "File not found " + fileName + " " + os.getcwd()}
+            return {'firstName': existing_emp.firstName,
+                    'lastName': existing_emp.lastName,
+                    'image': encoded_string}
+    return {'firstName': existing_emp.firstName,
+            'lastName': existing_emp.lastName}
+

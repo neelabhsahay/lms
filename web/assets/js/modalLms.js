@@ -74,21 +74,29 @@ function closeDisplayForm(modalId, formId) {
 function fillMyInfoForm(emp) {
    $("#viewEmpForm").setFormDataFromJSON(emp[0]);
 
-   var name = document.getElementById('viewName');
+   var name = document.getElementById('viewNameProfile');
    var email = document.getElementById('viewEmail');
    name.textContent = emp[0].firstName + " " + emp[0].lastName;
    email.textContent = emp[0].email;
    displayModal('viewEmpModal');
 }
 
+function fillProfileImageInView(response) {
+   var profilePic = document.getElementById('profilePicImg');
+   profilePic.src = 'data:image/jpeg;base64,' + response.image;
+}
+
 function showMyInfoDetail() {
    var jsonInput = {};
+   loadProfileImageAJAX(fillProfileImageInView);
    myInfoDetailAJAX(jsonInput, fillMyInfoForm, false);
 }
 
-function fillProfileImage(image) {
+function fillProfileImage(response) {
+   var nameInfo = document.getElementById('viewNameInfo');
+   nameInfo.textContent = 'Hi, ' + response.firstName;
    var profilePic = document.getElementById('profilePic');
-   profilePic.src = 'data:image/jpeg;base64,' + image;
+   profilePic.src = 'data:image/jpeg;base64,' + response.image;
 }
 
 function loadProfileImage() {

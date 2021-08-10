@@ -15,7 +15,7 @@
                   </label>
                   <Input class="uploadProfileInput" type="file" name="profile_pic" id="newProfilePhoto" accept="image/*" style="display: none;" />
                </div>
-               <span id="viewName" >Hi, Aashvi</span>
+               <span id="viewNameInfo" >Hi, Aashvi</span>
                <span class="text-black-50" type="button" onclick="showMyInfoDetail()">My Info </span>
             </div>
         </div>

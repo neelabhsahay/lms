@@ -13,8 +13,8 @@
                     <div class="row">
                         <div class="col-md-3 border-right">
                             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                                <img class="rounded-circle mt-5" src="http://localhost/lms/web/assets/img/avatar.png" width="120" height="120">
-                                <span id="viewName" class="font-weight-bold">Aashvi Sahay</span>
+                                <img id='profilePicImg' class="rounded-circle mt-5" src="http://localhost/lms/web/assets/img/avatar.png" width="120" height="120">
+                                <span id="viewNameProfile" class="font-weight-bold">Aashvi Sahay</span>
                                 <span id="viewEmail" class="text-black-50">aashvi@ashivi.com</span>
                                 <span> </span></div>
                         </div>
