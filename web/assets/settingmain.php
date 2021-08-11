@@ -12,11 +12,9 @@
  <script type="text/javascript" src="../assets/extn/4.5.3/js/bootstrap.bundle.min.js"></script>
  <script type="text/javascript" src="../assets/extn/bd/js/bootstrap-dialog.min.js"></script>
  <script type="text/javascript" src="../assets/lib/spage/pagination.js"></script>
- <script type="text/javascript" src="../assets/extn/crop/cropper.js" ></script>
 
  <link rel="stylesheet" type="text/css" href="../assets/extn/4.5.3/css/bootstrap.min.css" >
  <link rel="stylesheet" type="text/css" href="../assets/extn/bd/css/bootstrap-dialog.min.css" >
- <link rel="stylesheet" type="text/css" href="../assets/extn/crop/cropper.min.css" >
  <link rel="stylesheet" href="../assets/css/material-design-iconic-font.min.css">
  <link rel="stylesheet" href="../assets/lib/spage/pagination.css">
    
@@ -49,7 +47,7 @@
          </div>
          <div class="col-md-10">
             <?php
-            include "listEmp.php"
+            include "../assets/setting.php"
             ?>
          </div>
       </div>
@@ -57,13 +55,10 @@
 
     <?php
       include "../assets/footer.php";
-      include "insertEmp.php";
-      include "updateEmp.php";
-      include "viewEmp.php";
     ?>
 <script>
     $(document).ready(function () {
-        loadListEmp();
+
     });
 </script>
 </body>

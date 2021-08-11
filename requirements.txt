@@ -1,7 +1,9 @@
 fastapi
+fastapi-mail
 uvicorn
 SQLAlchemy
 pyjwt
 pydantic
 pydantic[email,dotenv]
 sqlalchemy-utils
+python-multipart

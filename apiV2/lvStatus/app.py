@@ -65,3 +65,10 @@ def getMyLeaveStatuApp(empId: str = Depends(getCurrentEmpId),
                        getCount: bool = False, skip: int = 0, limit: int = 100,
                        db: Session = Depends(get_db)):
     return leaveStatusClass.getEmpLeaveStatus(db, empId=empId)
+
+
+@router.post("/newyear/")
+def insertLeavesForThisYear(year: int,
+                            empId: str,
+                            db: Session = Depends(get_db)):
+    return leaveStatusClass.insertYearlyLeave(db, year=year, empId=empId)

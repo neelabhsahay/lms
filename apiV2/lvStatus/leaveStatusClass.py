@@ -5,6 +5,7 @@ from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, Float, \
 or_
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship, Session
+from sqlalchemy.sql import text
 
 from config.db import Base
 from leave.leaveClass import LeaveDb, Leave
@@ -117,7 +118,8 @@ def search(db: Session, key: str, getCount: bool = False,
 
 def getLeavesStatus(db: Session, getCount: bool = False,
                     skip: int = 0, limit: int = 100):
-    leavesSt = db.query(LeaveStatusDb).offset(skip).limit(limit).all()
+    leavesSt = db.query(LeaveStatusDb).order_by(
+        LeaveStatusDb.empId).offset(skip).limit(limit).all()
     if getCount:
         count = db.query(LeaveStatusDb).count()
     else:
@@ -191,3 +193,28 @@ def deleteLeaveStatus(db: Session, key: LeaveStatusKey):
                                   "Leave Status record was deleted.",
                                   ["year", 'empId', 'leaveId'],
                                   [key.year, key.empId, key.leaveId])
+
+
+def insertYearlyLeave(db: Session, year: int, empId: str):
+    key = {
+           "empId": empId,
+           "year": year
+           }
+    statement = text("""INSERT INTO emp_leaves_status
+                        (empId, leaveId, year, leaveInYear, modifiedBy )
+                         SELECT employees.empId, leaves.leaveId, :year,
+                         leaves.leaveMax, :empId from employees, leaves
+                          WHERE employees.empStatus = 'ACT'""")
+    try:
+        db.execute(statement, params=key)
+        db.commit()
+    except SQLAlchemyError as e:
+        db.rollback()
+        error = str(e.__dict__['orig'])
+        return makeJSONInsertResponse("failed", "Unable to insert leavestatus",
+                                      "reason", error)
+    else:
+        return makeJSONInsertResponse("passed",
+                                      "Leave Status record was inserted.",
+                                      ["year", 'empId'],
+                                      [year, empId])

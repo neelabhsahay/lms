@@ -121,7 +121,7 @@ async def getUploadImage(empId: str,
 async def createUploadImage(file: UploadFile = File(...),
                             empId: str = Depends(getCurrentEmpId),
                             db: Session = Depends(get_db)):
-    suffix = Path(file.filename).suffix
+    suffix = '.png'
     pathToSafe = os.path.join(path, empId + suffix)
 
     with open(pathToSafe, "wb+") as image:

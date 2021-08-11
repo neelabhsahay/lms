@@ -447,9 +447,10 @@ function loadProfileImageAJAX(callBackFunc) {
    });
 }
 
-function uploadProfileImage(callBackFunc) {
+function uploadProfileImageAJAX(image, callBackFunc) {
 
    form = new FormData();
+   form.append('file', image);
    var jwt = getCookie('jwt');
    $.ajax({
       url: siteURl + 'emp/myimage/',
@@ -458,9 +459,11 @@ function uploadProfileImage(callBackFunc) {
          Authorization: 'Bearer ' + jwt
       },
       data: form,
+      dataType: 'json',
       cache: false,
-      contentType: false,
       processData: false,
+      //contentType: "multipart/form-data",
+      contentType: false,
       type: 'POST',
       success: function(response) {
          callBackFunc(response);

@@ -1,5 +1,5 @@
 var totalEmpCount = 10;
-var totalItemPerPage = 5;
+var totalItemPerPage = 10;
 
 var myPagination;
 
@@ -161,4 +161,9 @@ function apply_pagination(totalPages, callBackFunction) {
    var itemsCount = totalEmpCount;
    var itemsOnPage = totalItemPerPage;
    myPagination.make(itemsCount, itemsOnPage);
+}
+
+function closeImageCropModal() {
+   var $modal = $('#modal');
+   $modal.modal('hide');
 }
