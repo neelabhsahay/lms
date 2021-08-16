@@ -147,9 +147,17 @@ function showEmployeeApprover() {
  */
 
 function sucessfullyAppliedLeave(message, status, data) {
-   BootstrapDialog.alert("Inserted Successfully.");
-   //TODO Update full calender event 
-   closeDisplayForm('applyLeaveModal', 'applyLeaveForm');
+   if (status == 'failed') {
+      var msg = "";
+      msg += "Reason: " + message + "\n";
+      msg += "Text:" + "\n";
+      msg += "\tFailure Reason: " + data.reason + "\n";
+      BootstrapDialog.alert(msg);
+   } else {
+      BootstrapDialog.alert("Inserted Successfully.");
+      //TODO Update full calender event
+      closeDisplayForm('applyLeaveModal', 'applyLeaveForm');
+   }
 }
 
 function insertLeaveRequest(dataObj) {

@@ -1,16 +1,32 @@
 function insertLeaveCb(message, status, data) {
-   BootstrapDialog.alert("Inserted Successfully.");
-   document.getElementById("leaveForm").reset();
-   loadListLeave();
-   closeModal("insertLeaveModal");
+   if (status == 'failed') {
+      var msg = "";
+      msg += "Reason: " + message + "\n";
+      msg += "Text:" + "\n";
+      msg += "\tFailure Reason: " + data.reason + "\n";
+      BootstrapDialog.alert(msg);
+   } else {
+      BootstrapDialog.alert("Inserted Successfully.");
+      document.getElementById("leaveForm").reset();
+      loadListLeave();
+      closeModal("insertLeaveModal");
+   }
 }
 
 
 
 function updateLeaveCb(message, status, data) {
-   BootstrapDialog.alert("Updated Successfully.");
-   loadListLeave();
-   closeModal("updateLeaveModal");
+   if (status == 'failed') {
+      var msg = "";
+      msg += "Reason: " + message + "\n";
+      msg += "Text:" + "\n";
+      msg += "\tFailure Reason: " + data.reason + "\n";
+      BootstrapDialog.alert(msg);
+   } else {
+      BootstrapDialog.alert("Updated Successfully.");
+      loadListLeave();
+      closeModal("updateLeaveModal");
+   }
 }
 
 function leaveInfo(leaves) {

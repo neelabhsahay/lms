@@ -1,13 +1,29 @@
 function insertLeaveStatusCb(message, status, data) {
-   BootstrapDialog.alert("Inserted Successfully.");
-   closeModal("insertLeaveStatusModal");
-   loadListLeaveStatus();
+   if (status == 'failed') {
+      var msg = "";
+      msg += "Reason: " + message + "\n";
+      msg += "Text:" + "\n";
+      msg += "\tFailure Reason: " + data.reason + "\n";
+      BootstrapDialog.alert(msg);
+   } else {
+      BootstrapDialog.alert("Inserted Successfully.");
+      closeModal("insertLeaveStatusModal");
+      loadListLeaveStatus();
+   }
 }
 
 function updateLeaveStatusCb(message, status, data) {
-   BootstrapDialog.alert("Updation Successfully.");
-   closeModal("updateLeaveStatusModal");
-   loadListLeaveStatus();
+   if (status == 'failed') {
+      var msg = "";
+      msg += "Reason: " + message + "\n";
+      msg += "Text:" + "\n";
+      msg += "\tFailure Reason: " + data.reason + "\n";
+      BootstrapDialog.alert(msg);
+   } else {
+      BootstrapDialog.alert("Updation Successfully.");
+      closeModal("updateLeaveStatusModal");
+      loadListLeaveStatus();
+   }
 }
 
 /*

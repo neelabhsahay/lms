@@ -23,7 +23,14 @@ def loginApp(user: UserLogin, db: Session = Depends(get_db)):
     is_password_correct = bcrypt.checkpw(user.password.encode('utf-8'),
                                          userDb.password.encode('utf-8'))
     response = dict()
-    if is_password_correct:
+    if userDb.deleted:
+        response["message"] = "Login failed as user is inactive"
+        response["status"] = "0"
+        response["data"] = dict()
+        response["data"]["username"] = user.username
+        raise HTTPException(status_code=401,
+                            detail=response)
+    elif is_password_correct:
         token = signJWT(empId=userDb.empId, username=userDb.username,
                         accountType=userDb.accountType, hrs=5)
         response["message"] = "Successful login."

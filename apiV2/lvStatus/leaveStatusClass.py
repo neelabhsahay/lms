@@ -4,7 +4,7 @@ from datetime import datetime, date
 from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, Float, \
 or_
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.orm import relationship, Session
+from sqlalchemy.orm import relationship, Session, subqueryload
 from sqlalchemy.sql import text
 
 from config.db import Base
@@ -118,12 +118,15 @@ def search(db: Session, key: str, getCount: bool = False,
 
 def getLeavesStatus(db: Session, getCount: bool = False,
                     skip: int = 0, limit: int = 100):
-    leavesSt = db.query(LeaveStatusDb).order_by(
-        LeaveStatusDb.empId).offset(skip).limit(limit).all()
+    #query = db.query(LeaveStatusDb).join(LeaveStatusDb.employee).options(
+    #     subqueryload(LeaveStatusDb.employee)).filter(EmployeeDb.empStatus == 'ACT')
+    query = db.query(LeaveStatusDb)
+    queryCount = query
     if getCount:
-        count = db.query(LeaveStatusDb).count()
+        count = queryCount.count()
     else:
         count = 0
+    leavesSt = query.order_by(LeaveStatusDb.empId).offset(skip).limit(limit).all()
     return makeJSONGetResponse(getLeaveStatusResponse(leavesSt), count)
 
 

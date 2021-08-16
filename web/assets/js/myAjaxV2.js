@@ -313,13 +313,42 @@ function leaveListAJAX(jsonInput, listCallBackFunc, skipFailure404) {
 
 // Get all Products to display
 function getEmployeeAJAX(jsonInput, listCallBackFunc, skipFailure404) {
-   let urlStr = siteURl + 'emp/get/';
+   let urlStr = siteURl;
    if (("empId" in jsonInput) == true) {
-      urlStr = urlStr + jsonInput['empId'];
+      urlStr = urlStr + 'emp/get/' + jsonInput['empId'];
       delete jsonInput['empId'];
+   } else {
+      urlStr = urlStr + 'emp/active/'
    }
    let url = createListURL(urlStr,
       jsonInput);
+   var jwt = getCookie('jwt');
+   // Call Web API to get a list of Products
+   $.ajax({
+      url: url,
+      type: 'GET',
+      headers: {
+         Authorization: 'Bearer ' + jwt
+      },
+      dataType: 'json',
+      contentType: "application/json; charset=utf-8",
+      data: JSON.stringify(jsonInput),
+      success: function(response) {
+         listCallBackFunc(response["body"], response["totalCount"]);
+      },
+      error: function(request, message, error) {
+         if (skipFailure404 && request.status == "404") {
+            listCallBackFunc("");
+         } else {
+            handleException(request, message, error);
+         }
+      }
+   });
+}
+
+function getArchiveEmployeeAJAX(jsonInput, listCallBackFunc, skipFailure404) {
+   let urlStr = siteURl + 'emp/archive/'
+   let url = createListURL(urlStr, jsonInput);
    var jwt = getCookie('jwt');
    // Call Web API to get a list of Products
    $.ajax({

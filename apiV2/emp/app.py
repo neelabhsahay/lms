@@ -21,6 +21,41 @@ router = APIRouter(
 )
 
 
+@router.post("/family/create/")
+def createEmpFamilyApp(empFamily: empClass.EmployeeFamilyCreate,
+                       db: Session = Depends(get_db),
+                       token: str = Depends(authAdmin)):
+    return empClass.insertEmpFamily(db=db, empFamily=empFamily)
+
+
+@router.put("/family/update/{familyId}")
+def updateEmpApp(familyId: int, empFamily: empClass.EmployeeFamilyUpdate,
+                 db: Session = Depends(get_db),
+                 token: str = Depends(authAdmin)):
+    existing_empFamily = empClass.getEmpFamilyDb(db, familyId=familyId)
+    if existing_empFamily is None:
+        raise HTTPException(status_code=404, detail="Emp family not found")
+    return empClass.updateEmpFamily(db, db_emp=existing_empFamily,
+                                    updates=empFamily)
+
+
+@router.get("/family/get/", response_model=empClass.EmployeeFamilyOut)
+def getEmpsApp(skip: int = 0, getCount: bool = False, limit: int = 100,
+               db: Session = Depends(get_db),
+               token: str = Depends(decodeJWT)):
+    return empClass.getEmpFamilys(db, getCount=getCount, skip=skip, limit=limit)
+
+
+@router.get("/family/get/{familyId}",
+            response_model=empClass.EmployeeFamilyOut)
+def getEmpApp(familyId: int, db: Session = Depends(get_db),
+              token: str = Depends(decodeJWT)):
+    db_empfamily = empClass.getEmpFamily(db, familyId=familyId)
+    if db_empfamily is None:
+        raise HTTPException(status_code=404, detail="Emp family not found")
+    return db_empfamily
+
+
 @router.post("/create/")
 def createEmpApp(employee: empClass.EmployeeCreate,
                  db: Session = Depends(get_db),
@@ -69,6 +104,28 @@ def getFilterhApp(filters: empClass.EmployeeFilter,
                   limit: int = 10,
                   db: Session = Depends(get_db),
                   token: str = Depends(decodeJWT)):
+    return empClass.filter(db, filters=filters, getCount=getCount,
+                           skip=skip, limit=limit)
+
+
+@router.get("/active/", response_model=empClass.EmployeeOut)
+def getFilterhApp(getCount: bool = False,
+                  skip: int = 0,
+                  limit: int = 10,
+                  db: Session = Depends(get_db),
+                  token: str = Depends(decodeJWT)):
+    filters = empClass.EmployeeFilter(empStatus='ACT')
+    return empClass.filter(db, filters=filters, getCount=getCount,
+                           skip=skip, limit=limit)
+
+
+@router.get("/archive/", response_model=empClass.EmployeeOut)
+def getFilterhApp(getCount: bool = False,
+                  skip: int = 0,
+                  limit: int = 10,
+                  db: Session = Depends(get_db),
+                  token: str = Depends(decodeJWT)):
+    filters = empClass.EmployeeFilter(empStatus='INA')
     return empClass.filter(db, filters=filters, getCount=getCount,
                            skip=skip, limit=limit)
 
@@ -151,4 +208,3 @@ async def createUploadImage(empId: str = Depends(getCurrentEmpId),
                     'image': encoded_string}
     return {'firstName': existing_emp.firstName,
             'lastName': existing_emp.lastName}
-

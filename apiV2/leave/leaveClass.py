@@ -108,7 +108,7 @@ def updateLeave(db: Session, db_leave: LeaveDb, updates: LeaveUpdate):
         db.refresh(db_leave)
         return makeJSONInsertResponse("passed",
                                       "Leave record was updated.",
-                                      "leaveId", leave.leaveId)
+                                      "leaveId", db_leave.leaveId)
 
 
 def deleteLeave(db: Session, leaveId: str):

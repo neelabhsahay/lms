@@ -23,6 +23,7 @@
             <li> <a data-target="#homeSubmenu" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" role="button" class="dropdown-toggle" aria-controls="homeSubmenu">Admin</a>
                 <ul class="collapse list-unstyled" id="homeSubmenu" data-parent="#sidebar">
                     <li> <a href="http://localhost/lms/web/admin/empdashboard.php">Employee</a> </li>
+                    <li> <a href="http://localhost/lms/web/admin/archivedashboard.php">Archive</a> </li>
                     <li> <a href="http://localhost/lms/web/admin/leavedashboard.php">Leave</a> </li>
                     <li> <a href="http://localhost/lms/web/admin/leavestatusdasboard.php">Leave Status</a> </li>
                     <li> <a href="http://localhost/lms/web/admin/userdashboard.php">User</a> </li>

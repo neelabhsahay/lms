@@ -1,13 +1,29 @@
 function insertHolidayCb(message, status, data) {
-   BootstrapDialog.alert("Inserted Successfully.");
-   document.getElementById("holidayForm").reset();
-   closeModal('insertHolidayModal');
+   if (status == 'failed') {
+      var msg = "";
+      msg += "Reason: " + message + "\n";
+      msg += "Text:" + "\n";
+      msg += "\tFailure Reason: " + data.reason + "\n";
+      BootstrapDialog.alert(msg);
+   } else {
+      BootstrapDialog.alert("Inserted Successfully.");
+      document.getElementById("holidayForm").reset();
+      closeModal('insertHolidayModal');
+   }
 }
 
 function updateHolidayCb(message, status, data) {
-   BootstrapDialog.alert("Updated Successfully.");
-   document.getElementById("holidayForm").reset();
-   closeModal('insertHolidayModal');
+   if (status == 'failed') {
+      var msg = "";
+      msg += "Reason: " + message + "\n";
+      msg += "Text:" + "\n";
+      msg += "\tFailure Reason: " + data.reason + "\n";
+      BootstrapDialog.alert(msg);
+   } else {
+      BootstrapDialog.alert("Updated Successfully.");
+      document.getElementById("holidayForm").reset();
+      closeModal('insertHolidayModal');
+   }
 }
 
 function insertUpdateHoliday() {

@@ -25,6 +25,7 @@ CREATE TABLE `login` (
   `username` varchar(50) NOT NULL,
   `email` varchar(40) NOT NULL,
   `password` varchar(200) NOT NULL,
+  `deleted` INT(1) NOT NULL DEFAULT 0,
   `passwordType` ENUM('TP', 'PR') NOT NULL DEFAULT 'TP',
   `accountType` ENUM('EMP', 'ADM', 'SUP') NOT NULL DEFAULT 'EMP',
   `modifiedOn` TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -64,6 +65,7 @@ CREATE TABLE `employees` (
   `url` varchar(200),
   `empType` ENUM('PRO', 'PER', 'TMP', 'INT', 'CNT') NOT NULL DEFAULT 'PRO',
   `empStatus` ENUM('ACT', 'INA') NOT NULL DEFAULT 'ACT',
+  `deleted` INT(1) NOT NULL DEFAULT 0,
   `modifiedOn` TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -110,7 +112,7 @@ CREATE TABLE `employee_family` (
   `empId` varchar(30) NOT NULL,
   `familyName` varchar(200) NOT NULL,
   `relation` varchar(30) NOT NULL,
-  'nationality' varchar(30) NULL,
+  `nationality` varchar(30) NULL,
   `gender` ENUM('Male', 'Female', 'Third') NOT NULL,
   `contact` BIGINT(30) NULL,
   `dateOfBirth` date  NULL,
@@ -186,11 +188,55 @@ CREATE TABLE `holidays` (
 
 
 --
+-- Table structure for table 'travel'
+--
+
+CREATE TABLE `travel_requests` (
+  `travelReqId` int(11) NOT NULL,
+  `empId` varchar(30) NOT NULL,
+  `travelType` varchar(50) NOT NULL,
+  `origin` varchar(50) NOT NULL,
+  `destination` varchar(50) NOT NULL,
+  `tripStartDate` date NOT NULL,
+  `tripEndDate` date NOT NULL,
+  `orgVp` varchar(50) NULL,
+  `travelPropose` varchar(50) NOT NULL,
+  `travelJustification` varchar(200) NOT NULL,
+  `status` ENUM('Pending', 'Approved', 'Rejected') NOT NULL DEFAULT 'Pending',
+  `createdOn` TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+  `modifiedOn` TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `travel_request_status` (
+  `travelReqStatusId` BIGINT NOT NULL,
+  `travelReqId` int(11) NOT NULL,
+  `reason` varchar(200) NOT NULL,
+  `modifiedby` varchar(30) NOT NULL,
+  `state` ENUM('Pending', 'Approved', 'Rejected') NOT NULL DEFAULT 'Pending',
+  `createdOn` TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+  `modifiedOn` TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `travel_expense` (
+  `travelExpenseId` BIGINT NOT NULL,
+  `travelReqId` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `amount` DECIMAL(5,2) NOT NULL,
+  `description` varchar(200) NOT NULL,
+  `currency` varchar(20) NOT NULL,
+  `exchangeRate` DECIMAL(5,2) NOT NULL,
+  `createdOn` TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+  `modifiedOn` TIMESTAMP NOT NULL  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+--
 -- Indexes for table `admins`
 --
 ALTER TABLE `login`
   ADD PRIMARY KEY (`username`);
-
+ALTER TABLE `login`
+  ADD UNIQUE (`empId`);
 --
 -- Indexes for table `employees`
 --
@@ -253,12 +299,14 @@ ALTER TABLE `emp_leaves_request`
 ALTER TABLE `employee_address`
   ADD PRIMARY KEY (`empId`);
 
-ALTER TABLE 'employee_address'
+ALTER TABLE `employee_address`
   ADD CONSTRAINT FK_EmpAddress FOREIGN KEY (empId) REFERENCES employees (empId)
   ON DELETE CASCADE ON UPDATE RESTRICT;
 --
 -- AUTO_INCREMENT for table `employee_family`
 --
+ALTER TABLE `employee_family`
+  ADD PRIMARY KEY (`familyId`);
 ALTER TABLE `employee_family`
   MODIFY `familyId` int(11) NOT NULL AUTO_INCREMENT;
 
@@ -266,7 +314,7 @@ ALTER TABLE `employee_family`
 -- FOREIGN KEY for employee_family
 --
 ALTER TABLE `employee_family`
-   ADD CONSTRAINT FK_EmpFamily FOREIGN KEY (empId) REFERENCES employees (empId)
+   ADD CONSTRAINT FK_EmpFamily FOREIGN KEY (empId) REFERENCES employees(empId)
    ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
@@ -275,7 +323,7 @@ ALTER TABLE `employee_family`
 ALTER TABLE `employee_bank`
   ADD PRIMARY KEY (`empId`);
   
-ALTER TABLE 'employee_bank'
+ALTER TABLE `employee_bank`
   ADD CONSTRAINT FK_EmpAddress FOREIGN KEY (empId) REFERENCES employees (empId)
   ON DELETE CASCADE ON UPDATE RESTRICT;
 
@@ -285,8 +333,8 @@ ALTER TABLE 'employee_bank'
 ALTER TABLE `employee_personal`
   ADD PRIMARY KEY (`empId`);
 
-ALTER TABLE 'employee_personal'
-  ADD CONSTRAINT FK_EmpAddress FOREIGN KEY (empId) REFERENCES employees (empId)
+ALTER TABLE `employee_personal`
+  ADD CONSTRAINT FK_EmpPersonal FOREIGN KEY (empId) REFERENCES employees (empId)
   ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
@@ -296,4 +344,40 @@ ALTER TABLE `holidays`
   ADD PRIMARY KEY (`holidayId`);
 ALTER TABLE `holidays`
   MODIFY `holidayId` int(11) NOT NULL AUTO_INCREMENT;
+
+
+--
+-- AUTO_INCREMENT for table `travel_requests`
+--
+ALTER TABLE `travel_requests`
+  ADD PRIMARY KEY (`travelReqId`);
+ALTER TABLE `travel_requests`
+  MODIFY `travelReqId` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `travel_requests`
+  ADD CONSTRAINT FK_EmpTravel FOREIGN KEY (empId) REFERENCES employees (empId)
+  ON DELETE CASCADE ON UPDATE RESTRICT;
+
+
+--
+-- AUTO_INCREMENT for table `travel_request_status`
+--
+ALTER TABLE `travel_request_status`
+  ADD PRIMARY KEY (`travelReqStatusId`);
+ALTER TABLE `travel_request_status`
+  MODIFY `travelReqStatusId` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `travel_request_status`
+  ADD CONSTRAINT FK_EmpTravelReq FOREIGN KEY (travelReqId) REFERENCES travel_requests (travelReqId)
+  ON DELETE CASCADE ON UPDATE RESTRICT;
+
+
+--
+-- AUTO_INCREMENT for table `travel_expense`
+--
+ALTER TABLE `travel_expense`
+  ADD PRIMARY KEY (`travelExpenseId`);
+ALTER TABLE `travel_expense`
+  MODIFY `travelExpenseId` BIGINT NOT NULL AUTO_INCREMENT;
+ALTER TABLE `travel_expense`
+  ADD CONSTRAINT FK_EmpTravelExpen FOREIGN KEY (travelReqId) REFERENCES travel_requests (travelReqId)
+  ON DELETE CASCADE ON UPDATE RESTRICT;
 

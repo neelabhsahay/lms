@@ -2,15 +2,31 @@
 
 
 function insertUserCb(message, status, data) {
-   BootstrapDialog.alert("Inserted Successfully.");
-   document.getElementById("userForm").reset();
-   closeModal('insertUserModal');
+   if (status == 'failed') {
+      var msg = "";
+      msg += "Reason: " + message + "\n";
+      msg += "Text:" + "\n";
+      msg += "\tFailure Reason: " + data.reason + "\n";
+      BootstrapDialog.alert(msg);
+   } else {
+      BootstrapDialog.alert("Inserted Successfully.");
+      document.getElementById("userForm").reset();
+      closeModal('insertUserModal');
+   }
 }
 
 function updateUserCb(message, status, data) {
-   BootstrapDialog.alert("Inserted Successfully.");
-   document.getElementById("userForm").reset();
-   closeModal('insertUserModal');
+   if (status == 'failed') {
+      var msg = "";
+      msg += "Reason: " + message + "\n";
+      msg += "Text:" + "\n";
+      msg += "\tFailure Reason: " + data.reason + "\n";
+      BootstrapDialog.alert(msg);
+   } else {
+      BootstrapDialog.alert("Inserted Successfully.");
+      document.getElementById("userForm").reset();
+      closeModal('insertUserModal');
+   }
 }
 
 // Display all Products returned from Web API call

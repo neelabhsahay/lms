@@ -11,6 +11,7 @@ from sqlalchemy.orm import relationship, Session
 from config.db import Base
 from libs.utils import makeJSONGetResponse, makeJSONInsertResponse
 
+
 class UserDb(Base):
     __tablename__ = "login"
 
@@ -18,6 +19,7 @@ class UserDb(Base):
     username = Column(String(50), primary_key=True, index=True)
     password = Column(String(200))
     email = Column(String(40))
+    deleted = Column(Boolean)
     passwordType = Column(Enum('TP', 'PR'), default='TP')
     accountType = Column(Enum('EMP', 'ADM', 'SUP'), default='EMP')
     modifiedOn = Column(DateTime, onupdate=datetime.now)
@@ -37,6 +39,7 @@ class AccountType(str, PyEnum):
 class UserBase(BaseModel):
     empId: str
     username: str
+    deleted: Optional[bool] = None
     passwordType: Optional[PasswordType] = None
     accountType: Optional[AccountType] = None
     email: Optional[str] = None

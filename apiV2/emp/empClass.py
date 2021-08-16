@@ -38,6 +38,28 @@ class EmployeeDb(Base):
     modifiedOn = Column(DateTime, onupdate=datetime.now)
 
 
+class EmployeeFamilyDb(Base):
+    __tablename__ = "employee_family"
+
+    familyId = Column(BigInteger, primary_key=True, index=True)
+    empId = Column(String(30), ForeignKey("employees.empId"))
+    familyName = Column(String(30))
+    relation = Column(String(10))
+    nationality = Column(String(50), default='')
+    contact = Column(BigInteger)
+    dateOfBirth = Column(DateTime)
+    bloodGroup = Column(String(10))
+    location = Column(String(30))
+    gender = Column(Enum('Male', 'Female', 'Third'), default='Female')
+    modifiedOn = Column(DateTime, onupdate=datetime.now)
+
+
+class Gender(str, PyEnum):
+    Male = 'Male'
+    Female = 'Female'
+    Third = 'Third'
+
+
 class EmpType(str, PyEnum):
     PRO = 'PRO'
     PER = 'PER'
@@ -108,6 +130,44 @@ class EmployeeFilter(BaseModel):
     location: Optional[str] = None
 
 
+class EmployeeFamilyBase(BaseModel):
+    empId: str
+    familyName: str
+    relation: str
+    nationality: str
+    contact: int
+    dateOfBirth: date
+    bloodGroup: Optional[str] = None
+    location: Optional[str] = None
+    gender: Optional[Gender] = None
+    modifiedOn: Optional[datetime] = None
+
+
+class EmployeeFamilyCreate(EmployeeFamilyBase):
+    pass
+
+
+class EmployeeFamilyUpdate(EmployeeFamilyBase):
+    familyId: int
+
+    class Config:
+        orm_mode = True
+
+
+class EmployeeFamily(EmployeeFamilyBase):
+    familyId: int
+
+    class Config:
+        orm_mode = True
+        use_enum_values = True
+
+
+class EmployeeFamilyOut(BaseModel):
+    body: List[EmployeeFamily] = []
+    itemCount: int
+    totalCount: int
+
+
 def search(db: Session, key: str, getCount: bool = False,
            skip: int = 0, limit: int = 10):
     look_for = '{}%'.format(key)
@@ -153,8 +213,13 @@ def filter(db: Session, filters: EmployeeFilter,
     query = db.query(EmployeeDb)
     for attr, value in filters.dict(exclude_unset=True).items():
         query = query.filter(getattr(EmployeeDb, attr) == value)
+    queryCount = query
+    if getCount:
+        count = queryCount.count()
+    else:
+        count = 1
     emps = query.offset(skip).limit(limit).all()
-    return makeJSONGetResponse(emps, 1)
+    return makeJSONGetResponse(emps, count)
 
 
 def insertEmp(db: Session, employee: EmployeeCreate):
@@ -225,3 +290,76 @@ def deleteEmp(db: Session, empId: str):
     return makeJSONInsertResponse("passed",
                                   "Employee record was deleted.",
                                   "empId", empId)
+
+
+def getEmpFamilyDb(db: Session, familyId: int):
+    return db.query(EmployeeFamilyDb).filter(
+        EmployeeFamilyDb.familyId == familyId).first()
+
+
+def getEmpFamily(db: Session, familyId: int):
+    empFamily = getEmpDb(db, familyId=familyId)
+    if empFamily is None:
+        return None
+    else:
+        return makeJSONGetResponse(empFamily, 1)
+
+
+def getEmps(db: Session, getCount: bool = False,
+            skip: int = 0, limit: int = 100):
+    empFamilies = db.query(EmployeeFamilyDb).offset(skip).limit(limit).all()
+
+    if getCount:
+        count = db.query(EmployeeFamilyDb).count()
+    else:
+        count = 0
+
+    return makeJSONGetResponse(empFamilies, count)
+
+
+def insertEmpFamily(db: Session, empFamily: EmployeeFamilyCreate):
+    db_empFamily = EmployeeFamilyDb(**empFamily.dict(exclude_unset=True))
+    try:
+        db.add(db_empFamily)
+        db.commit()
+    except SQLAlchemyError as e:
+        db.rollback()
+        error = str(e.__dict__['orig'])
+        return makeJSONInsertResponse("failed",
+                                      "Unable to insert Employee family",
+                                      "reason", error)
+    else:
+        db.refresh(db_empFamily)
+        return makeJSONInsertResponse("passed",
+                                      "Employee family record was inserted.",
+                                      "familyId", db_empFamily.familyId)
+
+
+def updateEmpFamily(db: Session, db_empFamily: EmployeeFamilyDb,
+                    updates: EmployeeFamilyUpdate):
+    # Update model class variable from requested fields
+    for var, value in vars(updates).items():
+        setattr(db_empFamily, var, value) if value else None
+    try:
+        db.add(db_empFamily)
+        db.commit()
+    except SQLAlchemyError as e:
+        db.rollback()
+        error = str(e.__dict__['orig'])
+        return makeJSONInsertResponse("failed", "Unable to insert Employee",
+                                      "reason", error)
+    else:
+        db.refresh(db_empFamily)
+        return makeJSONInsertResponse("passed",
+                                      "Employee record was inserted.",
+                                      "familyId", db_empFamily.familyId)
+
+
+def deleteEmpFamily(db: Session, familyId: int):
+    affected_rows = db.query(EmployeeFamilyDb).filter(
+        EmployeeFamilyDb.familyId == familyId).delete()
+    if not affected_rows:
+        raise exc.NoResultFound
+    return makeJSONInsertResponse("passed",
+                                  "Employee Family record was deleted.",
+                                  "familyId", familyId)

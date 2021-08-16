@@ -1,15 +1,31 @@
 function insertEmpCb(message, status, data) {
-   BootstrapDialog.alert("Inserted Successfully.");
-   document.getElementById("empForm").reset();
-   loadListEmp();
-   closeModal("insertEmpModal");
+   if (status == 'failed') {
+      var msg = "";
+      msg += "Reason: " + message + "\n";
+      msg += "Text:" + "\n";
+      msg += "\tFailure Reason: " + data.reason + "\n";
+      BootstrapDialog.alert(msg);
+   } else {
+      BootstrapDialog.alert("Inserted Successfully.");
+      document.getElementById("empForm").reset();
+      loadListEmp();
+      closeModal("insertEmpModal");
+   }
 }
 
 function updateEmpCb(message, status, data) {
-   BootstrapDialog.alert("Updated Successfully.");
-   document.getElementById("upEmpForm").reset();
-   loadListEmp();
-   closeModal("updateEmpModal");
+   if (status == 'failed') {
+      var msg = "";
+      msg += "Reason: " + message + "\n";
+      msg += "Text:" + "\n";
+      msg += "\tFailure Reason: " + data.reason + "\n";
+      BootstrapDialog.alert(msg);
+   } else {
+      BootstrapDialog.alert("Updated Successfully.");
+      document.getElementById("upEmpForm").reset();
+      loadListEmp();
+      closeModal("updateEmpModal");
+   }
 }
 
 function empInfos(emps, totalCount) {
@@ -146,4 +162,37 @@ function searchEmployeeInList(empStr) {
 function addNewEmployee() {
    displayModal('empProfilebtn');
    displayModal('insertEmpModal');
+}
+
+function loadListArchiveEmpByIndex(pageNumber) {
+
+   let startIndex = (pageNumber - 1) * totalItemPerPage;
+   clearEmpTableRow();
+   var jsonInput = {
+      'startIndex': startIndex,
+      'rowCounts': totalItemPerPage
+   };
+   getArchiveEmployeeAJAX(jsonInput, empInfoNextPage, false);
+}
+
+function empArchiveInfos(emps, totalCount) {
+   if (totalCount !== 0) {
+      totalEmpCount = totalCount;
+      totalPage = Math.ceil(totalEmpCount / totalItemPerPage);
+   }
+   $.each(emps, function(index, emp) {
+      // Add a row to the table
+      empAddRow(emp);
+   });
+   apply_pagination(totalPage, loadListArchiveEmpByIndex);
+}
+
+function loadArchiveListEmp() {
+   clearEmpTableRow();
+   var jsonInput = {
+      "getCount": true,
+      "startIndex": 0,
+      "rowCounts": totalItemPerPage
+   };
+   getArchiveEmployeeAJAX(jsonInput, empArchiveInfos, false);
 }
